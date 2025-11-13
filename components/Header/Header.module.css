@@ -2,5 +2,18 @@
     display: flex;
     justify-content: space-between;
     height: 74px;
-    background-color:var(--darck-brown)
+    background-color:var(--darck-brown);
+    padding: 14px 16px;
+}
+
+@media screen and (min-width:768px) {
+    .header {
+        padding: 14px 32px;
+    }
+}
+
+@media screen and (min-width:1440px) {
+    .header {
+        padding: 14px 108px;
+    }
 }

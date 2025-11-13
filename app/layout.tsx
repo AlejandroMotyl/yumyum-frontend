@@ -40,8 +40,8 @@ export default function RootLayout({
       <body className={`${montserrat.variable}`}>
         <TanStackProvider>
           <AuthProvider>
+            <Header />
             <div className={css.container}>
-              <Header />
               <main className={css.main}> {children}</main>
               {/* <Footer /> */}
             </div>
