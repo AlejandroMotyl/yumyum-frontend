@@ -13,7 +13,7 @@ export default function Header() {
     <header className={css.header}>
       <nav className={css.headerNav}>
         <Link href="/">
-          <Image src="/logo.svg" width={84} height={36} alt="Logo" priority />
+          <Image src="/logo.svg" width={165} height={46} alt="Logo" priority />
         </Link>
         {/* <button
             type="button"
