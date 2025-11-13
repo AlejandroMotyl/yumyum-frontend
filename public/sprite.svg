@@ -1,4 +1,4 @@
-<svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" width="0" height="0" viewBox="0 0 0 0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>
 <symbol id="icon-Arrowsboost" viewBox="0 0 24 24">
 <path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1" d="M5.309 17.086l3.149-4.291c0.295-0.402 0.849-0.521 1.283-0.275l3.194 1.811 5.142-6.921M14.186 7.532l4.3-0.602 0.733 4.116"></path>
@@ -340,7 +340,7 @@
 <symbol id="icon-Genericbrowser" viewBox="0 0 24 24">
 <path stroke-linejoin="miter" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1" d="M4.875 9.808h14.012M7.5 7.579c0 0.207-0.168 0.375-0.375 0.375s-0.375-0.168-0.375-0.375c0-0.207 0.168-0.375 0.375-0.375s0.375 0.168 0.375 0.375zM9.75 7.579c0 0.207-0.168 0.375-0.375 0.375s-0.375-0.168-0.375-0.375c0-0.207 0.168-0.375 0.375-0.375s0.375 0.168 0.375 0.375zM12 7.579c0 0.207-0.168 0.375-0.375 0.375s-0.375-0.168-0.375-0.375c0-0.207 0.168-0.375 0.375-0.375s0.375 0.168 0.375 0.375zM16.933 4.875h-9.865c-1.211 0-2.192 0.982-2.192 2.192v9.865c0 1.211 0.982 2.192 2.192 2.192h9.865c1.211 0 2.192-0.981 2.192-2.192v-9.865c0-1.211-0.981-2.192-2.192-2.192z"></path>
 </symbol>
-<symbol id="icon-Genericburger-regular" viewBox="0 0 24 24">
+<symbol id="Genericburger" viewBox="0 0 24 24">
 <path stroke-linejoin="miter" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1" d="M5.625 7.125h12.75M5.625 16.125h12.75M5.625 11.625h12.75"></path>
 </symbol>
 <symbol id="icon-Genericburger-zig" viewBox="0 0 24 24">
