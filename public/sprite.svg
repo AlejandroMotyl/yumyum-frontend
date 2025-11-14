@@ -340,7 +340,7 @@
 <symbol id="icon-Genericbrowser" viewBox="0 0 24 24">
 <path stroke-linejoin="miter" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1" d="M4.875 9.808h14.012M7.5 7.579c0 0.207-0.168 0.375-0.375 0.375s-0.375-0.168-0.375-0.375c0-0.207 0.168-0.375 0.375-0.375s0.375 0.168 0.375 0.375zM9.75 7.579c0 0.207-0.168 0.375-0.375 0.375s-0.375-0.168-0.375-0.375c0-0.207 0.168-0.375 0.375-0.375s0.375 0.168 0.375 0.375zM12 7.579c0 0.207-0.168 0.375-0.375 0.375s-0.375-0.168-0.375-0.375c0-0.207 0.168-0.375 0.375-0.375s0.375 0.168 0.375 0.375zM16.933 4.875h-9.865c-1.211 0-2.192 0.982-2.192 2.192v9.865c0 1.211 0.982 2.192 2.192 2.192h9.865c1.211 0 2.192-0.981 2.192-2.192v-9.865c0-1.211-0.981-2.192-2.192-2.192z"></path>
 </symbol>
-<symbol id="Genericburger" viewBox="0 0 24 24">
+<symbol id="icon-Genericburger-regular" viewBox="0 0 24 24">
 <path stroke-linejoin="miter" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1" d="M5.625 7.125h12.75M5.625 16.125h12.75M5.625 11.625h12.75"></path>
 </symbol>
 <symbol id="icon-Genericburger-zig" viewBox="0 0 24 24">

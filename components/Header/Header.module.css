@@ -9,20 +9,23 @@
   justify-content: space-between;
   align-items: center;
 }
+.logo {
+  z-index: 2000;
+}
 .burger {
-  display: block;
-  z-index: 1001;
   position: relative;
+  z-index: 1001;
+  display: block;
 }
 .burger:hover {
   cursor: pointer;
 }
+.closeIcon use {
+  fill: transparent;
+}
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: var(--darck-brown);
   z-index: 999;
   animation: fadeIn 0.3s ease-in-out;
@@ -38,11 +41,12 @@
 .navMenu {
   position: fixed;
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
   gap: 20px;
   top: 0;
   right: -100%;
-  width: 250px;
+  width: 100%;
   height: 100vh;
   background-color: var(--darck-brown);
   z-index: 1000;
@@ -53,21 +57,47 @@
 .navMenu ul {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.navMenu ul :nth-child(2) {
+  margin-bottom: 12px;
 }
 
 .navMenu li {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 44px;
+  font: var(--body-md-semibold);
+  letter-spacing: 0;
 }
 .navMenu a {
   display: block;
-  padding: 10px;
+  padding: 12px;
   color: var(--white);
   text-decoration: none;
 }
 .navMenuOpen {
   right: 0;
 }
+.register,
+.register:active {
+  background-color: var(--light-brown);
+  border-radius: 8px;
+  max-width: 361px;
+}
+.register:hover {
+  background-color: var(--brown);
+  cursor: pointer;
+}
+.register:active {
+  box-shadow:
+    0 0 0 6px #4e46b41f,
+    0 0 0 2px var(--white);
+}
+
 
 @media only screen and (min-width: 768px) {
   .burger {

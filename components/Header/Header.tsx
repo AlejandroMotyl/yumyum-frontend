@@ -18,7 +18,7 @@ export default function Header() {
     <header className={css.header}>
       <Container>
         <div className={css.headerContentContainer}>
-          <Link href="/">
+          <Link className={css.logo} href="/">
             <Image
               src="/logo.svg"
               width={165}
@@ -37,7 +37,13 @@ export default function Header() {
           >
             <div className={css.burger}>
               <svg stroke="var(--white)" width={32} height={32}>
-                <use href="/sprite.svg#Genericburger" />
+                {isMenuOpen ? (
+                  <svg className={css.closeIcon}>
+                    <use href="/sprite.svg#icon-Genericclose" />
+                  </svg>
+                ) : (
+                  <use href="/sprite.svg#icon-Genericburger-regular" />
+                )}
               </svg>
             </div>
           </button>
@@ -50,13 +56,13 @@ export default function Header() {
           >
             <ul>
               <li>
-                <Link href="/">Recipes</Link>
+                <Link href="/recipes">Recipes</Link>
               </li>
               <li>
-                <Link href="/">Log in</Link>
+                <Link href="/auth/login">Log in</Link>
               </li>
-              <li>
-                <Link href="/">Register</Link>
+              <li className={css.register}>
+                <Link href="/auth/register">Register</Link>
               </li>
             </ul>
           </nav>
