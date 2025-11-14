@@ -6,8 +6,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Container from '../Container/Container';
 import { useState } from 'react';
+import { useAuthStore } from '@/lib/store/authStore';
 
 export default function Header() {
+  const { isAuthenticated } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathURL = usePathname();
   if (!pathURL || pathURL.startsWith('/auth')) return null;
@@ -68,7 +70,11 @@ export default function Header() {
                 <Link href="/recipes">Recipes</Link>
               </li>
               <li>
-                <Link href="/auth/login">Log in</Link>
+                {isAuthenticated ? (
+                  <Link href="/profile">My Profile</Link>
+                ) : (
+                  <Link href="/auth/login">Log in</Link>
+                )}
               </li>
               <li className={css.register}>
                 <Link href="/auth/register">Register</Link>
