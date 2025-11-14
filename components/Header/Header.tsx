@@ -1,20 +1,23 @@
 'use client';
 
 import Image from 'next/image';
-
 import css from './Header.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import HamburgerMenu from '@/components/HamburgerMenu/HamburgerMenu';
 import Container from '../Container/Container';
+import { useState } from 'react';
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathURL = usePathname();
   if (!pathURL || pathURL.startsWith('/auth')) return null;
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
   return (
     <header className={css.header}>
       <Container>
-        <nav className={css.headerNav}>
+        <div className={css.headerContentContainer}>
           <Link href="/">
             <Image
               src="/logo.svg"
@@ -26,23 +29,38 @@ export default function Header() {
           </Link>
           <button
             className={css.burger}
-            area-laber="Open menu"
+            area-label="Open menu"
             type="button"
-            aria-controls="app-sidebar"
-            //          aria-expanded={open}
+            aria-controls="main-navigation"
+            aria-expanded={isMenuOpen}
+            onClick={toggleMenu}
           >
-            <HamburgerMenu />
+            <div className={css.burger}>
+              <svg stroke="var(--white)" width={32} height={32}>
+                <use href="/sprite.svg#Genericburger" />
+              </svg>
+            </div>
           </button>
-          {/* <button
-            type="button"
-            className={css.burgerBtn}
-            area-laber="Open menu"
-            aria-controls="app-sidebar"
-            aria-expanded={open}
-          > */
-          /* <GiHamburgerMenu className={css.burgerIcon} size={32} /> */}
-          {/* </button> */}
-        </nav>
+
+          {isMenuOpen && <div className={css.overlay} onClick={closeMenu} />}
+          <nav
+            id="main-navigation"
+            className={`${css.navMenu} ${isMenuOpen ? css.navMenuOpen : ''}`}
+            aria-label="Main navigation"
+          >
+            <ul>
+              <li>
+                <Link href="/">Recipes</Link>
+              </li>
+              <li>
+                <Link href="/">Log in</Link>
+              </li>
+              <li>
+                <Link href="/">Register</Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </Container>
     </header>
   );

@@ -1,12 +1,82 @@
 .header {
-    height: 74px;
-    background-color:var(--darck-brown);
-    padding: 14px 0;
+  height: 74px;
+  background-color: var(--darck-brown);
+  padding: 14px 0;
+  color: var(--white);
 }
-.headerNav {
-    display: flex;
-    justify-content: space-between;
+.headerContentContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.burger {
+  display: block;
+  z-index: 1001;
+  position: relative;
 }
 .burger:hover {
-    cursor: pointer;
+  cursor: pointer;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--darck-brown);
+  z-index: 999;
+  animation: fadeIn 0.3s ease-in-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.navMenu {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  top: 0;
+  right: -100%;
+  width: 250px;
+  height: 100vh;
+  background-color: var(--darck-brown);
+  z-index: 1000;
+  padding: 80px 20px 20px;
+  transition: right 0.3s ease-in-out;
+}
+
+.navMenu ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.navMenu li {
+  width: 100%;
+}
+.navMenu a {
+  display: block;
+  padding: 10px;
+  color: var(--white);
+  text-decoration: none;
+}
+.navMenuOpen {
+  right: 0;
+}
+
+@media only screen and (min-width: 768px) {
+  .burger {
+    display: none;
+  }
+  .navMenu {
+    display: flex;
+    flex-direction: row;
+  }
+  .navMenu li {
+  }
 }
