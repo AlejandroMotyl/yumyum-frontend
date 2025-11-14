@@ -1,20 +1,20 @@
 'use client';
 
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import Image from 'next/image';
 import css from './Footer.module.css';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import Container from '../Container/Container';
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 
 export default function Footer() {
   const pathURL = usePathname();
   const router = useRouter();
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
-  if (!pathURL || pathURL.startsWith('/auth')) return null;
+  const [showModal, setShowModal] = useState(false);
 
   const currentYear = new Date().getFullYear();
 
@@ -24,7 +24,7 @@ export default function Footer() {
     if (isAuthenticated) {
       router.push('/profile');
     } else {
-      router.push('/auth/login');
+      setShowModal(true);
     }
   };
 
@@ -57,6 +57,18 @@ export default function Footer() {
             </a>
           </div>
         </nav>
+        {showModal && (
+          <ConfirmationModal
+            title="Login Required"
+            confirmButtonText="Login"
+            cancelButtonText="Cancel"
+            onConfirm={() => {
+              setShowModal(false);
+              router.push('/auth/login');
+            }}
+            onCancel={() => setShowModal(false)}
+          />
+        )}
       </Container>
     </footer>
   );
