@@ -1,6 +1,6 @@
 export interface RecipeIngredient {
   id: string;
-  measure?: string;
+  measure: string;
 }
 
 export interface Recipe {
