@@ -38,7 +38,7 @@ export default function Header() {
               width={165}
               height={46}
               alt="Logo"
-              priority
+              loading="eager"
             />
           </Link>
           <button
@@ -88,7 +88,7 @@ export default function Header() {
                   <Link href="/auth/login">Log in</Link>
                 )}
               </li>
-              {isAuthenticated && (
+              {isAuthenticated ? (
                 <>
                   <li className={css.userInfo}>
                     <span className={css.avatar}>{firstLetterUserName}</span>
@@ -106,6 +106,15 @@ export default function Header() {
                     </button>
                   </li>
                 </>
+              ) : (
+                <li>
+                  <button
+                    className={`${css.register}, ${css.btnRegisterReceipes}`}
+                    aria-label="Register"
+                  >
+                    Register
+                  </button>
+                </li>
               )}
             </ul>
           </nav>

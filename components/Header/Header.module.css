@@ -82,17 +82,16 @@
 .navMenuOpen {
   right: 0;
 }
-.register,
-.register:active {
+.btnRegisterReceipes, .btnRegisterReceipes:active {
   background-color: var(--light-brown);
   border-radius: 8px;
-  max-width: 361px;
+  width: 361px;
 }
-.register:hover {
+.btnRegisterReceipes:hover {
   background-color: var(--brown);
   cursor: pointer;
 }
-.register:active {
+.btnRegisterReceipes:active {
   box-shadow:
     0 0 0 6px #4e46b41f,
     0 0 0 2px var(--white);
@@ -119,6 +118,9 @@
   background-color: var(--white);
 }
 @media only screen and (min-width: 768px) {
+  .btnRegisterReceipes {
+    width: 101px;
+  }
   .headerContentContainer {
     padding: 0;
   }
