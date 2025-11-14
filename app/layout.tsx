@@ -9,6 +9,7 @@ import Header from '@/components/Header/Header';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import css from './layout.module.css';
+import Hero from '@/components/Hero/Hero';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_DOMAIN),
@@ -41,6 +42,7 @@ export default function RootLayout({
         <TanStackProvider>
           <AuthProvider>
             <Header />
+            <Hero />
             <main className={css.main}> {children}</main>
             {/* <Footer /> */}
           </AuthProvider>
