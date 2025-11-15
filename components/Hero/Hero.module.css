@@ -22,7 +22,6 @@
 
 .title {
   font: var(--display-lg-semibold);
-  width: 329px;
   color: var(--white);
   margin-bottom: 24px;
 }
