@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import css from './Header.module.css';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Container from '../Container/Container';
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/lib/store/authStore';
@@ -16,6 +16,7 @@ export default function Header() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
   const router = useRouter();
+  const pathname = usePathname();
   const handleLogout = async () => {
     try {
       await logout();
@@ -87,10 +88,14 @@ export default function Header() {
             aria-label="Main navigation"
           >
             <ul>
-              <li className={css.text}>
+              <li
+                className={`${css.text}  ${pathname === '/recipes' ? css.activeUnderLine : ''}`}
+              >
                 <Link href="/recipes">Recipes</Link>
               </li>
-              <li className={css.text}>
+              <li
+                className={`${css.text}  ${pathname === '/profile' || pathname === '/auth/login' ? css.activeUnderLine : ''}`}
+              >
                 {isAuthenticated ? (
                   <Link href="/profile">My Profile</Link>
                 ) : (

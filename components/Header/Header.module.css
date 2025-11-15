@@ -38,6 +38,14 @@
     opacity: 1;
   }
 }
+@keyframes slideIn {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
 .navMenu {
   position: fixed;
   display: flex;
@@ -51,7 +59,7 @@
   background-color: var(--darck-brown);
   z-index: 1000;
   padding: 80px 16px 16px;
-  transition: var(--primary-transition)
+  transition: var(--primary-transition);
 }
 
 .navMenu ul {
@@ -82,7 +90,7 @@
 .navMenuOpen {
   top: 0;
 }
-.btnRegisterReceipes  {
+.btnRegisterReceipes {
   background-color: var(--light-brown);
   border-radius: 8px;
   width: 361px;
@@ -120,14 +128,31 @@
   background-color: var(--white);
 }
 
-.text:hover, .text:focus {
+.text:hover,
+.text:focus {
   opacity: 50%;
   transition: opacity 0.3s ease-in-out;
 }
 @media only screen and (min-width: 768px) {
-
   .text {
     margin-right: 8px;
+  }
+  .text a {
+    position: relative;
+  }
+  .text a::before {
+    content: '';
+    position: absolute;
+    bottom: +25px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--white);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .text.activeUnderLine a::before {
+    animation: slideIn 0.3s ease-in-out forwards;
   }
 
   .btnRegisterReceipes {
@@ -163,11 +188,11 @@
     display: none;
   }
   .navMenu a {
-    padding: 37px 12px;
+    padding: 37px 0;
     height: 100%;
     display: flex;
     align-items: center;
-
+    margin: 0 12px;
   }
   .changeOrderOnTablet {
     order: 3; /* Add Recipe before avatar */
@@ -180,6 +205,6 @@
     height: 74px;
     display: flex;
     align-items: center;
-    font:var(--body-sm-semibold)
+    font: var(--body-sm-semibold);
   }
 }
