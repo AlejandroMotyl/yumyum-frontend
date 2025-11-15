@@ -21,6 +21,10 @@ const Filters = ({
     setIsOpen((prev) => !prev);
   };
 
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
   return (
     <section className={css.filtersSection}>
       <Container>
@@ -36,53 +40,79 @@ const Filters = ({
               <use href="/Sprite.svg#icon-Mailfilter"></use>
             </svg>
           </button>
-          <div
-            className={`${css.filtersPanel} ${isOpen ? css.filtersPanelOpen : ''}`}
-          >
-            <div className={css.resetWrapper}>
+        </div>
+      </Container>
+
+      {/* Mobile Modal*/}
+      {isOpen && (
+        <div
+          className={css.modalBackdrop}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) handleClose();
+          }}
+        >
+          <div className={css.modal}>
+            <div className={css.modalHeader}>
+              <button
+                type="button"
+                className={css.closeButton}
+                onClick={handleClose}
+                area-label="Close filters"
+              >
+                <span className={css.closeButtonText}>Filters</span>
+                <svg width="24" height="24">
+                  <use href="/Sprite.svg#icon-Notificationserror"></use>
+                </svg>
+              </button>
+            </div>
+
+            <div className={css.inputResetWrapper}>
+              <label className={css.filtersField}>
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => onCategoryChange(e.target.value)}
+                >
+                  <option value="" disabled hidden>
+                    Category
+                  </option>
+                  {categories.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className={css.filtersField}>
+                <select
+                  value={selectedIngredient}
+                  onChange={(e) => onIngredientChange(e.target.value)}
+                >
+                  <option value="" disabled hidden>
+                    Ingredient
+                  </option>
+                  {ingredients.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
               <button
                 type="button"
                 className={css.resetButton}
-                onClick={onReset}
+                onClick={() => {
+                  onReset();
+                  handleClose();
+                }}
               >
                 Reset filters
               </button>
-              <div className={css.resetDecorator}></div>
             </div>
-            <label className={css.filtersField}>
-              <select
-                value={selectedCategory}
-                onChange={(e) => onCategoryChange(e.target.value)}
-              >
-                <option value="" disabled hidden>
-                  Category
-                </option>
-                {categories.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className={css.filtersField}>
-              <select
-                value={selectedIngredient}
-                onChange={(e) => onIngredientChange(e.target.value)}
-              >
-                <option value="" disabled hidden>
-                  Ingredient
-                </option>
-                {ingredients.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
           </div>
         </div>
-      </Container>
+      )}
     </section>
   );
 };
@@ -90,5 +120,4 @@ const Filters = ({
 export default Filters;
 
 // ToDo: Desktop version
-// Todo: underline element for Reset Filters
-// Todo: icon change on toggle
+// Todo: Clean up test code
