@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAxiosError } from 'axios';
 import { logErrorResponse } from '../_utils/utils';
-import { remoteApi } from '@/lib/api/api';
+import { api } from '@/app/api/api';
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     const search = request.nextUrl.searchParams.get('search') ?? '';
     const ingredient = request.nextUrl.searchParams.get('ingredient');
 
-    const res = await remoteApi.get('/recipes', {
+    const res = await api.get('recipes', {
       params: {
         page,
         perPage,
