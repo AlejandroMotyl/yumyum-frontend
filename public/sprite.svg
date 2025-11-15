@@ -496,7 +496,8 @@
 <path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1" d="M4.875 8.25l5.492 3.565c0.993 0.645 2.273 0.645 3.267 0l5.492-3.565M4.875 8.25v7.5c0 0.828 0.672 1.5 1.5 1.5h11.25c0.828 0 1.5-0.672 1.5-1.5v-7.5M4.875 8.25c0-0.828 0.672-1.5 1.5-1.5h11.25c0.828 0 1.5 0.672 1.5 1.5"></path>
 </symbol>
 <symbol id="icon-Mailfilter" viewBox="0 0 24 24">
-<path stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="4" stroke-width="1" d="M6.681 5.625h10.638c0.79 0 1.431 0.641 1.431 1.431 0 0.365-0.14 0.717-0.39 0.982l-4.802 5.086v3.521c0 1.148-1.199 1.901-2.233 1.403-0.539-0.26-0.882-0.805-0.882-1.403v-3.521l-4.802-5.086c-0.251-0.266-0.39-0.617-0.39-0.982 0-0.79 0.641-1.431 1.431-1.431z"></path>
+<path fill="none"
+    stroke="currentColor" stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="4" stroke-width="1" d="M6.681 5.625h10.638c0.79 0 1.431 0.641 1.431 1.431 0 0.365-0.14 0.717-0.39 0.982l-4.802 5.086v3.521c0 1.148-1.199 1.901-2.233 1.403-0.539-0.26-0.882-0.805-0.882-1.403v-3.521l-4.802-5.086c-0.251-0.266-0.39-0.617-0.39-0.982 0-0.79 0.641-1.431 1.431-1.431z"></path>
 </symbol>
 <symbol id="icon-Mailfilter-crossed" viewBox="0 0 24 24">
 <path stroke-linejoin="miter" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1" d="M5.929 9.11l4.227 4.317v3.77c0 0.473 0.223 0.919 0.603 1.202l0.082 0.061c0.989 0.738 2.397 0.032 2.397-1.202v-0.817M8.054 5.25l8.84 0.039c0.819 0.004 1.481 0.669 1.481 1.488 0 0.342-0.118 0.674-0.334 0.939l-3.309 4.067M5.625 5.844l11.536 10.69"></path>

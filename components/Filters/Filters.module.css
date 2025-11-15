@@ -1,0 +1,75 @@
+.filtersWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 33px;
+
+
+}
+
+/* === Filters Toggle === */
+.filtersToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 67px;
+  font: var(--body-sm-semibold);
+}
+
+@media (min-width: 1440px) {
+  .filtersToggle {
+    display: none;
+  }
+}
+
+/* === Filters Toggle === */
+
+
+.amountRecipes {
+  font: var(--body-lg-semibold);
+}
+
+.filtersPanel {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+
+
+}
+
+.filtersField {
+  font: var(--body-md-regular);
+  color: var(--gray);
+  border: 1px solid var(--light-gray);
+  border-radius: 4px;
+  padding: 0 8 0 8;
+}
+
+@media (min-width: 1440px) {
+  .filtersField {
+    width: 179px;
+  }
+}
+
+.resetButton {
+  font: var(--body-sm-semibold);
+  height: 19px;
+  border-bottom: 1px solid black;
+
+
+
+}
+
+.filtersPanelOpen {
+  border: 0.5px dashed red;
+}
+
+/* .resetWrapper {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.resetDecorator {
+  color: black;
+} */
