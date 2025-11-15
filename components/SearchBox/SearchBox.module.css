@@ -4,6 +4,10 @@
   gap: 24px;
 }
 
+.inputWrapper {
+  position: relative;
+}
+
 .heroInput {
   font: var(--body-lg-regular);
   border: 1px solid var(--light-gray);
@@ -22,6 +26,18 @@
 .heroInput:focus {
   /* box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2); */
   box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.6);
+}
+
+.heroInputError {
+  border-color: var(--red);
+}
+
+.errorText {
+  position: absolute;
+  font: var(--body-sm-regular);
+  color: var(--red);
+  top: 51px;
+  left: 12px;
 }
 
 .heroInput::placeholder {
