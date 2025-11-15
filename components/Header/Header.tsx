@@ -13,7 +13,6 @@ export default function Header() {
   const { isAuthenticated, clearIsAuthenticated, user } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathURL = usePathname();
-  if (!pathURL || pathURL.startsWith('/auth')) return null;
   const firstLetterUserName = user?.name ? [...user.name][0] : '';
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -78,10 +77,10 @@ export default function Header() {
             aria-label="Main navigation"
           >
             <ul>
-              <li className={css.textHoverFocus}>
+              <li className={css.text}>
                 <Link href="/recipes">Recipes</Link>
               </li>
-              <li className={css.textHoverFocus}>
+              <li className={css.text}>
                 {isAuthenticated ? (
                   <Link href="/profile">My Profile</Link>
                 ) : (
@@ -106,11 +105,21 @@ export default function Header() {
                       </svg>
                     </button>
                   </li>
+                  <li>
+                    <button
+                      className={`${css.btnRegisterReceipes} ${css.changeOrderOnTablet}`}
+                      onClick={() => router.push('/add-recipe')}
+                      aria-label="Add Recipe"
+                    >
+                      Add Recipe
+                    </button>
+                  </li>
                 </>
               ) : (
                 <li>
                   <button
-                    className={`${css.register}, ${css.btnRegisterReceipes}`}
+                    className={css.btnRegisterReceipes}
+                    onClick={() => router.push('/auth/register')}
                     aria-label="Register"
                   >
                     Register

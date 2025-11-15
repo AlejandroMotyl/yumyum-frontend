@@ -1,7 +1,6 @@
 .header {
-  height: 74px;
+  max-height: 74px;
   background-color: var(--darck-brown);
-  padding: 14px 0;
   color: var(--white);
 }
 .headerContentContainer {
@@ -10,6 +9,7 @@
   align-items: center;
 }
 .logo {
+  padding: 14px 0;
   z-index: 2000;
 }
 .burger {
@@ -28,7 +28,7 @@
   inset: 0;
   background-color: var(--darck-brown);
   z-index: 999;
-  animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn var(--primary-transition);
 }
 @keyframes fadeIn {
   from {
@@ -50,8 +50,8 @@
   height: 100vh;
   background-color: var(--darck-brown);
   z-index: 1000;
-  padding: 80px 20px 20px;
-  transition: right 0.3s ease-in-out;
+  padding: 80px 16px 16px;
+  transition: var(--primary-transition)
 }
 
 .navMenu ul {
@@ -82,7 +82,7 @@
 .navMenuOpen {
   right: 0;
 }
-.btnRegisterReceipes, .btnRegisterReceipes:active {
+.btnRegisterReceipes  {
   background-color: var(--light-brown);
   border-radius: 8px;
   width: 361px;
@@ -90,8 +90,10 @@
 .btnRegisterReceipes:hover {
   background-color: var(--brown);
   cursor: pointer;
+  transition: background-color var(--primary-transition);
 }
 .btnRegisterReceipes:active {
+  background-color: var(--light-brown);
   box-shadow:
     0 0 0 6px #4e46b41f,
     0 0 0 2px var(--white);
@@ -117,11 +119,17 @@
   height: 39px;
   background-color: var(--white);
 }
-.textHoverFocus:hover, .textHoverFocus:focus {
+
+.text:hover, .text:focus {
   opacity: 50%;
   transition: opacity 0.3s ease-in-out;
 }
 @media only screen and (min-width: 768px) {
+
+  .text {
+    margin-right: 8px;
+  }
+
   .btnRegisterReceipes {
     width: 101px;
   }
@@ -145,7 +153,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 8px;
+    gap: 0;
     width: auto;
   }
   .navMenu ul :nth-child(2) {
@@ -155,12 +163,23 @@
     display: none;
   }
   .navMenu a {
-    padding: 12px;
+    padding: 37px 12px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
   }
-  .register {
+  .changeOrderOnTablet {
     order: 3; /* Add Recipe before avatar */
   }
   .avatarNameContainer {
     order: 4; /* avatar after Add Recipe */
+  }
+  .navMenu .text {
+    text-align: center;
+    height: 74px;
+    display: flex;
+    align-items: center;
+    font:var(--body-sm-semibold)
   }
 }
