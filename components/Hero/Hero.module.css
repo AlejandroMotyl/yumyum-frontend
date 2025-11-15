@@ -1,0 +1,29 @@
+.heroSection {
+  background-image: url('../../public/hero/hero-mobile.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+}
+
+.heroWrapper {
+  padding: 128px 32px 98px 32px;
+}
+
+.tittleWrapper {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 40px;
+  color: var(--white);
+  margin-bottom: 24px;
+}
