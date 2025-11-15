@@ -1,6 +1,6 @@
 'use client';
 
-import React, { MouseEvent, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import Image from 'next/image';
 import css from './Footer.module.css';
 import Link from 'next/link';
@@ -18,9 +18,7 @@ export default function Footer() {
 
   const currentYear = new Date().getFullYear();
 
-  const handleAccountClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-
+  const handleAccountClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (isAuthenticated) {
       router.push('/profile');
     } else {
@@ -48,13 +46,19 @@ export default function Footer() {
           </div>
 
           <div className={css.footerLinksContainer}>
-            <Link href="/recipes" className={css.footerLink}>
+            <Link href="/" className={css.footerLink}>
               Recipes
             </Link>
 
-            <a href="#" className={css.footerLink} onClick={handleAccountClick}>
-              Account
-            </a>
+            {!pathURL.startsWith('/auth') && (
+              <button
+                type="button"
+                className={css.footerLink}
+                onClick={handleAccountClick}
+              >
+                Account
+              </button>
+            )}
           </div>
         </nav>
         {showModal && (
