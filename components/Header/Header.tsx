@@ -93,6 +93,7 @@ export default function Header() {
                   <li className={css.userInfo}>
                     <span className={css.avatar}>{firstLetterUserName}</span>
                     <span className={css.userName}>{user?.name}</span>
+                    <span className={css.line} />
                   </li>
                   <li className={css.logoutItem}>
                     <button

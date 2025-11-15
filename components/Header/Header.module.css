@@ -113,7 +113,7 @@
 }
 .line {
   display: inline-block;
-  width: 1px; /* толщина */
+  width: 1px;
   height: 39px;
   background-color: var(--white);
 }
