@@ -10,7 +10,6 @@
 }
 .logo {
   padding: 14px 0;
-  z-index: 2000;
 }
 .burger {
   position: relative;
@@ -58,8 +57,11 @@
   height: 100vh;
   background-color: var(--darck-brown);
   z-index: 1000;
-  padding: 80px 16px 16px;
   transition: var(--primary-transition);
+}
+
+.logoCloseBtnContainer {
+  width: 100%;
 }
 
 .navMenu ul {
@@ -83,7 +85,6 @@
 }
 .navMenu a {
   display: block;
-  padding: 12px;
   color: var(--white);
   text-decoration: none;
 }
@@ -133,8 +134,23 @@
   opacity: 50%;
   transition: opacity 0.3s ease-in-out;
 }
+.logoInMenuOpen {
+  padding: 14px 16px;
+}
+.ulContainer {
+  padding: 0 16px;
+}
+
 @media only screen and (min-width: 768px) {
+
+  .navMenu .logoInMenuOpen {
+    display: none;
+  }
   .text {
+    text-wrap: nowrap;
+    margin-right: 4px;
+  }
+  .recipesLink {
     margin-right: 8px;
   }
   .text a {

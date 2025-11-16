@@ -80,16 +80,27 @@ export default function Header() {
               aria-hidden="true"
               className={css.overlay}
               onClick={closeMenu}
-            />
+            ></div>
           )}
           <nav
             id="main-navigation"
             className={`${css.navMenu} ${isMenuOpen ? css.navMenuOpen : ''}`}
             aria-label="Main navigation"
           >
-            <ul>
+            <div className={css.logoCloseBtnContainer}>
+              <Link className={`${css.logoInMenuOpen}`} href="/">
+                <Image
+                  src="/logo.svg"
+                  width={165}
+                  height={46}
+                  alt="Logo"
+                  loading="eager"
+                />
+              </Link>
+            </div>
+            <ul className={`${isMenuOpen}? ${css.ulContainer} : ''`}>
               <li
-                className={`${css.text}  ${pathname === '/' ? css.activeUnderLine : ''}`}
+                className={`${css.text} ${css.recipesLink}  ${pathname === '/' ? css.activeUnderLine : ''}`}
               >
                 <Link href="/">Recipes</Link>
               </li>
