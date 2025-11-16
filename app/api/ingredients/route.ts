@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { api } from '@/lib/api/api';
-//? Cookies import needed?
+import { api } from '@/app/api/api';
 import { isAxiosError } from 'axios';
 import { logErrorResponse } from '../_utils/utils';
 
-export async function GET(request: NextRequest) {
-  //? Cookies needed
-
+export async function GET() {
   try {
     const res = await api('/ingredients');
     return NextResponse.json(res.data, { status: res.status });
