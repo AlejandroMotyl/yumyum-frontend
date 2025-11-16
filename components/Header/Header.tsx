@@ -43,6 +43,7 @@ export default function Header() {
     <header className={css.header}>
       <Container>
         <div className={css.headerContentContainer}>
+          {/*mobile logo & burger*/}
           <Link className={css.logo} href="/">
             <Image
               src="/logo.svg"
@@ -64,7 +65,7 @@ export default function Header() {
               <use href={'/sprite.svg#icon-Genericburger-regular'} />
             </svg>
           </button>
-
+          {/*overlay*/}
           {isMenuOpen && (
             <div
               aria-hidden="true"
@@ -77,40 +78,40 @@ export default function Header() {
             className={`${css.navMenu} ${isMenuOpen ? css.navMenuOpen : ''}`}
             aria-label="Main navigation"
           >
-            <Container>
-              <div className={css.logoCloseBtnContainer}>
-                <Link
-                  className={`${css.logoInMenuOpen}`}
-                  href="/"
-                  onClick={closeMenu}
+            {/*mobile logo & close btn*/}
+            <div className={css.logoCloseBtnContainer}>
+              <Link
+                className={`${css.logoInMenuOpen}`}
+                href="/"
+                onClick={closeMenu}
+              >
+                <Image
+                  src="/logo.svg"
+                  width={165}
+                  height={46}
+                  alt="Logo"
+                  loading="eager"
+                />
+              </Link>
+              <button
+                aria-label="Close menu"
+                type="button"
+                aria-controls="main-navigation"
+                aria-expanded={isMenuOpen}
+                onClick={toggleMenu}
+              >
+                <svg
+                  stroke="var(--white)"
+                  width={32}
+                  height={32}
+                  className={css.closeIcon}
                 >
-                  <Image
-                    src="/logo.svg"
-                    width={165}
-                    height={46}
-                    alt="Logo"
-                    loading="eager"
-                  />
-                </Link>
-                <button
-                  aria-label="Close menu"
-                  type="button"
-                  aria-controls="main-navigation"
-                  aria-expanded={isMenuOpen}
-                  onClick={toggleMenu}
-                >
-                  <svg
-                    stroke="var(--white)"
-                    width={32}
-                    height={32}
-                    className={css.closeIcon}
-                  >
-                    <use href={'/sprite.svg#icon-Genericclose'} />
-                  </svg>
-                </button>
-              </div>
-            </Container>
-            <ul className={`${isMenuOpen}? ${css.ulContainer} : ''`}>
+                  <use href={'/sprite.svg#icon-Genericclose'} />
+                </svg>
+              </button>
+            </div>
+
+            <ul>
               <li
                 className={`${css.text} ${css.recipesLink}  ${pathname === '/' ? css.activeUnderLine : ''}`}
               >
@@ -118,33 +119,20 @@ export default function Header() {
                   Recipes
                 </Link>
               </li>
-              <li>
-                <div className={css.loginRegisterContainer}>
-                  <Link href="/auth/login" onClick={closeMenu}>
-                    Log in
-                  </Link>
-                  <button
-                    className={css.btnRegisterReceipes}
-                    onClick={() => {
-                      router.push('/auth/register');
-                      closeMenu();
-                    }}
-                    aria-label="Register"
-                  >
-                    Register
-                  </button>
-                </div>
-              </li>
-            </ul>
-
-            {isAuthenticated && (
-              <>
-                <li className={css.userInfo}>
-                  <span className={css.avatar}>{firstLetterUserName}</span>
-                  <span className={css.userName}>{user?.name}</span>
+              {/* {isAuthenticated ? ( */}
+              <li className={css.userInfoContainer}>
+                <Link href="/profile" onClick={closeMenu}>
+                  My Profile
+                </Link>
+                <div className={css.userInfo}>
+                  <div className={css.avatarNameContainer}>
+                    <span className={css.avatar}>{firstLetterUserName}</span>
+                    <span className={css.userName}>
+                      Roma
+                      {/* {user?.name} */}
+                    </span>
+                  </div>
                   <span className={css.line} />
-                </li>
-                <li className={css.logoutItem}>
                   <button
                     className={css.logoutButton}
                     onClick={handleLogout}
@@ -154,21 +142,39 @@ export default function Header() {
                       <use href="/sprite.svg#icon-Genericlog-out" />
                     </svg>
                   </button>
-                </li>
-                <li>
-                  <button
-                    className={`${css.btnRegisterReceipes} ${css.changeOrderOnTablet}`}
-                    onClick={() => {
-                      router.push('/add-recipe');
-                      closeMenu();
-                    }}
-                    aria-label="Add Recipe"
-                  >
-                    Add Recipe
-                  </button>
-                </li>
-              </>
-            )}
+                </div>
+
+                <button
+                  className={`${css.btnRegisterReceipes} ${css.changeOrderOnTablet}`}
+                  onClick={() => {
+                    router.push('/add-recipe');
+                    closeMenu();
+                  }}
+                  aria-label="Add Recipe"
+                >
+                  Add Recipe
+                </button>
+              </li>
+              {/* //              ) : ( */}
+              {/* //                <li> */}
+              {/* //                  <div className={css.loginRegisterContainer}> */}
+              {/* //                    <Link href="/auth/login" onClick={closeMenu}> */}
+              {/* //                      Log in */}
+              {/* //                    </Link> */}
+              {/* //                    <button */}
+              {/* //                      className={css.btnRegisterReceipes} */}
+              {/* //                      onClick={() => { */}
+              {/* //                        router.push('/auth/register'); */}
+              {/* //                        closeMenu(); */}
+              {/* //                      }} */}
+              {/* //                      aria-label="Register" */}
+              {/* //                    > */}
+              {/* //                      Register */}
+              {/* //                    </button> */}
+              {/* //                  </div> */}
+              {/* //                </li> */}
+              {/* //              )} */}
+            </ul>
           </nav>
         </div>
       </Container>
