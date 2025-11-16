@@ -17,28 +17,31 @@ export interface Props {
 
 export function RecipesList() {
   const search = useSearchStore((state) => state.searchQuery) || null;
-  const category = useSearchStore((state) => state.searchQuery) || null;
-  const ingredient = useSearchStore((state) => state.searchQuery) || null;
+  // const category = useSearchStore((state) => state.searchQuery) || null;
+  // const ingredient = useSearchStore((state) => state.searchQuery) || null;
 
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [page, setPage] = useState('1');
+  // useEffect(() => {
+  //   setRecipes([]);
+  // }, [search, category, ingredient]);
 
   const { data, isLoading } = useQuery({
     queryKey: [
       'recipes',
       {
         page: page,
-        category: category,
+        // category: category,
         search: search,
-        ingredient: ingredient,
+        // ingredient: ingredient,
       },
     ],
     queryFn: () =>
       getAllRecipes({
         page: page,
-        category: category,
+        // category: category,
         search: search,
-        ingredient: ingredient,
+        // ingredient: ingredient,
       }),
     placeholderData: (prev) => prev,
   });
