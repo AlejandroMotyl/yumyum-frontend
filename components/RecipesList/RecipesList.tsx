@@ -2,40 +2,19 @@
 
 import RecipeCard from '../RecipeCard/RecipeCard';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
-import { getAllRecipes } from '@/lib/api/clientApi';
-import { useQueryParams } from '@/hooks/useQueryParams';
-import { useQuery } from '@tanstack/react-query';
-import Loader from '../Loader/Loader';
-import { SearchParams } from '@/constants';
+import { Recipe } from '@/types/recipe';
 
-export default function RecipesList() {
-  const { get, set } = useQueryParams();
+export interface Props {
+  recipes: Recipe[];
+  hasMore: boolean;
+  loadMore: () => void;
+}
 
-  const search = get(SearchParams.Search);
-  const category = get(SearchParams.Category);
-  const ingredient = get(SearchParams.Ingredient);
-  const page = get(SearchParams.Page) ?? '1';
-
-  const { data } = useQuery({
-    queryKey: ['recipes', page, search, category, ingredient],
-    queryFn: () => getAllRecipes({ page, search, category, ingredient }),
-  });
-
-  const hasMore = data && data.totalPages > Number(page);
-
-  const handleLoadMore = () => {
-    const calculateNextPage = Number(page) + 1;
-    set(SearchParams.Page, String(calculateNextPage));
-  };
-
-  if (!data) {
-    return <Loader />;
-  }
-
+export function RecipesList({ recipes, hasMore, loadMore }: Props) {
   return (
     <div>
       <ul>
-        {data.recipes.map((recipe) => (
+        {recipes.map((recipe: any) => (
           <li key={recipe._id}>
             <RecipeCard recipe={recipe} />
           </li>
@@ -44,7 +23,7 @@ export default function RecipesList() {
 
       {hasMore && (
         <div>
-          <LoadMoreBtn onClick={handleLoadMore} />
+          <LoadMoreBtn onClick={loadMore} />
         </div>
       )}
     </div>
