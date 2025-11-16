@@ -4,52 +4,23 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-import { SearchParams } from '@/constants';
-import { buildUrl, toText } from '@/utils/url';
 import { getAllRecipes } from '@/lib/api/clientApi';
-import { RecipesListWithData } from '@/components/RecipesList/withRecipesData';
+import { RecipesList } from '@/components/RecipesList/RecipesList';
 
-export type SearchParamsMap = Partial<Record<SearchParams, string | string[]>>;
+export async function generateMetadata() {
+  const title = `YumYum Recipes`;
 
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParamsMap>;
-}) {
-  const params = await searchParams;
-
-  const search = params[SearchParams.Search];
-  const category = params[SearchParams.Category];
-  const ingredient = params[SearchParams.Ingredient];
-
-  const filters: string[] = [];
-
-  if (search) filters.push(`Search: ${toText(search)}`);
-  if (category) filters.push(`Category: ${toText(category)}`);
-  if (ingredient) filters.push(`Ingredient: ${toText(ingredient)}`);
-
-  const title =
-    filters.length > 0
-      ? `YumYum Recipes • ${filters.join(' • ')}`
-      : `YumYum Recipes`;
-
-  const description =
-    filters.length > 0
-      ? `Browse YumYum recipes filtered by ${filters.join(', ')}.`
-      : `Browse thousands of delicious YumYum recipes — filter by category, ingredient, or keyword.`;
-
-  const url = buildUrl(params);
-
+  const description = `Browse thousands of delicious YumYum recipes — filter by category, ingredient, or keyword.`;
   return {
     title,
     description,
     openGraph: {
       title,
       description,
-      url,
+      url: 'yumyum-frontend.vercel.app/',
       images: [
         {
-          url: '/assets/hero-tablet.jpg',
+          url: '/public/hero/hero-tablet.jpg',
           width: 1200,
           height: 630,
           alt: 'YumYum Recipes',
@@ -59,28 +30,22 @@ export async function generateMetadata({
   };
 }
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParamsMap>;
-}) {
-  const parsedSearchParams: Record<string, string | string[]> =
-    await searchParams;
-
+export default async function Home() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['recipes'],
-    queryFn: () => {
-      return getAllRecipes(parsedSearchParams);
-    },
+    queryKey: [
+      'recipes',
+      { page: '1', category: null, search: null, ingredient: null },
+    ],
+    queryFn: () => getAllRecipes({ page: '1' }),
   });
 
   return (
     <>
       <Hero />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <RecipesListWithData />
+        <RecipesList />
       </HydrationBoundary>
     </>
   );

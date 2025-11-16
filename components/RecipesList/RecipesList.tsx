@@ -3,6 +3,11 @@
 import RecipeCard from '../RecipeCard/RecipeCard';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import { Recipe } from '@/types/recipe';
+import { useSearchStore } from '@/lib/store/useSearchStore';
+import { useQuery } from '@tanstack/react-query';
+import { getAllRecipes } from '@/lib/api/clientApi';
+import Loader from '../Loader/Loader';
+import { useEffect, useState } from 'react';
 
 export interface Props {
   recipes: Recipe[];
@@ -10,21 +15,69 @@ export interface Props {
   loadMore: () => void;
 }
 
-export function RecipesList({ recipes, hasMore, loadMore }: Props) {
+export function RecipesList() {
+  const search = useSearchStore((state) => state.searchQuery) || null;
+  const category = useSearchStore((state) => state.searchQuery) || null;
+  const ingredient = useSearchStore((state) => state.searchQuery) || null;
+
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [page, setPage] = useState('1');
+
+  const { data, isLoading } = useQuery({
+    queryKey: [
+      'recipes',
+      {
+        page: page,
+        category: category,
+        search: search,
+        ingredient: ingredient,
+      },
+    ],
+    queryFn: () =>
+      getAllRecipes({
+        page: page,
+        category: category,
+        search: search,
+        ingredient: ingredient,
+      }),
+    placeholderData: (prev) => prev,
+  });
+
+  useEffect(() => {
+    if (data?.recipes) {
+      setRecipes((prev) => [...prev, ...data.recipes]);
+    }
+  }, [data]);
+
+  const hasMore = data ? data.totalPages > Number(page) : false;
+
+  const loadMore = () => {
+    const next = Number(page) + 1;
+    setPage(String(next));
+  };
+
+  if (isLoading || !data) {
+    return <Loader />;
+  }
+
   return (
     <div>
       <ul>
-        {recipes.map((recipe: any) => (
+        {recipes.map((recipe) => (
           <li key={recipe._id}>
             <RecipeCard recipe={recipe} />
           </li>
         ))}
       </ul>
 
-      {hasMore && (
-        <div>
-          <LoadMoreBtn onClick={loadMore} />
-        </div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        hasMore && (
+          <div>
+            <LoadMoreBtn onClick={loadMore} />
+          </div>
+        )
       )}
     </div>
   );
