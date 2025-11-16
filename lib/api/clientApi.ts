@@ -1,6 +1,6 @@
 import { User, RegisterData } from '@/types/user';
 import { api } from './api';
-import { Recipe } from '@/types/recipe';
+import { Recipe, RecipeFavorite } from '@/types/recipe';
 
 interface CheckSessionRequest {
   success: boolean;
@@ -39,6 +39,27 @@ export const getAllRecipes = async (params: {
   const { perPage = 12, page = 1, ...rest } = params;
 
   const { data } = await api.get(`/recipes`, {
+    params: {
+      perPage,
+      page,
+      ...rest,
+    },
+  });
+  return data;
+};
+
+export const getFavoriteRecipes = async (params: {
+  page?: string | null;
+  perPage?: string;
+}): Promise<{
+  page: number;
+  perPage: number;
+  totalRecipes: number;
+  totalPages: number;
+  recipes: RecipeFavorite[];
+}> => {
+  const { perPage = 12, page = 1, ...rest } = params;
+  const { data } = await api.get(`/recipes/favorites`, {
     params: {
       perPage,
       page,
