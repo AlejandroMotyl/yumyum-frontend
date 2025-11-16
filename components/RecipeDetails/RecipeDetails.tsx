@@ -14,12 +14,10 @@ const RecipeDetails = ({ recipe }: { recipe: Recipe }) => {
 
     try {
       if (favorite) {
-        // Видаляємо з улюблених
         // await removeFavoriteRecipe(recipe._id);
         console.log('Removing from favorites:', recipe._id);
         setFavorite(false);
       } else {
-        // Додаємо в улюблені
         // await addFavoriteRecipe(recipe._id);
         console.log('Adding to favorites:', recipe._id);
         setFavorite(true);
@@ -102,6 +100,24 @@ const RecipeDetails = ({ recipe }: { recipe: Recipe }) => {
               )}
             </button>
           </div>
+        </div>
+        <div className={css.aboutWrapper}>
+          <h3 className={css.aboutTitle}>About recipe</h3>
+          <p className={css.aboutDescription}>{recipe.description}</p>
+        </div>
+        <div className={css.ingredientsWrapper}>
+          <h3>Ingredients:</h3>
+          <ul className={css.ingredientsList}>
+            {recipe.ingredients.map((ingredient) => (
+              <li key={ingredient.id} className={css.ingredientItem}>
+                {ingredient.measure}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={css.preparationWrapper}>
+          <h3 className={css.preparationTitle}>Preparation Steps:</h3>
+          <p className={css.preparationDescription}>{recipe.instructions}</p>
         </div>
       </Container>
     </section>
