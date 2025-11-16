@@ -1,0 +1,35 @@
+.loadMoreBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border-radius: 8px;
+  padding: 16px 48px;
+  width: 100%;
+  max-width: 372px;
+  height: 54px;
+  margin: 24px auto 48px;
+  background: var(--light-brown);
+  font: var(--body-lg-semibold);
+  color: var(--white);
+  border-color: var(--light-brown);
+  cursor: pointer;
+  transition: background var(--primary-transition);
+}
+
+.loadMoreBtn:hover,
+.loadMoreBtn:focus {
+  background: var(--brown);
+  border: 2px solid var(--white);
+}
+
+@media screen and (min-width: 768px) {
+  .loadMoreBtn {
+    max-width: 338px;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .loadMoreBtn {
+    max-width: 289px;
+  }
+}

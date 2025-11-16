@@ -9,6 +9,7 @@ import { getAllRecipes } from '@/lib/api/clientApi';
 import Loader from '../Loader/Loader';
 import { useEffect, useState } from 'react';
 import Filters from '../Filters/Filters';
+import css from './RecipesList.module.css';
 
 export interface Props {
   recipes: Recipe[];
@@ -65,7 +66,7 @@ export function RecipesList() {
   }
 
   return (
-    <div>
+    <div className={css.container}>
       <Filters />
 
       <ul>
@@ -80,7 +81,7 @@ export function RecipesList() {
         <Loader />
       ) : (
         hasMore && (
-          <div>
+          <div className={css.wrapperBtn}>
             <LoadMoreBtn onClick={loadMore} />
           </div>
         )

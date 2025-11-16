@@ -1,0 +1,9 @@
+.container {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.wrapperBtn {
+    display: flex;
+    justify-content: center;
+}
