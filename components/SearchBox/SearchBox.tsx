@@ -44,6 +44,7 @@ const SearchBox = () => {
 
     if (isValid) {
       setGlobalSearchQuery(searchQuery.trim());
+      console.log(useSearchStore.getState());
       setSearchQuery('');
     }
   };
