@@ -141,8 +141,41 @@
 .ulContainer {
   padding: 0 16px;
 }
-
+.loginRegisterContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  height: auto;
+  align-items: center;
+  text-align: center;
+}
+.btnRegisterReceipes {
+  max-width: 361px;
+  width: 100%;
+  min-height: 44px;
+  height: 100%;
+}
 @media only screen and (min-width: 768px) {
+  .loginRegisterContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    text-wrap: nowrap;
+    gap: 4px;
+    font: var(--body-sm-semibold)
+  }
+  .btnRegisterReceipes {
+    min-width: 101px;
+    width: 100%;
+    min-height: 44px;
+    height: 100%;
+    font: var(--body-md-semibold)
+  }
   .closeIcon {
     display: none;
   }
@@ -174,9 +207,6 @@
     animation: slideIn 0.3s ease-in-out forwards;
   }
 
-  .btnRegisterReceipes {
-    width: 101px;
-  }
   .headerContentContainer {
     padding: 0;
   }

@@ -118,52 +118,11 @@ export default function Header() {
                   Recipes
                 </Link>
               </li>
-              <li
-                className={`${css.text}  ${pathname === '/profile' || pathname === '/auth/login' ? css.activeUnderLine : ''}`}
-              >
-                {isAuthenticated ? (
-                  <Link href="/profile" onClick={closeMenu}>
-                    My Profile
-                  </Link>
-                ) : (
+              <li>
+                <div className={css.loginRegisterContainer}>
                   <Link href="/auth/login" onClick={closeMenu}>
                     Log in
                   </Link>
-                )}
-              </li>
-              {isAuthenticated ? (
-                <>
-                  <li className={css.userInfo}>
-                    <span className={css.avatar}>{firstLetterUserName}</span>
-                    <span className={css.userName}>{user?.name}</span>
-                    <span className={css.line} />
-                  </li>
-                  <li className={css.logoutItem}>
-                    <button
-                      className={css.logoutButton}
-                      onClick={handleLogout}
-                      aria-label="Log out"
-                    >
-                      <svg stroke="var(--white)" width={24} height={24}>
-                        <use href="/sprite.svg#icon-Genericlog-out" />
-                      </svg>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      className={`${css.btnRegisterReceipes} ${css.changeOrderOnTablet}`}
-                      onClick={() => {
-                        router.push('/add-recipe');
-                        closeMenu();
-                      }}
-                      aria-label="Add Recipe"
-                    >
-                      Add Recipe
-                    </button>
-                  </li>
-                </>
-              ) : (
-                <li>
                   <button
                     className={css.btnRegisterReceipes}
                     onClick={() => {
@@ -174,12 +133,56 @@ export default function Header() {
                   >
                     Register
                   </button>
-                </li>
-              )}
+                </div>
+              </li>
             </ul>
+
+            {isAuthenticated && (
+              <>
+                <li className={css.userInfo}>
+                  <span className={css.avatar}>{firstLetterUserName}</span>
+                  <span className={css.userName}>{user?.name}</span>
+                  <span className={css.line} />
+                </li>
+                <li className={css.logoutItem}>
+                  <button
+                    className={css.logoutButton}
+                    onClick={handleLogout}
+                    aria-label="Log out"
+                  >
+                    <svg stroke="var(--white)" width={24} height={24}>
+                      <use href="/sprite.svg#icon-Genericlog-out" />
+                    </svg>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className={`${css.btnRegisterReceipes} ${css.changeOrderOnTablet}`}
+                    onClick={() => {
+                      router.push('/add-recipe');
+                      closeMenu();
+                    }}
+                    aria-label="Add Recipe"
+                  >
+                    Add Recipe
+                  </button>
+                </li>
+              </>
+            )}
           </nav>
         </div>
       </Container>
     </header>
   );
 }
+//<li
+//  className={`${css.text}  ${pathname === '/profile' || pathname === '/auth/login' ? css.activeUnderLine : ''}`}
+//>
+//  {isAuthenticated ? (
+//    <Link href="/profile" onClick={closeMenu}>
+//      My Profile
+//    </Link>
+//  ) : (
+//
+//  )}
+//</li>
