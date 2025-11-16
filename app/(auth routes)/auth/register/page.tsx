@@ -55,8 +55,8 @@ const RegisterPage = () => {
     try {
       const { confirmPassword, ...credentials } = values;
 
-      const res = await register(credentials);
-      setUser(res.user);
+      const user = await register(credentials);
+      setUser(user);
 
       import('izitoast').then((iziToast) => {
         iziToast.default.success({
