@@ -151,7 +151,7 @@ const LoginPage = () => {
         </Formik>
 
         <p className={styles.loginLink}>
-          Don’t have an account? <a href="/auth/register">Create one</a>
+          Don’t have an account? <a href="/auth/register">Register</a>
         </p>
       </div>
     </section>
