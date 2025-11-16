@@ -1,36 +1,41 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import RecipeCard from '../RecipeCard/RecipeCard';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
-import { Recipe } from '@/types/recipe';
 import { getAllRecipes } from '@/lib/api/clientApi';
-
-const ITEMS_PER_PAGE = 12;
+import { useQueryParams } from '@/hooks/useQueryParams';
+import { useQuery } from '@tanstack/react-query';
+import Loader from '../Loader/Loader';
+import { SearchParams } from '@/constants';
 
 export default function RecipesList() {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const { get, set } = useQueryParams();
 
-  const fetchRecipes = async () => {
-    const data = await getAllRecipes(page, ITEMS_PER_PAGE);
-    if (data.length < ITEMS_PER_PAGE) setHasMore(false);
-    setRecipes((prev) => [...prev, ...data]);
-  };
+  const search = get(SearchParams.Search);
+  const category = get(SearchParams.Category);
+  const ingredient = get(SearchParams.Ingredient);
+  const page = get(SearchParams.Page) ?? '1';
 
-  useEffect(() => {
-    fetchRecipes();
-  }, [page]);
+  const { data } = useQuery({
+    queryKey: ['recipes', page, search, category, ingredient],
+    queryFn: () => getAllRecipes({ page, search, category, ingredient }),
+  });
+
+  const hasMore = data && data.totalPages > Number(page);
 
   const handleLoadMore = () => {
-    setPage((prev) => prev + 1);
+    const calculateNextPage = Number(page) + 1;
+    set(SearchParams.Page, String(calculateNextPage));
   };
+
+  if (!data) {
+    return <Loader />;
+  }
 
   return (
     <div>
       <ul>
-        {recipes.map((recipe) => (
+        {data.recipes.map((recipe) => (
           <li key={recipe._id}>
             <RecipeCard recipe={recipe} />
           </li>

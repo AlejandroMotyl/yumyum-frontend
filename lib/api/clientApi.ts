@@ -29,10 +29,25 @@ export const register = async (credentials: RegisterData) => {
   return data;
 };
 
-export const getAllRecipes = async (
-  page: number,
-  perPage: number,
-): Promise<Recipe[]> => {
-  const { data } = await api.get(`/recipes?page=${page}&perPage=${perPage}`);
-  return data.recipes ?? data;
+export const getAllRecipes = async (params: {
+  page?: string | null;
+  perPage?: string;
+  category?: string | null;
+  search?: string | null;
+  ingredient?: string | null;
+}): Promise<{
+  recipes: Recipe[];
+  totalPages: number;
+  totalRecipes: number;
+}> => {
+  const { perPage = 12, page = 1, ...rest } = params;
+
+  const { data } = await api.get(`/recipes`, {
+    params: {
+      perPage,
+      page,
+      ...rest,
+    },
+  });
+  return data;
 };
