@@ -97,7 +97,10 @@
 .btnRegisterReceipes {
   background-color: var(--light-brown);
   border-radius: 8px;
-  width: 361px;
+  max-width: 361px;
+  width: 100%;
+  min-height: 44px;
+  height: 100%;
 }
 .btnRegisterReceipes:hover {
   background-color: var(--brown);
@@ -166,12 +169,6 @@
   align-items: center;
   text-align: center;
 }
-.btnRegisterReceipes {
-  max-width: 361px;
-  width: 100%;
-  min-height: 44px;
-  height: 100%;
-}
 .userInfoContainer {
   max-width: 393px;
   width: 100%;
@@ -207,10 +204,7 @@
     font: var(--body-sm-semibold)
   }
   .btnRegisterReceipes {
-    min-width: 101px;
-    width: 100%;
-    min-height: 44px;
-    height: 100%;
+    min-width: 127px;
     font: var(--body-md-semibold)
   }
   .closeIcon {
@@ -288,5 +282,19 @@
     display: flex;
     align-items: center;
     font: var(--body-sm-semibold);
+  }
+  .userInfoContainer{
+    flex-direction: row;
+    padding: 0;
+  }
+  .recipeProfileLinks {
+    flex-direction: row;
+    gap: 8px
+  }
+  .recipesLink {
+    margin-right: 20px;
+  }
+  .changeOrderOnTablet {
+    order: -1;
   }
 }
