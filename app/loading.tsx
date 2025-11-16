@@ -1,13 +1,13 @@
-'use client';
 import css from './loading.module.css';
-import Image from 'next/image';
 
-export default function loading() {
+export default function Loading() {
   return (
     <div className={css.loadingBackdrop}>
-      <div className={css.loader}>
-        {/* <Image src={BabyGif} alt="baby" width={300} height={300} /> */}
-      </div>
+      <img
+        src="/a cartoon-style chef.webp"
+        alt="Chef Hat"
+        className={css.hat}
+      />
     </div>
   );
 }
