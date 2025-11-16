@@ -7,8 +7,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function Header() {
-  const pathURL = usePathname();
-  if (!pathURL || pathURL.startsWith('/auth')) return null;
+  // const pathURL = usePathname();
+  // if (!pathURL || pathURL.startsWith('/auth')) return null;
   return (
     <header className={css.header}>
       <nav className={css.headerNav}>
