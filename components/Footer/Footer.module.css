@@ -40,6 +40,11 @@
     padding: 0px 0px 4px;
     width: 65px;
     height: 24px;
+    cursor: pointer;
+    transition:
+      opacity var(--primary-transition),
+      border-bottom var(--primary-transition),
+      border-radius var(--primary-transition);
   }
 
   .footerLink:hover,
@@ -62,7 +67,6 @@
   .footerLinksContainer {
     flex-direction: row;
     gap: 32px;
-    width: 167px;
   }
 }
 
@@ -72,9 +76,5 @@
     flex-direction: row;
     gap: 305px;
     max-width: 1440px;
-  }
-
-  .footerLinksContainer {
-    gap: 32px;
   }
 }

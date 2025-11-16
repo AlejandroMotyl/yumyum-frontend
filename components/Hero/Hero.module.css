@@ -13,7 +13,7 @@
 }
 
 .heroWrapper {
-  padding: 128px 32px 98px 32px;
+  padding: 128px 16px 98px 16px;
 }
 
 .tittleWrapper {
@@ -21,9 +21,37 @@
 }
 
 .title {
-  font-family: var(--font-family);
-  font-weight: 600;
-  font-size: 40px;
+  font: var(--display-lg-semibold);
   color: var(--white);
   margin-bottom: 24px;
+}
+
+/* Styles for Tablet devices */
+@media only screen and (min-width: 768px) {
+  .heroSection {
+    background-image: url('../../public/hero/hero-tablet.jpg');
+  }
+
+  .heroWrapper {
+    padding: 128px 33px 128px 0px;
+  }
+
+  .title {
+    font: var(--display-xl-semibold);
+    width: 493px;
+  }
+}
+/* Styles for Desktop devices */
+@media only screen and (min-width: 1440px) {
+  .heroSection {
+    background-image: url('../../public/hero/hero-desktop.jpg');
+  }
+
+  .heroWrapper {
+    padding: 128px 563px 128px 0px;
+  }
+
+  .title {
+    font: var(--body-h1);
+  }
 }

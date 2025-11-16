@@ -1,34 +1,73 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import RecipeCard from '../RecipeCard/RecipeCard';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import { Recipe } from '@/types/recipe';
+import { useSearchStore } from '@/lib/store/useSearchStore';
+import { useQuery } from '@tanstack/react-query';
 import { getAllRecipes } from '@/lib/api/clientApi';
+import Loader from '../Loader/Loader';
+import { useEffect, useState } from 'react';
+import Filters from '../Filters/Filters';
 
-const ITEMS_PER_PAGE = 12;
+export interface Props {
+  recipes: Recipe[];
+  hasMore: boolean;
+  loadMore: () => void;
+}
 
-export default function RecipesList() {
+export function RecipesList() {
+  const search = useSearchStore((state) => state.searchQuery) || null;
+  // const category = useSearchStore((state) => state.searchQuery) || null;
+  // const ingredient = useSearchStore((state) => state.searchQuery) || null;
+
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState('1');
+  // useEffect(() => {
+  //   setRecipes([]);
+  // }, [search, category, ingredient]);
 
-  const fetchRecipes = async () => {
-    const data = await getAllRecipes(page, ITEMS_PER_PAGE);
-    if (data.length < ITEMS_PER_PAGE) setHasMore(false);
-    setRecipes((prev) => [...prev, ...data]);
-  };
+  const { data, isLoading } = useQuery({
+    queryKey: [
+      'recipes',
+      {
+        page: page,
+        // category: category,
+        search: search,
+        // ingredient: ingredient,
+      },
+    ],
+    queryFn: () =>
+      getAllRecipes({
+        page: page,
+        // category: category,
+        search: search,
+        // ingredient: ingredient,
+      }),
+    placeholderData: (prev) => prev,
+  });
 
   useEffect(() => {
-    fetchRecipes();
-  }, [page]);
+    if (data?.recipes) {
+      setRecipes((prev) => [...prev, ...data.recipes]);
+    }
+  }, [data]);
 
-  const handleLoadMore = () => {
-    setPage((prev) => prev + 1);
+  const hasMore = data ? data.totalPages > Number(page) : false;
+
+  const loadMore = () => {
+    const next = Number(page) + 1;
+    setPage(String(next));
   };
+
+  if (isLoading || !data) {
+    return <Loader />;
+  }
 
   return (
     <div>
+      <Filters />
+
       <ul>
         {recipes.map((recipe) => (
           <li key={recipe._id}>
@@ -37,10 +76,14 @@ export default function RecipesList() {
         ))}
       </ul>
 
-      {hasMore && (
-        <div>
-          <LoadMoreBtn onClick={handleLoadMore} />
-        </div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        hasMore && (
+          <div>
+            <LoadMoreBtn onClick={loadMore} />
+          </div>
+        )
       )}
     </div>
   );

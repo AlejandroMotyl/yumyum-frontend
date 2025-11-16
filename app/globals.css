@@ -1,5 +1,4 @@
 :root {
-
   /* Color Vars*/
 
   --black: #000;
@@ -34,20 +33,21 @@
 
   /* Font Vars*/
 
-  --display-xl-semibold: 600 48px / 1.1 "Montserrat", sans-serif;
-  --display-lg-semibold: 600 40px "Montserrat", sans-serif;
-  --display-md-semibold: 600 32px "Montserrat", sans-serif;
-  --display-sm-regular: 400 24px "Montserrat", sans-serif;
-  --display-sm-semibold: 600 24px "Montserrat", sans-serif;
-  --display-sm-bold: 700 24px "Montserrat", sans-serif;
-  --body-lg-regular: 400 18px "Montserrat", sans-serif;
-  --body-lg-semibold: 600 18px "Montserrat", sans-serif;
-  --body-md-regular: 400 16px / 1.55 "Montserrat", sans-serif;
-  --body-md-semibold: 600 16px "Montserrat", sans-serif;
-  --body-sm-regular: 400 12px "Montserrat", sans-serif;
-  --body-sm-semibold: 600 12px "Montserrat", sans-serif;
-  --body-h1: 600 48px "Montserrat", sans-serif;
+  --display-xl-semibold: 600 48px / 1.1 'Montserrat', sans-serif;
+  --display-lg-semibold: 600 40px 'Montserrat', sans-serif;
+  --display-md-semibold: 600 32px 'Montserrat', sans-serif;
+  --display-sm-regular: 400 24px 'Montserrat', sans-serif;
+  --display-sm-semibold: 600 24px 'Montserrat', sans-serif;
+  --display-sm-bold: 700 24px 'Montserrat', sans-serif;
+  --body-lg-regular: 400 18px 'Montserrat', sans-serif;
+  --body-lg-semibold: 600 18px 'Montserrat', sans-serif;
+  --body-md-regular: 400 16px / 1.55 'Montserrat', sans-serif;
+  --body-md-semibold: 600 16px 'Montserrat', sans-serif;
+  --body-sm-regular: 400 12px 'Montserrat', sans-serif;
+  --body-sm-semibold: 600 12px 'Montserrat', sans-serif;
+  --body-h1: 600 48px 'Montserrat', sans-serif;
 
+  --primary-transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 *,

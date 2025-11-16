@@ -1,29 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { api } from '@/lib/api/api';
-import { cookies } from 'next/headers';
 import { isAxiosError } from 'axios';
 import { logErrorResponse } from '../_utils/utils';
+import { api } from '@/app/api/api';
 
 export async function GET(request: NextRequest) {
   try {
-    const cookieStore = cookies();
-
-    const page = Number(request.nextUrl.searchParams.get('page') ?? 1);
-    const perPage = Number(request.nextUrl.searchParams.get('perPage') ?? 12);
-    const category = request.nextUrl.searchParams.get('category') ?? '';
+    const page = request.nextUrl.searchParams.get('page') ?? '';
+    const perPage = request.nextUrl.searchParams.get('perPage');
+    const category = request.nextUrl.searchParams.get('category');
     const search = request.nextUrl.searchParams.get('search') ?? '';
-    const ingredient = request.nextUrl.searchParams.get('ingredient') ?? '';
+    const ingredient = request.nextUrl.searchParams.get('ingredient');
 
-    const res = await api('/recipes', {
+    const res = await api.get('recipes', {
       params: {
         page,
         perPage,
         category,
         search,
         ingredient,
-      },
-      headers: {
-        Cookie: cookieStore.toString(),
       },
     });
 

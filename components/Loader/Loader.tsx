@@ -1,11 +1,11 @@
-"use client";
-import React from "react";
-import css from "./Loader.module.css";
+import css from './Loader.module.css';
 
-interface Props {
-  styles?: React.CSSProperties;
-}
+const Loader = () => {
+  return (
+    <div className={css.wrapper}>
+      <img src="/a-cartoon-style-chef.svg" alt="Chef Hat" className={css.hat} />
+    </div>
+  );
+};
 
-export default function Loader({ styles }: Props) {
-  return <div style={styles} className={css.spinner}></div>;
-}
+export default Loader;

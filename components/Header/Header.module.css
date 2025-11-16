@@ -1,6 +1,227 @@
 .header {
+  max-height: 74px;
+  background-color: var(--darck-brown);
+  color: var(--white);
+}
+.headerContentContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  padding: 14px 0;
+}
+.burger {
+  position: relative;
+  z-index: 1001;
+  display: block;
+}
+.burger:hover {
+  cursor: pointer;
+}
+.closeIcon use {
+  fill: transparent;
+}
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--darck-brown);
+  z-index: 999;
+  animation: fadeIn var(--primary-transition);
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideIn {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.navMenu {
+  position: fixed;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 20px;
+  right: 0;
+  top: -100%;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--darck-brown);
+  z-index: 1000;
+  transition: var(--primary-transition);
+}
+
+.logoCloseBtnContainer {
+  width: 100%;
+}
+
+.navMenu ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.navMenu ul :nth-child(2) {
+  margin-bottom: 12px;
+}
+
+.navMenu li {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 44px;
+  font: var(--body-md-semibold);
+  letter-spacing: 0;
+}
+.navMenu a {
+  display: block;
+  color: var(--white);
+  text-decoration: none;
+}
+.navMenuOpen {
+  top: 0;
+}
+.btnRegisterReceipes {
+  background-color: var(--light-brown);
+  border-radius: 8px;
+  width: 361px;
+}
+.btnRegisterReceipes:hover {
+  background-color: var(--brown);
+  cursor: pointer;
+  transition: background-color var(--primary-transition);
+}
+.btnRegisterReceipes:active {
+  background-color: var(--light-brown);
+  box-shadow:
+    0 0 0 6px #4e46b41f,
+    0 0 0 2px var(--white);
+}
+.avatarNameContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--light-brown);
+  border-radius: 50%;
+}
+.line {
+  display: inline-block;
+  width: 1px;
+  height: 39px;
+  background-color: var(--white);
+}
+
+.text:hover,
+.text:focus {
+  opacity: 50%;
+  transition: opacity 0.3s ease-in-out;
+}
+.logoInMenuOpen {
+  padding: 14px 16px;
+}
+.ulContainer {
+  padding: 0 16px;
+}
+
+@media only screen and (min-width: 768px) {
+
+  .navMenu .logoInMenuOpen {
+    display: none;
+  }
+  .text {
+    text-wrap: nowrap;
+    margin-right: 4px;
+  }
+  .recipesLink {
+    margin-right: 8px;
+  }
+  .text a {
+    position: relative;
+  }
+  .text a::before {
+    content: '';
+    position: absolute;
+    bottom: +25px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--white);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .text.activeUnderLine a::before {
+    animation: slideIn 0.3s ease-in-out forwards;
+  }
+
+  .btnRegisterReceipes {
+    width: 101px;
+  }
+  .headerContentContainer {
+    padding: 0;
+  }
+  .burger {
+    display: none;
+  }
+  .navMenu {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    position: static;
+    padding: 0;
+    z-index: 0;
+    background: transparent;
+    width: auto;
+    height: auto;
+  }
+  .navMenu ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    width: auto;
+  }
+  .navMenu ul :nth-child(2) {
+    margin-bottom: 0;
+  }
+  .overlay {
+    display: none;
+  }
+  .navMenu a {
+    padding: 37px 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0 12px;
+  }
+  .changeOrderOnTablet {
+    order: 3; /* Add Recipe before avatar */
+  }
+  .avatarNameContainer {
+    order: 4; /* avatar after Add Recipe */
+  }
+  .navMenu .text {
+    text-align: center;
     height: 74px;
-    background-color:var(--darck-brown)
+    display: flex;
+    align-items: center;
+    font: var(--body-sm-semibold);
+  }
 }
