@@ -1,0 +1,162 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding-top: 91px;
+  padding-bottom: 91px;
+  background: var(--background);
+}
+.form {
+  margin-bottom: 20px;
+}
+.formWrapper {
+  max-width: 362px;
+  width: 100%;
+  padding: 48px 32px;
+  background: var(--light-beige);
+  border-radius: 32px;
+}
+.title {
+  text-align: center;
+  font: var(--display-md-semibold);
+
+  margin-bottom: 20px;
+}
+.formList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 27px;
+}
+.label {
+  font: var(--body-sm-regular);
+  color: var(--black);
+  display: block;
+  margin-bottom: 4px;
+}
+.input {
+  height: 41px;
+  width: 100%;
+  padding: 8px;
+  padding-right: 45px;
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  color: var(--black);
+
+  font: var(--body-md-regular);
+
+  outline: none;
+  transition:
+    border var(--primary-transition),
+    box-shadow var(--primary-transition),
+    background var(--primary-transition),
+    color var(--primary-transition);
+}
+.input:focus,
+.input:hover {
+  border: 1.5px solid var(--light-brown);
+}
+.input:active {
+  border: 1px solid var(--light-gray);
+  background: var(--light-beige);
+}
+
+.input.errorInput,
+.input.errorInput:focus,
+.input.errorInput:hover {
+  border: 1.5px solid var(--red);
+  color: var(--red);
+}
+.error {
+  margin-top: 8px;
+  color: var(--red);
+  font: var(--body-sm-regular);
+}
+
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+}
+.eyeButton {
+  display: flex;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity var(--primary-transition);
+}
+
+.eyeIcon {
+  width: 24px;
+  height: 24px;
+  transition:
+    color var(--primary-transition),
+    opacity var(--primary-transition);
+}
+.eyeButton:hover .eyeIcon {
+  opacity: 0.65;
+}
+.errorWrapper .eyeIcon {
+  color: var(--red);
+}
+.submitButton {
+  width: 100%;
+  height: 36px;
+  padding: 8px;
+  background: var(--light-brown);
+  border-radius: 8px;
+  color: var(--white);
+  font: var(--body-md-semibold);
+  outline: none;
+  cursor: pointer;
+  /* border: none; */
+  transition:
+    background var(--primary-transition),
+    box-shadow var(--primary-transition);
+}
+.submitButton:hover,
+.submitButton:focus {
+  background: var(--brown);
+}
+.submitButton:active {
+  box-shadow:
+    0 0 0 6px rgba(78, 70, 180, 0.12),
+    0 0 0 2px var(--white);
+  background: var(--light-brown);
+}
+
+.loginLink {
+  text-align: center;
+  font: var(--body-md-regular);
+}
+.loginLink a {
+  font: var(--body-md-semibold);
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  cursor: pointer;
+  transition: opacity var(--primary-transition);
+}
+.loginLink a:hover {
+  opacity: 0.5;
+}
+@media (min-width: 768px) {
+  .page {
+    padding-top: 262px;
+    padding-bottom: 262px;
+  }
+  .formWrapper {
+    max-width: 522px;
+  }
+}
+@media (min-width: 1440px) {
+  .page {
+    padding-top: 176px;
+    padding-bottom: 156px;
+  }
+  .formWrapper {
+    max-width: 420px;
+  }
+}

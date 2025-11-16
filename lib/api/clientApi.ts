@@ -1,4 +1,4 @@
-import { User, RegisterData } from '@/types/user';
+import { User, RegisterData, LoginData } from '@/types/user';
 import { api } from './api';
 import { Recipe } from '@/types/recipe';
 
@@ -22,6 +22,14 @@ export interface AuthResponse {
 }
 export const register = async (credentials: RegisterData) => {
   const { data } = await api.post<AuthResponse>('/auth/register', credentials);
+  return data;
+};
+
+export interface LoginResponse {
+  user: User;
+}
+export const login = async (credentials: LoginData) => {
+  const { data } = await api.post<LoginResponse>('/auth/login', credentials);
   return data;
 };
 
