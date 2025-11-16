@@ -14,7 +14,14 @@ import { api } from '@/lib/api/api';
 import { useRouter } from 'next/navigation';
 import css from './AddRecipeForm.module.css';
 import 'izitoast/dist/css/iziToast.min.css';
-import iziToast from 'izitoast';
+
+const getIziToast = async () => {
+  if (typeof window !== 'undefined') {
+    const iziToastModule = await import('izitoast');
+    return iziToastModule.default;
+  }
+  return null;
+};
 
 interface Category {
   _id: string;
@@ -38,24 +45,32 @@ interface RecipeFormValues {
 }
 
 const validationSchema = Yup.object({
-  title: Yup.string().min(2).max(100).required('Вкажіть назву рецепту'),
-  description: Yup.string().min(10).max(1000).required('Вкажіть короткий опис'),
+  title: Yup.string().min(2).max(64).required('Enter the recipe name'),
+  description: Yup.string()
+    .min(10)
+    .max(200)
+    .required('Enter a short description'),
   time: Yup.number()
-    .min(1, 'Мінімум 1 хвилина')
-    .required('Вкажіть час приготування'),
-  cals: Yup.number().min(0, 'Калорії не можуть бути від’ємні').nullable(),
-  category: Yup.string().required('Оберіть категорію'),
+    .min(1, 'Minimum 1 minute')
+    .max(360, 'Maximum 360 minutes')
+    .required('Specify the cooking time'),
+  cals: Yup.number()
+    .min(1, 'Calories cannot be less than 1')
+    .max(10000, 'Calories cannot be more than 10,000')
+    .nullable(),
+  category: Yup.string().required('Choose a category'),
   ingredients: Yup.array()
     .of(
       Yup.object({
-        id: Yup.string().required('Оберіть інгредієнт'),
+        id: Yup.string().required('Choose an ingredient'),
         name: Yup.string().required(),
-        amount: Yup.string().required('Вкажіть кількість'),
+        amount: Yup.string().required('Specify the quantity'),
       }),
     )
-    .min(2, 'Додайте хоча б два інгредієнти'),
-  instructions: Yup.string().min(10).required('Вкажіть інструкції'),
-  photoFile: Yup.mixed().required('Завантажте фото страви'),
+    .min(2, 'Add at least 2 ingredients')
+    .max(16, 'Maximum 16 ingredients'),
+  instructions: Yup.string().max(1200).required('Specify the instructions'),
+  thumb: Yup.mixed().nullable().optional(),
 });
 
 export const RecipeForm = () => {
@@ -102,6 +117,8 @@ export const RecipeForm = () => {
     values: RecipeFormValues,
     { setSubmitting }: FormikHelpers<RecipeFormValues>,
   ) => {
+    const iziToast = await getIziToast();
+
     try {
       const formData = new FormData();
       formData.append('title', values.title);
@@ -122,14 +139,18 @@ export const RecipeForm = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      iziToast.success({ title: 'Успіх', message: 'Рецепт створено!' });
+      if (iziToast) {
+        iziToast.success({ title: 'Success', message: 'Recipe created!' });
+      }
       router.push(`/recipes/id/${res.data._id}`);
     } catch (err: any) {
       console.error(err);
-      iziToast.error({
-        title: 'Помилка',
-        message: err.response?.data?.message || 'Сталася помилка',
-      });
+      if (iziToast) {
+        iziToast.error({
+          title: 'Error',
+          message: err.response?.data?.message || 'An error occurred',
+        });
+      }
     } finally {
       setSubmitting(false);
     }
@@ -143,13 +164,53 @@ export const RecipeForm = () => {
         onSubmit={handleSubmit}
       >
         {({ values, setFieldValue, isSubmitting }) => (
-          <Form className={css.form}>
-            <label className={css.formGroup}>
-              Назва
+          <Form className={css.addRecipeForm}>
+            {/* --- Upload Photo Block --- */}
+            <label className={css.addRecipeFormBlockTitle}>
+              Upload Photo
+              <div className={css.customFileInputWrapper}>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className={css.hiddenFileInput}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    setFieldValue('thumb', file);
+                    setPreview(file ? URL.createObjectURL(file) : null);
+                  }}
+                />
+                {preview ? (
+                  <img
+                    src={preview}
+                    alt="Preview"
+                    className={css.addRecipeFormPreviewImage}
+                  />
+                ) : (
+                  <div className={css.imagePlaceholder}>
+                    <span className={css.imagePlaceholderIcon}></span>
+                  </div>
+                )}
+                {values.thumb && (
+                  <span className={css.fileNameDisplay}>
+                    {(values.thumb as File).name}
+                  </span>
+                )}
+              </div>
+              <ErrorMessage
+                name="thumb"
+                component="div"
+                className={css.errorMessage}
+              />
+            </label>
+
+            <p className={css.addRecipeFormBlockTitle}>General Information</p>
+
+            <label className={css.addRecipeFormBlockSubtitle}>
+              Recipe Title
               <Field
                 name="title"
-                className={css.input}
-                placeholder="Введіть назву рецепту"
+                className={css.addRecipeFormInput}
+                placeholder="Enter the name of your recipe"
               />
               <ErrorMessage
                 name="title"
@@ -158,14 +219,14 @@ export const RecipeForm = () => {
               />
             </label>
 
-            <label className={css.formGroup}>
-              Короткий опис
+            <label className={css.addRecipeFormBlockSubtitle}>
+              Recipe Description
               <Field
                 name="description"
                 as="textarea"
                 rows={3}
-                className={css.textarea}
-                placeholder="Короткий опис рецепту"
+                className={css.addRecipeFormTextarea}
+                placeholder="Enter a brief description of your recipe"
               />
               <ErrorMessage
                 name="description"
@@ -174,13 +235,13 @@ export const RecipeForm = () => {
               />
             </label>
 
-            <label className={css.formGroup}>
-              Час приготування (хв)
+            <label className={css.addRecipeFormBlockSubtitle}>
+              Cooking time in minutes
               <Field
                 name="time"
                 type="number"
-                className={css.input}
-                placeholder="30"
+                className={css.addRecipeFormInput}
+                placeholder="10"
               />
               <ErrorMessage
                 name="time"
@@ -189,13 +250,13 @@ export const RecipeForm = () => {
               />
             </label>
 
-            <label className={css.formGroup}>
-              Калорії
+            <label className={css.addRecipeFormBlockSubtitle}>
+              Calories
               <Field
                 name="cals"
                 type="number"
-                className={css.input}
-                placeholder="250"
+                className={css.addRecipeFormInput}
+                placeholder="150 cals"
               />
               <ErrorMessage
                 name="cals"
@@ -204,10 +265,14 @@ export const RecipeForm = () => {
               />
             </label>
 
-            <label className={css.formGroup}>
-              Категорія
-              <Field name="category" as="select" className={css.input}>
-                <option value="">Оберіть категорію</option>
+            <label className={css.addRecipeFormBlockSubtitle}>
+              Category
+              <Field
+                name="category"
+                as="select"
+                className={css.addRecipeFormInput}
+              >
+                <option value="">Soup</option>
                 {categories.map((cat) => (
                   <option key={cat._id} value={cat._id}>
                     {cat.name}
@@ -221,65 +286,78 @@ export const RecipeForm = () => {
               />
             </label>
 
-            <div className={css.formGroup}>
-              <label>Інгредієнти</label>
+            {/* --- Ingredients Block --- */}
+            <div className={css.addRecipeIngredientsGroup}>
+              <label className={css.addRecipeFormBlockTitle}>Ingredients</label>{' '}
               <FieldArray name="ingredients">
                 {({ push, remove }) => (
                   <div>
                     {values.ingredients.map((ing, index) => (
                       <div key={index} className={css.ingredientRow}>
-                        <Field
-                          as="select"
-                          name={`ingredients[${index}].id`}
-                          className={css.input}
-                          onChange={(e: any) => {
-                            const selected = ingredientsList.find(
-                              (i) => i._id === e.target.value,
-                            );
-                            setFieldValue(
-                              `ingredients[${index}].id`,
-                              selected?._id || '',
-                            );
-                            setFieldValue(
-                              `ingredients[${index}].name`,
-                              selected?.name || '',
-                            );
-                          }}
-                        >
-                          <option value="">Оберіть інгредієнт</option>
-                          {ingredientsList.map((i) => (
-                            <option key={i._id} value={i._id}>
-                              {i.name}
-                            </option>
-                          ))}
-                        </Field>
-                        <Field
-                          name={`ingredients[${index}].amount`}
-                          className={css.input}
-                          placeholder="Кількість"
-                        />
+                        <label className={css.addRecipeFormBlockSubtitle}>
+                          Name
+                          <Field
+                            as="select"
+                            name={`ingredients[${index}].id`}
+                            className={css.addRecipeFormInput}
+                            onChange={(e: any) => {
+                              const selected = ingredientsList.find(
+                                (i) => i._id === e.target.value,
+                              );
+                              setFieldValue(
+                                `ingredients[${index}].id`,
+                                selected?._id || '',
+                              );
+                              setFieldValue(
+                                `ingredients[${index}].name`,
+                                selected?.name || '',
+                              );
+                            }}
+                          >
+                            <option value="">Broccoli</option>
+                            {ingredientsList.map((i) => (
+                              <option key={i._id} value={i._id}>
+                                {i.name}
+                              </option>
+                            ))}
+                          </Field>
+                          <ErrorMessage
+                            name={`ingredients[${index}].id`}
+                            component="div"
+                            className={css.errorMessage}
+                          />
+                        </label>
+
+                        <label className={css.addRecipeFormBlockSubtitle}>
+                          Amount
+                          <Field
+                            name={`ingredients[${index}].amount`}
+                            className={css.addRecipeFormInput}
+                            placeholder="100g"
+                          />
+                          <ErrorMessage
+                            name={`ingredients[${index}].amount`}
+                            component="div"
+                            className={css.errorMessage}
+                          />
+                        </label>
+
                         <button
                           type="button"
                           onClick={() => remove(index)}
                           className={css.removeButton}
                         >
-                          ❌
+                          <span className={css.removeIcon}></span>
                         </button>
-                        <ErrorMessage
-                          name={`ingredients[${index}].amount`}
-                          component="div"
-                          className={css.errorMessage}
-                        />
                       </div>
                     ))}
                     <button
                       type="button"
                       onClick={() => push({ id: '', name: '', amount: '' })}
-                      className={css.addButton}
+                      className={css.addIngredientButton}
                     >
-                      Додати інгредієнт
+                      Add new Ingredient
                     </button>
-                    {/* Використовуємо render prop для обробки об'єкта помилки для масиву */}
                     <ErrorMessage name="ingredients">
                       {(msg) => {
                         if (typeof msg === 'string') {
@@ -293,38 +371,18 @@ export const RecipeForm = () => {
               </FieldArray>
             </div>
 
-            <label className={css.formGroup}>
-              Інструкції
+            {/* --- Instructions Block --- */}
+            <label className={css.addRecipeFormBlockTitle}>
+              Instructions
               <Field
                 name="instructions"
                 as="textarea"
                 rows={5}
-                className={css.textarea}
-                placeholder="Інструкції з приготування"
+                className={css.addRecipeFormTextarea}
+                placeholder="Enter a text"
               />
               <ErrorMessage
                 name="instructions"
-                component="div"
-                className={css.errorMessage}
-              />
-            </label>
-
-            <label className={css.formGroup}>
-              Фото страви
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files?.[0] || null;
-                  setFieldValue('thumb', file);
-                  setPreview(file ? URL.createObjectURL(file) : null);
-                }}
-              />
-              {preview && (
-                <img src={preview} alt="Прев’ю" className={css.previewImage} />
-              )}
-              <ErrorMessage
-                name="thumb"
                 component="div"
                 className={css.errorMessage}
               />
@@ -333,9 +391,9 @@ export const RecipeForm = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={css.buttonSubmit}
+              className={css.addRecipeFormButtonSubmit}
             >
-              Опублікувати рецепт
+              Publish Recipe
             </button>
           </Form>
         )}

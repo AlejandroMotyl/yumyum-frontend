@@ -13,11 +13,11 @@
   color: var(--black);
 }
 
-.addRecipeForm {
+/* .addRecipeForm {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
   gap: 24px;
   width: 361px;
-}
+} */
