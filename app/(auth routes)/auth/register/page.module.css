@@ -124,7 +124,6 @@
   font: var(--body-md-semibold);
   outline: none;
   cursor: pointer;
-  /* border: none; */
   transition:
     background var(--primary-transition),
     box-shadow var(--primary-transition);
