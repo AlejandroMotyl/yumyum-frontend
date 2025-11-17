@@ -144,7 +144,7 @@
   padding: 16px;
 }
 .myProfileLink {
-  margin-bottom: 5px;
+  margin-bottom: 16px;
 }
 
 .text:hover,
@@ -190,6 +190,10 @@
 }
 
 @media only screen and (min-width: 768px) {
+
+  .myProfileLink {
+    margin-bottom: 5px;
+  }
   .loginRegisterContainer {
     max-height: 74px;
     display: flex;
@@ -258,9 +262,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 0;
     width: auto;
+    gap: 0;
   }
+
   .navMenu ul :nth-child(2) {
     margin-bottom: 0;
   }
@@ -290,8 +295,11 @@
     flex-direction: row;
     gap: 8px
   }
+  .mb8 {
+    margin-right: 20px;
+  }
   .recipesLink {
-    margin-right: 8px;
+    margin-right: 16px;
   }
   .changeOrderOnTablet {
     order: -1;

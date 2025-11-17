@@ -113,9 +113,13 @@ export default function Header() {
 
             <ul>
               <li
-                className={`${css.recipeProfileLinks} ${css.recipesLink}  ${pathname === '/' ? css.activeUnderLine : ''}`}
+                className={`${css.recipeProfileLinks} ${pathname === '/' ? css.activeUnderLine : ''}`}
               >
-                <Link className={css.text} href="/" onClick={closeMenu}>
+                <Link
+                  className={`${css.text} ${isAuthenticated ? css.mb8 : css.recipesLink}`}
+                  href="/"
+                  onClick={closeMenu}
+                >
                   Recipes
                 </Link>
                 {isAuthenticated && (
