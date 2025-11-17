@@ -1,0 +1,39 @@
+/** Input-Reset Wrapper */
+.inputResetWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+
+
+
+}
+
+@media (min-width: 1440px) {
+  .inputResetWrapper {
+    flex-direction: row;
+    gap: 24px;
+    align-items: center;
+    flex-flow: row-reverse;
+  }
+}
+
+/*! Input-Reset Wrapper*/
+
+
+
+.filtersField {
+  border: 1px solid var(--light-gray);
+  border-radius: 4px;
+  font: var(--body-md-regular);
+  color: var(--gray);
+  width: 100%;
+
+}
+
+.resetButton {
+
+  font: var(--body-sm-semibold);
+  border-bottom: 1px solid var(--black);
+
+}
