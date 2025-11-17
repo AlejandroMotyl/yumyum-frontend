@@ -22,15 +22,18 @@ export async function GET(request: NextRequest) {
         const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
         let accessToken = '';
         let refreshToken = '';
+        let sessionId = '';
 
         for (const cookieStr of cookieArray) {
           const parsed = parse(cookieStr);
           if (parsed.accessToken) accessToken = parsed.accessToken;
           if (parsed.refreshToken) refreshToken = parsed.refreshToken;
+          if (parsed.sessionId) sessionId = parsed.sessionId;
         }
 
         if (accessToken) cookieStore.set('accessToken', accessToken);
         if (refreshToken) cookieStore.set('refreshToken', refreshToken);
+        if (sessionId) cookieStore.set('sessionId', sessionId);
 
         return NextResponse.redirect(new URL(next, request.url), {
           headers: {
@@ -39,11 +42,11 @@ export async function GET(request: NextRequest) {
         });
       }
     }
-    return NextResponse.redirect(new URL('/sign-in', request.url));
+    return NextResponse.redirect(new URL('/auth/login', request.url));
   } catch (error) {
     if (isAxiosError(error)) {
       logErrorResponse(error.response?.data);
-      return NextResponse.redirect(new URL('/sign-in', request.url));
+      return NextResponse.redirect(new URL('/auth/login', request.url));
     }
     logErrorResponse({ message: (error as Error).message });
     return NextResponse.json(
