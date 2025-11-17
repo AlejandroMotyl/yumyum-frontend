@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import Filters from '../Filters/Filters';
 import css from './RecipesList.module.css';
 import Container from '../Container/Container';
+import { useFiltersStore } from '@/lib/store/useFiltersStore';
 
 export interface Props {
   recipes: Recipe[];
@@ -20,31 +21,31 @@ export interface Props {
 
 export function RecipesList() {
   const search = useSearchStore((state) => state.searchQuery) || null;
-  // const category = useSearchStore((state) => state.searchQuery) || null;
-  // const ingredient = useSearchStore((state) => state.searchQuery) || null;
+  const category = useFiltersStore((state) => state.category) || null;
+  const ingredient = useFiltersStore((state) => state.ingredient) || null;
 
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [page, setPage] = useState('1');
-  // useEffect(() => {
-  //   setRecipes([]);
-  // }, [search, category, ingredient]);
+  useEffect(() => {
+    setRecipes([]);
+  }, [search, category, ingredient]);
 
   const { data, isLoading } = useQuery({
     queryKey: [
       'recipes',
       {
         page: page,
-        // category: category,
+        category: category,
         search: search,
-        // ingredient: ingredient,
+        ingredient: ingredient,
       },
     ],
     queryFn: () =>
       getAllRecipes({
         page: page,
-        // category: category,
+        category: category,
         search: search,
-        // ingredient: ingredient,
+        ingredient: ingredient,
       }),
     placeholderData: (prev) => prev,
   });
@@ -70,7 +71,7 @@ export function RecipesList() {
     <Container>
       <h1 className={css.titleRecipes}>Recipes</h1>
 
-      <Filters />
+      <Filters totalRecipes={data.totalRecipes} />
 
       <ul className={css.listRecipes}>
         {recipes.map((recipe) => (
