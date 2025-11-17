@@ -97,7 +97,7 @@
   border-radius: 8px;
   max-width: 361px;
   width: 100%;
-  min-height: 44px;
+  height: 44px;
 }
 .btnRegisterRecipes:hover {
   background-color: var(--brown);
@@ -191,7 +191,10 @@
 }
 
 @media only screen and (min-width: 768px) {
-
+  .header {
+    display: flex;
+    align-items: center;
+  }
   .myProfileLink {
     margin-bottom: 5px;
   }
@@ -292,6 +295,8 @@
   .userInfoContainer{
     flex-direction: row;
     padding: 0;
+    align-items: center;
+    height: 74px;
   }
   .recipeProfileLinks {
     flex-direction: row;

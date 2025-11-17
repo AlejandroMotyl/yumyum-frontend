@@ -21,7 +21,6 @@ export default function Header() {
     try {
       await logout();
       clearIsAuthenticated();
-      router.push('/');
       closeMenu();
     } catch (error) {
       console.log('Logout failed: ', error);
@@ -38,6 +37,7 @@ export default function Header() {
       document.documentElement.style.overflow = '';
     };
   }, [isMenuOpen]);
+
   return (
     <header className={css.header}>
       <Container>
@@ -92,12 +92,12 @@ export default function Header() {
                   loading="eager"
                 />
               </Link>
-              <button
+              <Link
                 aria-label="Close menu"
-                type="button"
                 aria-controls="main-navigation"
                 aria-expanded={isMenuOpen}
                 onClick={toggleMenu}
+                href=""
               >
                 <svg
                   stroke="var(--white)"
@@ -107,7 +107,7 @@ export default function Header() {
                 >
                   <use href={'/sprite.svg#icon-Genericclose'} />
                 </svg>
-              </button>
+              </Link>
             </div>
 
             <ul>
@@ -139,10 +139,11 @@ export default function Header() {
                       <span className={css.userName}>{user?.name}</span>
                     </div>
                     <span className={css.line} />
-                    <button
+                    <Link
                       className={css.logoutButton}
                       onClick={handleLogout}
                       aria-label="Log out"
+                      href="/"
                     >
                       <svg
                         fill="transparent"
@@ -152,7 +153,7 @@ export default function Header() {
                       >
                         <use href="/sprite.svg#icon-Genericlog-out" />
                       </svg>
-                    </button>
+                    </Link>
                   </div>
 
                   <button
