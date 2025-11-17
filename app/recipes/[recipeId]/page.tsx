@@ -36,7 +36,6 @@ interface RecipeDetailsProps {
 
 const RecipeDetailsPage = async ({ params }: RecipeDetailsProps) => {
   const { recipeId } = await params;
-  console.log('id:', recipeId);
 
   const queryClient = new QueryClient();
 

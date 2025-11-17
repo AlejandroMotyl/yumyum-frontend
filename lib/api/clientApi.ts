@@ -54,8 +54,8 @@ export const getAllRecipes = async (params: {
   return data;
 };
 
-export const getRecipeById = async (id: string): Promise<Recipe> => {
-  const { data } = await api.get(`/recipes/id/${id}`);
+export const getRecipeById = async (recipeId: string): Promise<Recipe> => {
+  const { data } = await api.get<Recipe>(`/recipes/${recipeId}`);
   return data;
 };
 
