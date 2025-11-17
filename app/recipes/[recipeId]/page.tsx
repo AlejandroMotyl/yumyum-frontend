@@ -7,14 +7,14 @@ import { getRecipeById } from '@/lib/api/clientApi';
 import RecipeDetailsClient from './RecipeDetails.client';
 
 interface RecipeDetailsProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ recipeId: string }>;
 }
 
 // export const generateMetadata = async ({
 //   params,
 // }: RecipeDetailsProps): Promise<Metadata> => {
 //   const { id } = await params;
-//   const note = await fetchNoteById(id);
+//   const note = await getRecipeById(id);
 //   return {
 //     title: note.title,
 //     description: note.content.slice(0, 15) + '..',
@@ -35,17 +35,19 @@ interface RecipeDetailsProps {
 // };
 
 const RecipeDetailsPage = async ({ params }: RecipeDetailsProps) => {
-  const { id } = await params;
+  const { recipeId } = await params;
+  console.log('id:', recipeId);
+
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['recipe', id],
-    queryFn: () => getRecipeById(id),
+    queryKey: ['recipe', recipeId],
+    queryFn: () => getRecipeById(recipeId),
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <RecipeDetailsClient />
+      <RecipeDetailsClient recipeId={recipeId} />
     </HydrationBoundary>
   );
 };
