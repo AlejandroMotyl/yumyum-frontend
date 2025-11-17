@@ -156,7 +156,7 @@ export default function Header() {
                   </div>
 
                   <button
-                    className={`${css.btnRegisterReceipes} ${css.changeOrderOnTablet}`}
+                    className={`${css.btnRegisterRecipes} ${css.changeOrderOnTablet}`}
                     onClick={() => {
                       router.push('/add-recipe');
                       closeMenu();
@@ -177,7 +177,7 @@ export default function Header() {
                       Log in
                     </Link>
                     <button
-                      className={css.btnRegisterReceipes}
+                      className={css.btnRegisterRecipes}
                       onClick={() => {
                         router.push('/auth/register');
                         closeMenu();
