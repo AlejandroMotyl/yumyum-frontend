@@ -8,9 +8,7 @@ import { FiltersModal } from '../FiltersModal/FiltersModal';
 import { useQuery } from '@tanstack/react-query';
 import { getCategories, getIngredients } from '@/lib/api/clientApi';
 
-export default function Filters() {
-  const totalRecipes = 'xx'; //! Replace with dynamic data fetch later
-
+export default function Filters({ totalRecipes }: { totalRecipes: number }) {
   const { data: categoriesJson, isLoading: catLoading } = useQuery({
     queryKey: ['categories'],
     queryFn: getCategories,
@@ -30,7 +28,7 @@ export default function Filters() {
 
   const ingredientsOptions: Option[] =
     ingredientsJson?.map((item) => ({
-      value: item.name,
+      value: item._id,
       label: item.name,
     })) ?? [];
 
