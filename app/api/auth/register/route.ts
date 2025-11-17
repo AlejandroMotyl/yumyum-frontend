@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { api } from '@/lib/api/api';
+import { api } from '@/app/api/api';
 import { cookies } from 'next/headers';
 import { parse } from 'cookie';
 import { isAxiosError } from 'axios';
@@ -28,6 +28,8 @@ export async function POST(req: NextRequest) {
           cookieStore.set('accessToken', parsed.accessToken, options);
         if (parsed.refreshToken)
           cookieStore.set('refreshToken', parsed.refreshToken, options);
+        if (parsed.sessionId)
+          cookieStore.set('sessionId', parsed.sessionId, options);
       }
       if (apiRes.status === 204) {
         return new NextResponse(null, { status: 204 });
