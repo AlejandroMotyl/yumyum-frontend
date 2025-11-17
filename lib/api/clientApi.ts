@@ -8,12 +8,12 @@ interface CheckSessionRequest {
 }
 
 export const checkSession = async () => {
-  const { data } = await api.get<CheckSessionRequest>('/auth/session');
+  const { data } = await api.post<CheckSessionRequest>('/auth/session', {});
   return data.success;
 };
 
 export const getProfile = async (): Promise<User> => {
-  const { data } = await api.get<User>('/users/current');
+  const { data } = await api.get<User>('/current');
   return data;
 };
 export const logout = async (): Promise<void> => {
