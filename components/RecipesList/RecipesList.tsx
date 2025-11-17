@@ -8,6 +8,9 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllRecipes } from '@/lib/api/clientApi';
 import Loader from '../Loader/Loader';
 import { useEffect, useState } from 'react';
+import Filters from '../Filters/Filters';
+import css from './RecipesList.module.css';
+import Container from '../Container/Container';
 
 export interface Props {
   recipes: Recipe[];
@@ -64,10 +67,14 @@ export function RecipesList() {
   }
 
   return (
-    <div>
-      <ul>
+    <Container>
+      <h1 className={css.titleRecipes}>Recipes</h1>
+
+      <Filters />
+
+      <ul className={css.listRecipes}>
         {recipes.map((recipe) => (
-          <li key={recipe._id}>
+          <li key={recipe._id} className={css.oneRecipe}>
             <RecipeCard recipe={recipe} />
           </li>
         ))}
@@ -82,6 +89,6 @@ export function RecipesList() {
           </div>
         )
       )}
-    </div>
+    </Container>
   );
 }
