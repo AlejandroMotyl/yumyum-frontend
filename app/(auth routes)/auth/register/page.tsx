@@ -34,20 +34,28 @@ const RegisterPage = () => {
 
   const validationSchema = Yup.object({
     name: Yup.string()
+      .trim()
+      .matches(/^[^\s]*\s?[^\s]*$/, 'Only one space allowed')
       .max(16, 'Max 16 characters')
       .required('Name is required'),
 
     email: Yup.string()
+      .trim()
+      .matches(/^\S+$/, 'Email must not contain spaces')
       .email('Invalid email')
+
       .max(128, 'Max 128 characters')
       .required('Email is required'),
 
     password: Yup.string()
+      .trim()
+      .matches(/^\S+$/, 'Password must not contain spaces')
       .min(8, 'Min 8 characters')
       .max(128, 'Max 128 characters')
       .required('Password is required'),
 
     confirmPassword: Yup.string()
+      .trim()
       .oneOf([Yup.ref('password')], 'Passwords do not match')
       .required('Confirm your password'),
   });
