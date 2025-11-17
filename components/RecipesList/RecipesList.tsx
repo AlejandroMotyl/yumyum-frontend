@@ -10,6 +10,7 @@ import Loader from '../Loader/Loader';
 import { useEffect, useState } from 'react';
 import Filters from '../Filters/Filters';
 import css from './RecipesList.module.css';
+import Container from '../Container/Container';
 
 export interface Props {
   recipes: Recipe[];
@@ -66,12 +67,14 @@ export function RecipesList() {
   }
 
   return (
-    <div className={css.container}>
+    <Container>
+      <h1 className={css.titleRecipes}>Recipes</h1>
+
       <Filters />
 
-      <ul>
+      <ul className={css.listRecipes}>
         {recipes.map((recipe) => (
-          <li key={recipe._id}>
+          <li key={recipe._id} className={css.oneRecipe}>
             <RecipeCard recipe={recipe} />
           </li>
         ))}
@@ -81,11 +84,11 @@ export function RecipesList() {
         <Loader />
       ) : (
         hasMore && (
-          <div className={css.wrapperBtn}>
+          <div>
             <LoadMoreBtn onClick={loadMore} />
           </div>
         )
       )}
-    </div>
+    </Container>
   );
 }

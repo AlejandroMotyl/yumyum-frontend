@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Container from '../Container/Container';
 import css from './Filters.module.css';
 import type { Option } from '@/types/filter';
 import { FiltersForm } from '../FiltersForm/FiltersForm';
@@ -63,7 +62,7 @@ export default function Filters() {
 
   return (
     <section className={css.filtersSection}>
-      <Container>
+      <div>
         <div className={css.filtersWrapper}>
           <p className={css.totalRecipes}>{totalRecipes} recipes</p>
 
@@ -86,7 +85,7 @@ export default function Filters() {
             />
           </div>
         </div>
-      </Container>
+      </div>
 
       {/* mobile modal */}
       <FiltersModal
