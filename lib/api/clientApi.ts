@@ -1,6 +1,7 @@
 import { User, RegisterData, LoginData } from '@/types/user';
 import { api } from './api';
 import { Recipe } from '@/types/recipe';
+import { getCategoriesProps, getIngredientsProps } from '@/types/filter';
 
 interface CheckSessionRequest {
   success: boolean;
@@ -50,5 +51,15 @@ export const getAllRecipes = async (params: {
       ...rest,
     },
   });
+  return data;
+};
+
+export const getCategories = async (): Promise<getCategoriesProps[]> => {
+  const { data } = await api.get('/categories');
+  return data;
+};
+
+export const getIngredients = async (): Promise<getIngredientsProps[]> => {
+  const { data } = await api.get('/ingredients');
   return data;
 };

@@ -13,3 +13,13 @@ export interface FilterProps {
   onIngredientChange: (value: string) => void;
   onReset: () => void;
 }
+
+export interface getCategoriesProps {
+  _id: string;
+  name: string;
+}
+
+export interface getIngredientsProps {
+  _id: string;
+  name: string;
+}

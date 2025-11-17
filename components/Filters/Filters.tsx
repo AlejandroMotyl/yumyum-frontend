@@ -5,58 +5,32 @@ import css from './Filters.module.css';
 import type { Option } from '@/types/filter';
 import { FiltersForm } from '../FiltersForm/FiltersForm';
 import { FiltersModal } from '../FiltersModal/FiltersModal';
+import { useQuery } from '@tanstack/react-query';
+import { getCategories, getIngredients } from '@/lib/api/clientApi';
 
-//! Temp comments to return props when needed
-// type FiltersProps = {
-//   totalRecipes: number;
-//   categories: Option[];
-//   ingredients: Option[];
-// };
+export default function Filters({ totalRecipes }: { totalRecipes: number }) {
+  const { data: categoriesJson, isLoading: catLoading } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories,
+  });
 
-// {
-//   totalRecipes,
-//   categories,
-//   ingredients,
-// }: FiltersProps
+  const { data: ingredientsJson, isLoading: ingLoading } = useQuery({
+    queryKey: ['ingredients'],
+    queryFn: getIngredients,
+  });
 
-export default function Filters() {
-  const totalRecipes = 'xx'; //! Replace with dynamic data fetch later
+  // Map to <option>[]
+  const categoriesOptions: Option[] =
+    categoriesJson?.map((item) => ({
+      value: item.name,
+      label: item.name,
+    })) ?? [];
 
-  const [categoriesOptions, setCategoriesOptions] = useState<Option[]>([]);
-  const [ingredientsOptions, setIngredientsOptions] = useState<Option[]>([]);
-
-  useEffect(() => {
-    async function loadFilters() {
-      try {
-        // fetch categories
-        const catRes = await fetch('/api/categories');
-        const categoriesJson = await catRes.json();
-
-        // fetch ingredients
-        const ingRes = await fetch('/api/ingredients');
-        const ingredientsJson = await ingRes.json();
-
-        // map to option[]
-        setCategoriesOptions(
-          categoriesJson.map((item: any) => ({
-            value: item.name,
-            label: item.name,
-          })),
-        );
-
-        setIngredientsOptions(
-          ingredientsJson.map((item: any) => ({
-            value: item.name,
-            label: item.name,
-          })),
-        );
-      } catch (e) {
-        console.error('Failed to load filter data:', e);
-      }
-    }
-
-    loadFilters();
-  }, []);
+  const ingredientsOptions: Option[] =
+    ingredientsJson?.map((item) => ({
+      value: item._id,
+      label: item.name,
+    })) ?? [];
 
   const [isOpen, setIsOpen] = useState(false);
 
