@@ -124,6 +124,7 @@
   height: 32px;
   background: var(--light-brown);
   border-radius: 50%;
+  font:var(--body-sm-semibold);
 }
 .line {
   display: inline-block;

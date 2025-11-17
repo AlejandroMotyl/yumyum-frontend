@@ -10,7 +10,8 @@ import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
 
 export default function Header() {
-  const { isAuthenticated, clearIsAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, clearIsAuthenticated, user, setUser } =
+    useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const firstLetterUserName = user?.name?.[0]?.toUpperCase() ?? '';
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -38,7 +39,14 @@ export default function Header() {
       document.documentElement.style.overflow = '';
     };
   }, [isMenuOpen]);
-
+  //  useEffect(() => {
+  //    setUser({
+  //      _id: 'fsafasfas',
+  //      name: 'Adal',
+  //      email: 'max@gmail.com',
+  //      avatarUrl: 'aaaaaa',
+  //    });
+  //  }, []);
   return (
     <header className={css.header}>
       <Container>
