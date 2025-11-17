@@ -95,6 +95,7 @@
     font: var(--body-md-semibold);
     color: var(--black);
     text-align: center;
+    transition: all --primary-transition;
 }
 
 .button:hover {
@@ -129,6 +130,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all --primary-transition;
 }
 
 .favoriteButton.active {
