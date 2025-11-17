@@ -15,7 +15,7 @@
   position: relative;
   display: block;
 }
-.burger:hover, .logoutButton:hover {
+.burger:hover, .logoutLink:hover {
   cursor: pointer;
 }
 .closeIcon use {
@@ -150,8 +150,8 @@
 
 .text:hover,
 .text:focus,
-.logoutButton:hover,
-.logoutButton:focus {
+.logoutLink:hover,
+.logoutLink:focus {
   opacity: 50%;
   transition: opacity 0.3s ease-in-out;
 }

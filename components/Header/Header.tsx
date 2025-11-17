@@ -140,7 +140,7 @@ export default function Header() {
                     </div>
                     <span className={css.line} />
                     <Link
-                      className={css.logoutButton}
+                      className={css.logoutLink}
                       onClick={handleLogout}
                       aria-label="Log out"
                       href="/"
