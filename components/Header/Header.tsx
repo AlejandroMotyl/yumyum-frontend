@@ -166,7 +166,11 @@ export default function Header() {
               ) : (
                 <li>
                   <div className={css.loginRegisterContainer}>
-                    <Link href="/auth/login" onClick={closeMenu}>
+                    <Link
+                      className={css.login}
+                      href="/auth/login"
+                      onClick={closeMenu}
+                    >
                       Log in
                     </Link>
                     <button

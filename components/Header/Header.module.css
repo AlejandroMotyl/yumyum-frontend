@@ -73,9 +73,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
   width: 100%;
-
 }
 
 
@@ -142,6 +140,9 @@
 .recipeProfileLinks >* {
   padding: 16px;
 }
+.login {
+  padding: 16px;
+}
 .myProfileLink {
   margin-bottom: 5px;
 }
@@ -162,7 +163,7 @@
 .loginRegisterContainer {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 16px;
   width: 100%;
   align-items: center;
   text-align: center;
