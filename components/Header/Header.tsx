@@ -156,7 +156,7 @@ export default function Header() {
                   </div>
 
                   <Link
-                    className={`${css.btnRegisterRecipes} ${css.changeOrderOnTablet}`}
+                    className={`${css.linkRegisterRecipes} ${css.changeOrderOnTablet}`}
                     onClick={() => {
                       closeMenu();
                     }}
@@ -177,7 +177,7 @@ export default function Header() {
                       Log in
                     </Link>
                     <Link
-                      className={css.btnRegisterRecipes}
+                      className={css.linkRegisterRecipes}
                       onClick={() => {
                         closeMenu();
                       }}
