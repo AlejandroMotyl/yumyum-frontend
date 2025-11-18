@@ -39,13 +39,17 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
       </div>
 
       <div className={css.buttonWrapper}>
-        <Link href={`/recipes/id/${recipe._id}`} className={css.button}>
+        <Link href={`/recipes/${recipe._id}`} className={css.button}>
           Learn more
         </Link>
 
         <button
           className={`${css.favoriteButton} ${isFavorite ? css.active : ''}`}
-          onClick={() => setIsFavorite(!isFavorite)}
+          onClick={(e) => {
+            e.currentTarget.blur();
+            setIsFavorite(!isFavorite);
+          }}
+          type="button"
         >
           <svg className={css.favoriteIcon} width="14" height="17">
             <use href={`/sprite.svg#favorite`}></use>
