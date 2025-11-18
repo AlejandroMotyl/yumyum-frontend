@@ -1,8 +1,5 @@
 'use client';
 
-//ToDo:
-//! Reset filter do not clear search query
-
 import { useState } from 'react';
 import css from './Filters.module.css';
 import type { Option } from '@/types/filter';
@@ -37,8 +34,8 @@ export default function Filters({ totalRecipes }: { totalRecipes: number }) {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleToggle = () => {
-    setIsOpen((prev) => !prev);
+  const handleOpen = () => {
+    setIsOpen(true);
   };
 
   return (
@@ -50,15 +47,11 @@ export default function Filters({ totalRecipes }: { totalRecipes: number }) {
         <button
           className={css.filtersToggle}
           type="button"
-          onClick={handleToggle}
+          onClick={handleOpen}
         >
           <span>Filters</span>
           <svg width="24" height="24">
-            {!isOpen ? (
-              <use href="/Sprite.svg#icon-Mailfilter" />
-            ) : (
-              <use href="/Sprite.svg#icon-Notificationserror" />
-            )}
+            <use href="/Sprite-new.svg#icon-filter" />
           </svg>
         </button>
         {/* desktop inline form */}

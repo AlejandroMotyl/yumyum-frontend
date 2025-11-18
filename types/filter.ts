@@ -23,3 +23,11 @@ export interface getIngredientsProps {
   _id: string;
   name: string;
 }
+
+export interface CustomSelectProps {
+  placeholder: string;
+  value: string;
+  options: Option[];
+  onChange: (value: string) => void;
+  name: string;
+}

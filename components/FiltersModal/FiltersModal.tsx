@@ -26,7 +26,20 @@ export function FiltersModal({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className={css.modal}>
+      <div className={css.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={css.modalHeader}>
+          <button
+            type="button"
+            className={css.closeButton}
+            onClick={onClose}
+            aria-label="Close filters"
+          >
+            <span className={css.closeButtonText}>Filters</span>
+            <svg width="24" height="24">
+              <use href="/Sprite-new.svg#icon-close-circle" />
+            </svg>
+          </button>
+        </div>
         <FiltersForm
           categories={categories}
           ingredients={ingredients}

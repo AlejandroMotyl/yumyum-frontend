@@ -4,6 +4,7 @@ import css from './FiltersForm.module.css';
 import type { Option } from '@/types/filter';
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
 import { useSearchStore } from '@/lib/store/useSearchStore';
+import { CustomSelect } from '../CustomSelect/CustomSelect';
 
 type FiltersFormProps = {
   categories: Option[];
@@ -31,34 +32,27 @@ export function FiltersForm({
 
   return (
     <div className={css.inputResetWrapper}>
-      <label className={css.filtersField}>
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="" disabled hidden>
-            Category
-          </option>
-          {categories.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-      </label>
+      {/* Category */}
+      <div className={css.filtersField}>
+        <CustomSelect
+          name="Category"
+          placeholder="Category"
+          value={category}
+          options={categories}
+          onChange={setCategory}
+        />
+      </div>
 
-      <label className={css.filtersField}>
-        <select
+      {/* Ingredient */}
+      <div className={css.filtersField}>
+        <CustomSelect
+          name="Ingredient"
+          placeholder="Ingredient"
           value={ingredient}
-          onChange={(e) => setIngredient(e.target.value)}
-        >
-          <option value="" disabled hidden>
-            Ingredient
-          </option>
-          {ingredients.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-      </label>
+          options={ingredients}
+          onChange={setIngredient}
+        />
+      </div>
 
       <button type="button" className={css.resetButton} onClick={handleReset}>
         Reset filters
@@ -66,3 +60,40 @@ export function FiltersForm({
     </div>
   );
 }
+
+// return (
+//     <div className={css.inputResetWrapper}>
+//       <label className={css.filtersField}>
+//         <select value={category} onChange={(e) => setCategory(e.target.value)}>
+//           <option value="" disabled hidden>
+//             Category
+//           </option>
+//           {categories.map((opt) => (
+//             <option key={opt.value} value={opt.value}>
+//               {opt.label}
+//             </option>
+//           ))}
+//         </select>
+//       </label>
+
+//       <label className={css.filtersField}>
+//         <select
+//           value={ingredient}
+//           onChange={(e) => setIngredient(e.target.value)}
+//         >
+//           <option value="" disabled hidden>
+//             Ingredient
+//           </option>
+//           {ingredients.map((opt) => (
+//             <option key={opt.value} value={opt.value}>
+//               {opt.label}
+//             </option>
+//           ))}
+//         </select>
+//       </label>
+
+//       <button type="button" className={css.resetButton} onClick={handleReset}>
+//         Reset filters
+//       </button>
+//     </div>
+//   );
