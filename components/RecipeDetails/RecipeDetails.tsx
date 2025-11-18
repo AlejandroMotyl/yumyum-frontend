@@ -114,7 +114,7 @@ const RecipeDetails = async ({ recipe }: { recipe: Recipe }) => {
               <ul className={css.ingredientsList}>
                 {recipe.ingredients.map((ingredient) => (
                   <li key={ingredient.id} className={css.ingredientItem}>
-                    • {getIngredientName(ingredient.id)} —{ingredient.measure}
+                    • {getIngredientName(ingredient.id)} — {ingredient.measure}
                   </li>
                 ))}
               </ul>

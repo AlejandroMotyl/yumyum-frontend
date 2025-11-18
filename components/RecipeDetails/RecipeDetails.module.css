@@ -90,6 +90,12 @@
   margin-bottom: 8px;
 }
 
+.ingredientsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .ingredientItem {
   font: var(--body-md-regular);
 }
