@@ -8,11 +8,15 @@ import { Recipe } from '@/types/recipe';
 
 interface RecipeCardProps {
   recipe: Recipe;
+  onFavoriteClick: (id: string) => void;
+  isFavorite: boolean;
 }
 
-export default function RecipeCard({ recipe }: RecipeCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
-
+export default function RecipeCard({
+  recipe,
+  isFavorite,
+  onFavoriteClick,
+}: RecipeCardProps) {
   return (
     <>
       <Image
@@ -47,7 +51,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           className={`${css.favoriteButton} ${isFavorite ? css.active : ''}`}
           onClick={(e) => {
             e.currentTarget.blur();
-            setIsFavorite(!isFavorite);
+            onFavoriteClick(recipe._id);
           }}
           type="button"
         >

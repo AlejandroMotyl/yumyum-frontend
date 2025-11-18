@@ -12,6 +12,9 @@ import Filters from '../Filters/Filters';
 import css from './RecipesList.module.css';
 import Container from '../Container/Container';
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
+import { AuthModal } from '../AuthModal/AuthModal';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/lib/store/authStore';
 
 export interface Props {
   recipes: Recipe[];
@@ -23,12 +26,15 @@ export function RecipesList() {
   const search = useSearchStore((state) => state.searchQuery) || null;
   const category = useFiltersStore((state) => state.category) || null;
   const ingredient = useFiltersStore((state) => state.ingredient) || null;
-
+  const router = useRouter();
+  const { user } = useAuthStore();
+  console.log('user', user);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [page, setPage] = useState('1');
   useEffect(() => {
     setRecipes([]);
   }, [search, category, ingredient]);
+  const [isOpenAuthModal, setIsOpenAuthModal] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: [
@@ -63,6 +69,22 @@ export function RecipesList() {
     setPage(String(next));
   };
 
+  const handleOpenAuthModal = () => {
+    setIsOpenAuthModal(true);
+  };
+
+  const handleCloseAuthModal = () => {
+    setIsOpenAuthModal(false);
+  };
+  const handleNavigateLogin = () => {
+    handleCloseAuthModal();
+    router.push('/auth/login');
+  };
+  const handleNavigateRegister = () => {
+    handleCloseAuthModal();
+    router.push('/auth/register');
+  };
+
   if (isLoading || !data) {
     return <Loader />;
   }
@@ -76,7 +98,24 @@ export function RecipesList() {
       <ul className={css.listRecipes}>
         {recipes.map((recipe) => (
           <li key={recipe._id} className={css.oneRecipe}>
-            <RecipeCard recipe={recipe} />
+            <RecipeCard
+              recipe={recipe}
+              isFavorite={Boolean(
+                user && user.savedRecipes.includes(recipe._id),
+              )}
+              onFavoriteClick={(recipeId) => {
+                if (!user) {
+                  handleOpenAuthModal();
+                  return;
+                }
+                // const userHasRecipe = user?.savedRecipes.includes(recipeId);
+                // if (userHasRecipe) {
+                //   // delete
+                // } else {
+                //   // post
+                // }
+              }}
+            />
           </li>
         ))}
       </ul>
@@ -89,6 +128,13 @@ export function RecipesList() {
             <LoadMoreBtn onClick={loadMore} />
           </div>
         )
+      )}
+      {isOpenAuthModal && (
+        <AuthModal
+          onLogin={handleNavigateLogin}
+          onRegister={handleNavigateRegister}
+          onClose={handleCloseAuthModal}
+        />
       )}
     </Container>
   );
