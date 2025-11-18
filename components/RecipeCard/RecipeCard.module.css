@@ -1,159 +1,191 @@
-/* .cardWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    border-radius: 16px;
-    padding: 12px;
-    width: 361px;
-    height: 483px;
-    margin-left: auto;
-    margin-right: auto;
-    background: var(--light-beige);
-} */
-
 .title {
-    font: var(--display-sm-bold);
-    color: var(--black);
-    /* min-width: 211px; */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+  font: var(--display-sm-bold);
+  color: var(--black);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 218px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .img {
-    border-radius: 8px;
-    width: 337px;
-    height: 230px;
+  border-radius: 8px;
+  width: 100%;
+  height: 230px;
 }
 
 @media screen and (min-width: 768px) {
-    .img {
-        width: 315px;
-    }
+  .img {
+    width: 315px;
+  }
 }
 
 @media screen and (min-width: 1440px) {
-    .img {
-        width: 264px;
-        height: 178px;
-    }
+  .img {
+    width: 264px;
+    height: 178px;
+  }
 }
 
 .titleWrapper {
-    display: flex;
-    justify-content: space-between;
-    height: 58px;
+  display: flex;
+  justify-content: space-between;
+  height: 58px;
 }
 
 .timeWrapper {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    border-radius: 8px;
-    padding: 2px 8px 2px 4px;
-    background-color: var(--white);
-    max-height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 8px;
+  padding: 2px 8px 2px 4px;
+  background-color: var(--white);
+  max-height: 28px;
+}
+
+.timeIcon {
+  fill: var(--white);
+  stroke: var(--black);
 }
 
 .recipeTime {
-    font: var(--display-sm-semibold);
-    font-size: 12px;
+  font: var(--display-sm-semibold);
+  font-size: 12px;
 }
 
 .descriptionWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    height: 83px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 83px;
 }
 
 .description {
-    font: var(--body-md-regular);
-    color: var(--black);
-    line-height: 1.55;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+  font: var(--body-md-regular);
+  color: var(--black);
+  line-height: 1.55;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.descriptionCals {
+  font: var(--body-md-regular);
+  color: var(--black);
 }
 
 .buttonWrapper {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
 }
 
 .button {
-    border: 1px solid var(--black);
-    border-radius: 8px;
-    padding: 8px;
-    width: 289px;
-    height: 40px;
-    font: var(--body-md-semibold);
-    color: var(--black);
-    text-align: center;
-    transition: all --primary-transition;
+  border: 1px solid var(--black);
+  /* background-color: var(--light-brown); */
+  border-radius: 8px;
+  padding: 8px;
+  /* width: 289px; */
+  width: 100%;
+  height: 40px;
+  font: var(--body-md-semibold);
+  color: var(--black);
+  text-align: center;
+  transition: all var(--primary-transition);
 }
 
-.button:hover {
-    background: var(--light-gray);
-    border-color: var(--light-gray);
+.button:hover,
+.button:focus {
+  border-color: var(--light-brown);
+  background: var(--light-brown);
+  color: var(--white);
 }
 
 .button:active {
-    box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
-    background: var(--light-gray);
-    border-color: var(--light-gray);
+  box-shadow:
+    0 0 0 6px rgba(78, 70, 180, 0.12),
+    0 0 0 2px var(--white);
+  background: var(--light-brown);
+  color: var(--white);
 }
 
 @media screen and (min-width: 768px) {
-    .button {
-        width: 267px;
-    }
+  .button {
+    width: 267px;
+  }
 }
 
 @media screen and (min-width: 1440px) {
-    .button {
-        width: 216px;
-    }
+  .button {
+    width: 216px;
+  }
 }
 
 .favoriteButton {
-    border: 1px solid var(--black);
-    border-radius: 8px;
-    padding: 8px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all --primary-transition;
+  border: 1px solid var(--black);
+  border-radius: 8px;
+  padding: 8px;
+  margin-left: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all var(--primary-transition);
 }
 
-.favoriteButton.active {
-    background-color: var(--light-brown);
-    border-color: var(--light-brown);
-}
-
-.favoriteButton.active .favoriteIcon {
-    fill: var(--light-brown);
-}
-
-.favoriteButton:hover {
-    background: var(--light-gray);
-    border-color: var(--light-gray);
-
-}
-
-.favoriteButton:hover .favoriteIcon {
-    fill: var(--light-gray);
+.favoriteButton:hover,
+.favoriteButton:focus {
+  background: var(--light-brown);
+  border-color: var(--light-brown);
 }
 
 .favoriteButton:active {
-    box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px var(--white);
-    background: var(--light-gray);
-    border-color: var(--light-gray);
+  background: var(--light-brown);
+  border-color: var(--light-brown);
+  box-shadow:
+    0 0 0 6px rgba(78, 70, 180, 0.12),
+    0 0 0 2px var(--white);
+}
+
+.favoriteButton.active {
+  background: var(--light-brown);
+  border-color: var(--light-brown);
+}
+
+.favoriteIcon {
+  fill: transparent;
+  stroke: var(--black);
+  transition: all var(--primary-transition);
+}
+
+.favoriteButton:hover .favoriteIcon,
+.favoriteButton:focus .favoriteIcon {
+  stroke: var(--white);
+}
+
+.favoriteButton:active .favoriteIcon {
+  stroke: var(--white);
+}
+
+.favoriteButton.active .favoriteIcon {
+  stroke: var(--white);
+}
+
+.favoriteButton.active:hover,
+.favoriteButton.active:focus {
+  background-color: var(--brown);
+  border-color: var(--brown);
+}
+.favoriteButton.active:active {
+  background-color: var(--brown);
+  border-color: var(--brown);
+}
+
+.favoriteButton.active:hover .favoriteIcon,
+.favoriteButton.active:focus .favoriteIcon {
+  fill: transparent;
+  stroke: var(--white);
+  transition: all var(--primary-transition);
 }
