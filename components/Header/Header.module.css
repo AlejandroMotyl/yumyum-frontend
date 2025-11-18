@@ -221,11 +221,12 @@
   .navMenu .linkRegisterRecipes {
     display: block;
     height: 44px;
-    padding: 12px 0;
+    padding: 12px 0.974em;
+    text-wrap: nowrap;
     margin: 0;
     text-align: center;
     line-height: normal;
-    min-width: 127px;
+    width: 100%;
     font: var(--body-md-semibold)
   }
   .closeIcon {
