@@ -92,19 +92,23 @@
 .navMenuOpen {
   top: 0;
 }
-.btnRegisterRecipes {
+.linkRegisterRecipes {
+  align-items: center;
   background-color: var(--light-brown);
   border-radius: 8px;
   max-width: 361px;
   width: 100%;
   height: 44px;
+  font: var(--body-md-semibold);
+  line-height: 44px;
+  text-align: center;
 }
-.btnRegisterRecipes:hover {
+.linkRegisterRecipes:hover {
   background-color: var(--brown);
   cursor: pointer;
   transition: background-color var(--primary-transition);
 }
-.btnRegisterRecipes:active {
+.linkRegisterRecipes:active {
   background-color: var(--light-brown);
   box-shadow:
     0 0 0 6px #4e46b41f,
@@ -214,8 +218,15 @@
     gap: 0;
     font: var(--body-sm-semibold)
   }
-  .btnRegisterRecipes {
-    min-width: 127px;
+  .navMenu .linkRegisterRecipes {
+    display: block;
+    height: 44px;
+    padding: 12px 0.974em;
+    text-wrap: nowrap;
+    margin: 0;
+    text-align: center;
+    line-height: normal;
+    width: 100%;
     font: var(--body-md-semibold)
   }
   .closeIcon {
@@ -227,14 +238,13 @@
   .text {
     text-wrap: nowrap;
     margin-right: 4px;
-  }
-  .text a {
     position: relative;
   }
-  .text a::before {
+
+  .text::before {
     content: '';
     position: absolute;
-    bottom: +25px;
+    bottom: 26px;
     left: 0;
     width: 100%;
     height: 1px;
@@ -242,8 +252,12 @@
     transform: scaleX(0);
     transform-origin: left;
   }
-  .text.activeUnderLine a::before {
+  .text.activeUnderLine::before {
     animation: slideIn 0.3s ease-in-out forwards;
+  }
+  .text.activeUnderLine:hover,
+  .text.activeUnderLine:focus {
+    opacity: 1;
   }
 
   .headerContentContainer {
