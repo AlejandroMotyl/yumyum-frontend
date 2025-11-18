@@ -306,7 +306,7 @@ export const RecipeForm = () => {
                             <Field
                               as="select"
                               name={`ingredients[${index}].id`}
-                              className={css.addRecipeFormInput}
+                              className={css.addRecipeFormIngredientsInput}
                               onChange={(e: any) => {
                                 const selected = ingredientsList.find(
                                   (i) => i._id === e.target.value,
@@ -339,7 +339,7 @@ export const RecipeForm = () => {
                             Amount
                             <Field
                               name={`ingredients[${index}].amount`}
-                              className={css.addRecipeFormInput}
+                              className={css.addRecipeFormIngredientsInput}
                               placeholder="100g"
                             />
                             <ErrorMessage
@@ -388,7 +388,7 @@ export const RecipeForm = () => {
                     name="instructions"
                     as="textarea"
                     rows={5}
-                    className={css.addRecipeFormTextarea}
+                    className={css.addRecipeFormInstructionsTextarea}
                     placeholder="Enter a text"
                   />
                   <ErrorMessage
