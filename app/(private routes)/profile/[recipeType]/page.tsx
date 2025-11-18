@@ -1,6 +1,9 @@
-import Image from 'next/image';
-import styles from './page.module.css';
+import ProfileNavigation from '@/components/ProfileNavigation/ProfileNavigation';
 
-export default function Home() {
-  return <div className={styles.page}>Main page</div>;
+export default function ProfilePage() {
+  return (
+    <main>
+      <ProfileNavigation />
+    </main>
+  );
 }

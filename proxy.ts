@@ -3,10 +3,10 @@ import { cookies } from 'next/headers';
 import { parse } from 'cookie';
 import { checkServerSession } from './lib/api/serverApi';
 
-const privateRoutes = ['/diary', '/journey', '/profile'];
+const privateRoutes = ['/add-recipe', '/profile'];
 const publicRoutes = ['/auth'];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
@@ -74,10 +74,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/profile/:path*',
-    '/journey/:path*',
-    '/auth/:path*',
-    '/diary/:path*',
-  ],
+  matcher: ['/profile/:path*', '/auth/:path*', '/add-recipe'],
 };

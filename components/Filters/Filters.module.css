@@ -1,0 +1,51 @@
+.filtersSection {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.filtersWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  /* border: 1px dashed blue; */
+}
+
+.totalRecipes {
+  font: var(--body-lg-semibold);
+}
+
+
+/** Filters Toggle*/
+.filtersToggle {
+  font: var(--body-sm-semibold);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (min-width: 1440px) {
+  .filtersToggle {
+    display: none;
+  }
+}
+
+/*! Filters Toggle */
+
+
+/** Desktop filters panel */
+.desktopFiltersPanel {
+  display: none;
+}
+
+@media (min-width: 1440px) {
+  .desktopFiltersPanel {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+}
+
+
+/*! Desktop filters panel*/
