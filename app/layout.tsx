@@ -5,7 +5,6 @@ import { Montserrat } from 'next/font/google';
 import './globals.css';
 import { ReactNode } from 'react';
 import Header from '@/components/Header/Header';
-// import Footer from '@/components/Footer/Footer';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import css from './layout.module.css';
@@ -19,7 +18,7 @@ export const metadata: Metadata = {
     title: '',
     description: '',
     url: SITE_DOMAIN,
-    // images: [OG_IMAGE],
+    images: [OG_IMAGE],
     type: 'website',
   },
 };
