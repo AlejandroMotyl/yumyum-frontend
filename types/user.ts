@@ -2,15 +2,17 @@ export interface User {
   _id: string;
   name: string;
   email: string;
-  avatarUrl: string;
+  avatarUrl?: string;
+  savedRecipes: string[];
 }
 
-export interface LoginData {
+export interface RegisterData {
+  name: string;
   email: string;
   password: string;
 }
-export interface RegisterData {
-  name: string;
+
+export interface LoginData {
   email: string;
   password: string;
 }
