@@ -1,7 +1,9 @@
 .header {
+  position: relative;
   max-height: 74px;
   background-color: var(--darck-brown);
   color: var(--white);
+  z-index: 100;
 }
 .headerContentContainer {
   display: flex;
@@ -57,6 +59,7 @@
   background-color: var(--darck-brown);
   z-index: 1000;
   transition: var(--primary-transition);
+  pointer-events: none;
 }
 
 .logoCloseBtnContainer {
@@ -91,6 +94,7 @@
 }
 .navMenuOpen {
   top: 0;
+  pointer-events: auto;
 }
 .linkRegisterRecipes {
   align-items: center;
@@ -276,6 +280,7 @@
     background: transparent;
     width: auto;
     height: auto;
+    pointer-events: auto;
   }
   .navMenu ul {
     display: flex;
