@@ -30,8 +30,8 @@ export function generateMetadataGlobal({
       images: [
         {
           url: absoluteImageUrl,
-          width: image?.width || 1200,
-          height: image?.height || 630,
+          width: image?.width || OG_IMAGE.width,
+          height: image?.height || OG_IMAGE.height,
           alt: image?.alt || title,
         },
       ],
@@ -39,9 +39,22 @@ export function generateMetadataGlobal({
   };
 }
 
-//TODO how to use in the component app/[recipeId]/page.tsx
+//TODO using on main page
+//export async function generateMetadata(): Promise<Metadata> {
+//  const title = `YumYum Recipes`;
+//  const description = `Browse thousands of delicious YumYum recipes — filter by category, ingredient, or keyword.`;
+//  return generateMetadataGlobal({
+//    title,
+//    description,
+//    image: {
+//      url: 'hero/hero-tablet.jpg',
+//      alt: title,
+//    },
+//  });
+//}
 
-//    export async function generateMetadata({ params }): Promise<Metadata> {
+//TODO how to use in the component app/[recipeId]/page.tsx
+//export async function generateMetadata({ params }): Promise<Metadata> {
 //    const recipe = await getRecipe(params.recipeId);
 //
 //    return generateMetadataGlobal({
