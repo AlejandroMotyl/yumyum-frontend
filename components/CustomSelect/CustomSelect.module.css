@@ -1,3 +1,5 @@
+/*! Scroll does not work on desktop when filters open*/
+
 /* Select field */
 .trigger {
   position: relative;
@@ -18,16 +20,11 @@
 
 }
 
-@media (min-width: 1440px) {
-  .trigger {
-
-    width: 179px;
-  }
-}
 
 /* placeholder style */
 .trigger [data-placeholder] {
-  color: #9f9f9f;
+  font: var(--body-md-regular);
+  color: var(--gray);
 
 }
 
@@ -35,6 +32,11 @@
 .trigger:focus-visible {
   outline: 2px solid #000;
   outline-offset: 2px;
+}
+
+.triggerSelected {
+  color: var(--black);
+
 }
 
 /* Arrow down icon */
@@ -45,6 +47,7 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  color: var(--black);
 
 
 }
@@ -61,8 +64,13 @@
   box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4), 0 8px 24px -6px rgba(0, 0, 0, 0.16);
   overflow: hidden;
   z-index: 1001;
-
   width: var(--radix-select-trigger-width);
+}
+
+@media (min-width: 1440px) {
+  .content {
+    overflow: visible;
+  }
 }
 
 .viewport {
@@ -70,7 +78,6 @@
   max-height: calc(6 * 41px);
   overflow-y: auto;
   width: 100%;
-
 
 }
 
@@ -91,4 +98,6 @@
 /* selected item – optional different style */
 .item[data-state='checked'] {
   font: var(--body-md-regular);
+  color: var(--black);
+
 }

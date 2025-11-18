@@ -10,9 +10,14 @@ export function CustomSelect({
   onChange,
   name,
 }: CustomSelectProps) {
+  const selectHasValue = Boolean(value);
+
   return (
     <Select.Root value={value} onValueChange={onChange}>
-      <Select.Trigger className={css.trigger} area-label={name}>
+      <Select.Trigger
+        className={`${css.trigger} ${selectHasValue ? css.triggerSelected : ''}`}
+        area-label={name}
+      >
         <Select.Value placeholder={placeholder} />
         <Select.Icon className={css.icon}>
           <svg width="16" height="16">
