@@ -111,11 +111,9 @@ export default function Header() {
             </div>
 
             <ul>
-              <li
-                className={`${css.recipeProfileLinks} ${pathname === '/' ? css.activeUnderLine : ''}`}
-              >
+              <li className={css.recipeProfileLinks}>
                 <Link
-                  className={`${css.text} ${isAuthenticated ? css.mb8 : css.recipesLink}`}
+                  className={`${css.text} ${isAuthenticated ? css.mb8 : css.recipesLink} ${pathname === '/' ? css.activeUnderLine : ''}`}
                   href="/"
                   onClick={closeMenu}
                 >
@@ -123,7 +121,7 @@ export default function Header() {
                 </Link>
                 {isAuthenticated && (
                   <Link
-                    className={`${css.myProfileLink} ${css.text}`}
+                    className={`${css.myProfileLink} ${css.text} ${pathname === '/profile/own' ? css.activeUnderLine : ''}`}
                     href="/profile/own"
                     onClick={closeMenu}
                   >
@@ -170,7 +168,7 @@ export default function Header() {
                 <li>
                   <div className={css.loginRegisterContainer}>
                     <Link
-                      className={css.login}
+                      className={`${css.login} ${css.text} ${pathname === '/auth/login' ? css.activeUnderLine : ''}`}
                       href="/auth/login"
                       onClick={closeMenu}
                     >
