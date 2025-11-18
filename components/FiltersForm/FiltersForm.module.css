@@ -16,6 +16,9 @@
     gap: 24px;
     align-items: center;
     flex-flow: row-reverse;
+    width: 480px;
+
+    /* border: 1px dashed red; */
   }
 }
 
@@ -26,8 +29,6 @@
   width: 100%;
   display: flex;
 
-
-
 }
 
 .resetButton {
@@ -35,4 +36,11 @@
   font: var(--body-sm-semibold);
   border-bottom: 1px solid var(--black);
 
+}
+
+@media (min-width: 1440px) {
+  .resetButton {
+    /* border: 1px dashed blue; */
+    width: 74px;
+  }
 }

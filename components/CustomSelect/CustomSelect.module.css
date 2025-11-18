@@ -1,31 +1,27 @@
-/*Todo:*/
-/*! Fix styles*/
-
-
-
+/* Select field */
 .trigger {
   position: relative;
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: space-between;
-
   padding-left: 8px;
   padding-top: 4px;
   padding-bottom: 4px;
   border-radius: 4px;
   border: 1px solid var(--light-gray);
   font: var(--body-md-regular);
-
-
   background-color: var(--white);
   color: var(--gray);
-
   cursor: pointer;
 
+}
 
+@media (min-width: 1440px) {
+  .trigger {
 
-
+    width: 179px;
+  }
 }
 
 /* placeholder style */
