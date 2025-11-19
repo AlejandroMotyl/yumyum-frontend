@@ -1,6 +1,6 @@
 .filtersSection {
   margin-top: 16px;
-  margin-bottom: 16px;
+  /* margin-bottom: 16px; */
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -9,11 +9,33 @@
 
 .filtersWrapper {
   display: flex;
+  flex-direction: column;
+  gap: 16px;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
+  padding-bottom: 16px;
+
+  position: relative;
 
   /* border: 1px dashed black; */
+}
+
+@media (min-width: 1440px) {
+  .filtersWrapper {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.filtersHeader {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+
+
+  /* border: 1px dashed blue; */
 }
 
 .totalRecipes {
@@ -21,7 +43,7 @@
 }
 
 
-/** Filters Toggle*/
+
 .filtersToggle {
   font: var(--body-sm-semibold);
   display: flex;
@@ -36,21 +58,61 @@
   }
 }
 
-/*! Filters Toggle */
+.filtersPanel {
+  position: absolute;
+  top: 60%;
+  left: 72px;
+  right: 0;
 
+  display: flex;
+  width: 80%;
 
-/** Desktop filters panel */
-.desktopFiltersPanel {
-  display: none;
+  background-color: var(--white);
+  box-shadow: 0 0 1px 0 rgba(38, 9, 9, 0.4), 0 8px 24px -6px rgba(0, 0, 0, 0.16);
+  padding: 16px 12px;
+  border-radius: 8px;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 150ms ease, transform 150ms ease;
+
 }
 
-@media (min-width: 1440px) {
-  .desktopFiltersPanel {
-    display: flex;
-    align-items: center;
-    gap: 24px;
+@media (min-width: 768px) {
+  .filtersPanel {
+    left: 140px;
+
   }
 }
 
+@media (min-width: 1440px) {
+  .filtersPanel {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    transform: none;
 
-/*! Desktop filters panel*/
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 24px;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+
+
+
+    opacity: 1;
+    pointer-events: auto;
+
+    /* border: 1px dashed red; */
+  }
+}
+
+.filtersPanelOpen {
+  opacity: 1;
+  pointer-events: auto;
+}

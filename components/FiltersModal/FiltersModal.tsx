@@ -36,7 +36,7 @@ export function FiltersModal({
           >
             <span className={css.closeButtonText}>Filters</span>
             <svg width="24" height="24">
-              <use href="/Sprite-new.svg#icon-close-circle" />
+              <use href="/Sprite-new.svg#icon-close-circle-medium" />
             </svg>
           </button>
         </div>

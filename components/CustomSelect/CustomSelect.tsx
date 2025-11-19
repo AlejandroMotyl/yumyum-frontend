@@ -21,7 +21,7 @@ export function CustomSelect({
         <Select.Value placeholder={placeholder} />
         <Select.Icon className={css.icon}>
           <svg width="16" height="16">
-            <use href="/Sprite-new.svg#icon-chevron-down" />
+            <use href="/Sprite-new.svg#icon-big-chevron-down-small" />
           </svg>
         </Select.Icon>
       </Select.Trigger>

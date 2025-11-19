@@ -55,6 +55,7 @@
 /* Rotate arrow when open */
 .trigger[data-state='open'] svg {
   transform: rotate(180deg);
+  transition: transform 150ms ease;
 }
 
 /* Dropdown panel */

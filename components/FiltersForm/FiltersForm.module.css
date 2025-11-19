@@ -1,13 +1,9 @@
-/** Input-Reset Wrapper */
 .inputResetWrapper {
   display: flex;
   flex-direction: column;
   gap: 24px;
   align-items: flex-start;
   width: 100%;
-
-
-
 }
 
 @media (min-width: 1440px) {
@@ -18,11 +14,9 @@
     flex-flow: row-reverse;
     width: 480px;
 
-    /* border: 1px dashed red; */
   }
 }
 
-/*! Input-Reset Wrapper*/
 
 .filterFieldsWrapper {
   display: flex;
@@ -40,16 +34,12 @@
 .filtersField {
   width: 100%;
 
-
-
 }
 
 @media (min-width: 1440px) {
   .filtersField {
     width: 179px;
     height: 33px;
-    /* border: 1px dashed red; */
-
   }
 }
 
@@ -61,11 +51,7 @@
 
 @media (min-width: 1440px) {
   .resetButton {
-    /* border: 1px dashed blue; */
-    /* width: 74px; */
     width: auto;
-
-
     white-space: nowrap;
     flex-shrink: 0;
   }
