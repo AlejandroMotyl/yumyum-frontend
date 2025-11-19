@@ -3,9 +3,10 @@ import Loader from '@/components/Loader/Loader';
 import RecipeDetails from '@/components/RecipeDetails/RecipeDetails';
 import { getRecipeById } from '@/lib/api/clientApi';
 import { useQuery } from '@tanstack/react-query';
+import { notFound } from 'next/navigation';
 
 const RecipeDetailsClient = ({ recipeId }: { recipeId: string }) => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['recipe', recipeId],
     queryFn: () => getRecipeById(recipeId),
     refetchOnMount: false,
@@ -15,7 +16,7 @@ const RecipeDetailsClient = ({ recipeId }: { recipeId: string }) => {
     <>
       {data && <RecipeDetails recipe={data} />}
       {isLoading && <Loader />}
-      {!data && error && <p>Something went wrong.</p>}
+      {!data && notFound()}
     </>
   );
 };

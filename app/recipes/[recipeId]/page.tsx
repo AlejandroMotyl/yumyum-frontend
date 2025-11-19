@@ -5,7 +5,6 @@ import {
 } from '@tanstack/react-query';
 import { getRecipeById } from '@/lib/api/clientApi';
 import RecipeDetailsClient from './RecipeDetails.client';
-import { notFound } from 'next/navigation';
 
 interface RecipeDetailsProps {
   params: Promise<{ recipeId: string }>;
@@ -40,20 +39,10 @@ const RecipeDetailsPage = async ({ params }: RecipeDetailsProps) => {
 
   const queryClient = new QueryClient();
 
-  try {
-    const recipe = await getRecipeById(recipeId);
-
-    if (!recipe) {
-      notFound();
-    }
-
-    await queryClient.prefetchQuery({
-      queryKey: ['recipe', recipeId],
-      queryFn: () => getRecipeById(recipeId),
-    });
-  } catch (err) {
-    notFound();
-  }
+  await queryClient.prefetchQuery({
+    queryKey: ['recipe', recipeId],
+    queryFn: () => getRecipeById(recipeId),
+  });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
