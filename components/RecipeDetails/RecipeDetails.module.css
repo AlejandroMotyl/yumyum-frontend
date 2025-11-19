@@ -102,7 +102,7 @@
 }
 
 .aboutTitle {
-  font: var(--display-sm-semibold);
+  font: var(--display-md-semibold);
   margin-bottom: 8px;
 }
 
@@ -111,7 +111,7 @@
 }
 
 .ingredientsTitle {
-  font: var(--display-sm-semibold);
+  font: var(--display-md-semibold);
   margin-bottom: 8px;
 }
 
@@ -126,7 +126,7 @@
 }
 
 .preparationTitle {
-  font: var(--display-sm-semibold);
+  font: var(--display-md-semibold);
   margin-bottom: 24px;
 }
 
