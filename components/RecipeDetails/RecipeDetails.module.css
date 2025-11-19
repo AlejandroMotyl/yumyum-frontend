@@ -103,12 +103,12 @@
 .favBtnTitle {
 }
 
-.favBtnIconSave {
+.favBtnIconUnsave {
   fill: var(--white);
   stroke: var(--white);
 }
 
-.favBtnIconUnsave {
+.favBtnIconSave {
   fill: none;
   stroke: var(--white);
 }
