@@ -3,24 +3,20 @@ import css from './page.module.css';
 import { RecipeForm } from '@/components/AddRecipeForm/AddRecipeForm';
 import Container from '@/components/Container/Container';
 import { Metadata } from 'next';
+import { generateMetadataGlobal } from '@/utils/generateMetadataGlobal';
 
-export const metadata: Metadata = {
-  title: 'Create Recipe',
-  description: 'Create a new recipe in YumYum',
-  openGraph: {
-    title: 'Create Recipe',
-    description: 'Create a new recipe in YumYum',
-    url: 'http://localhost:3000/add-recipe',
-    images: [
-      {
-        url: '/public/logo.svg',
-        width: 1200,
-        height: 630,
-        alt: 'Create Recipe',
-      },
-    ],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const title = `YumYum Add Recipe`;
+  const description = `Create your own recipe at YumYum`;
+  return generateMetadataGlobal({
+    title,
+    description,
+    image: {
+      url: 'hero/hero-tablet.jpg',
+      alt: title,
+    },
+  });
+}
 
 export default function AddRecipe() {
   return (
