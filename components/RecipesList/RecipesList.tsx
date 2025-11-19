@@ -84,11 +84,9 @@ export function RecipesList() {
       {isLoading ? (
         <Loader />
       ) : (
-        hasMore && (
-          <div>
-            <LoadMoreBtn onClick={loadMore} />
-          </div>
-        )
+        <div>
+          <LoadMoreBtn onClick={loadMore} disabled={!hasMore} />
+        </div>
       )}
     </Container>
   );

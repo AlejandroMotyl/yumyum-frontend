@@ -1,8 +1,6 @@
-'use client';
+import css from './ErrorMessage.module.css';
 
-import css from './error.module.css';
-
-const Error = () => {
+const ErrorMessage = () => {
   return (
     <div className={css.wrapper}>
       <img src="/Error.webp" alt="Error" className={css.hat} />
@@ -10,4 +8,4 @@ const Error = () => {
   );
 };
 
-export default Error;
+export default ErrorMessage;
