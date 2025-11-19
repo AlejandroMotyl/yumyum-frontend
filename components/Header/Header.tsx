@@ -98,29 +98,29 @@ export default function Header() {
                 </li>
                 {isAuthenticated ? (
                   <li className={css.userInfoContainer}>
-                    <div className={css.userInfo}>
-                      <div className={css.avatarNameContainer}>
-                        <span className={css.avatar}>
-                          {firstLetterUserName}
-                        </span>
-                        <span className={css.userName}>{user?.name}</span>
-                      </div>
-                      <span className={css.line} />
-                      <button
-                        className={css.logoutLink}
-                        onClick={handleLogout}
-                        aria-label="Log out"
-                      >
-                        <svg
-                          fill="transparent"
-                          stroke="var(--white)"
-                          width={24}
-                          height={24}
-                        >
-                          <use href="/sprite.svg#icon-Genericlog-out" />
-                        </svg>
-                      </button>
-                    </div>
+                    {/* <div className={css.userInfo}> */}
+                    {/*   <div className={css.avatarNameContainer}> */}
+                    {/*     <span className={css.avatar}> */}
+                    {/*       {firstLetterUserName} */}
+                    {/*     </span> */}
+                    {/*     <span className={css.userName}>{user?.name}</span> */}
+                    {/*   </div> */}
+                    {/*   <span className={css.line} /> */}
+                    {/*   <button */}
+                    {/*     className={css.logoutLink} */}
+                    {/*     onClick={handleLogout} */}
+                    {/*     aria-label="Log out" */}
+                    {/*   > */}
+                    {/*     <svg */}
+                    {/*       fill="transparent" */}
+                    {/*       stroke="var(--white)" */}
+                    {/*       width={24} */}
+                    {/*       height={24} */}
+                    {/*     > */}
+                    {/*       <use href="/sprite.svg#icon-Genericlog-out" /> */}
+                    {/*     </svg> */}
+                    {/*   </button> */}
+                    {/* </div> */}
 
                     <Link
                       className={`${css.linkRegisterRecipes} ${css.changeOrderOnTablet}`}
