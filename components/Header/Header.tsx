@@ -79,13 +79,13 @@ export default function Header() {
             <nav className={css.navMenuDesktop} aria-label="Main navigation">
               <ul>
                 <li className={css.recipeProfileLinks}>
-                  <Link
-                    className={`${css.text} ${isAuthenticated ? css.mb8 : css.recipesLink} ${pathname === '/' ? css.activeUnderLine : ''}`}
-                    href="/"
-                    onClick={closeMenu}
-                  >
-                    Recipes
-                  </Link>
+                  {/* <Link */}
+                  {/*   className={`${css.text} ${isAuthenticated ? css.mb8 : css.recipesLink} ${pathname === '/' ? css.activeUnderLine : ''}`} */}
+                  {/*   href="/" */}
+                  {/*   onClick={closeMenu} */}
+                  {/* > */}
+                  {/*   Recipes */}
+                  {/* </Link> */}
                   {isAuthenticated && (
                     <Link
                       className={`${css.myProfileLink} ${css.text} ${pathname === '/profile/own' ? css.activeUnderLine : ''}`}
@@ -98,29 +98,29 @@ export default function Header() {
                 </li>
                 {isAuthenticated ? (
                   <li className={css.userInfoContainer}>
-                    {/* <div className={css.userInfo}> */}
-                    {/*   <div className={css.avatarNameContainer}> */}
-                    {/*     <span className={css.avatar}> */}
-                    {/*       {firstLetterUserName} */}
-                    {/*     </span> */}
-                    {/*     <span className={css.userName}>{user?.name}</span> */}
-                    {/*   </div> */}
-                    {/*   <span className={css.line} /> */}
-                    {/*   <button */}
-                    {/*     className={css.logoutLink} */}
-                    {/*     onClick={handleLogout} */}
-                    {/*     aria-label="Log out" */}
-                    {/*   > */}
-                    {/*     <svg */}
-                    {/*       fill="transparent" */}
-                    {/*       stroke="var(--white)" */}
-                    {/*       width={24} */}
-                    {/*       height={24} */}
-                    {/*     > */}
-                    {/*       <use href="/sprite.svg#icon-Genericlog-out" /> */}
-                    {/*     </svg> */}
-                    {/*   </button> */}
-                    {/* </div> */}
+                    <div className={css.userInfo}>
+                      <div className={css.avatarNameContainer}>
+                        <span className={css.avatar}>
+                          {firstLetterUserName}
+                        </span>
+                        <span className={css.userName}>{user?.name}</span>
+                      </div>
+                      <span className={css.line} />
+                      <button
+                        className={css.logoutLink}
+                        onClick={handleLogout}
+                        aria-label="Log out"
+                      >
+                        <svg
+                          fill="transparent"
+                          stroke="var(--white)"
+                          width={24}
+                          height={24}
+                        >
+                          <use href="/sprite.svg#icon-Genericlog-out" />
+                        </svg>
+                      </button>
+                    </div>
 
                     <Link
                       className={`${css.linkRegisterRecipes} ${css.changeOrderOnTablet}`}
