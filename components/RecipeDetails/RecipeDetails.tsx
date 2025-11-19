@@ -1,7 +1,15 @@
+'use client';
 import Container from '../Container/Container';
 import { Recipe } from '@/types/recipe';
 import css from './RecipeDetails.module.css';
 import { getIngredientsProps } from '@/types/filter';
+import { useAuthStore } from '@/lib/store/authStore';
+import { useEffect, useState } from 'react';
+import {
+  addFavoriteRecipe,
+  removeFavoriteRecipe,
+} from '@/lib/services/favorites';
+import 'izitoast/dist/css/iziToast.min.css';
 
 interface RecipeDetailsProps {
   recipe: Recipe;
@@ -9,34 +17,55 @@ interface RecipeDetailsProps {
 }
 
 const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
+  const [favorite, setFavorite] = useState(false);
+
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const savedRecipes = useAuthStore((state) => state.savedRecipes);
+  const addSavedRecipe = useAuthStore((state) => state.addSavedRecipe);
+  const removeSavedRecipe = useAuthStore((state) => state.removeSavedRecipe);
+
   const ingredientsMap = new Map(ingredients.map((ing) => [ing._id, ing]));
+
+  useEffect(() => {
+    const isSaved = savedRecipes.includes(recipe._id);
+    setFavorite(isSaved);
+  }, [savedRecipes, recipe._id]);
 
   const getIngredientName = (id: string): string => {
     const ingredient = ingredientsMap.get(id);
     return ingredient?.name || 'Unknown ingredient';
   };
 
-  const favorite = false;
+  const handleFavorite = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.blur();
 
-  // const handleFavorite = async () => {
-  //   setLoading(true);
+    if (!isAuthenticated) {
+      return;
+    }
 
-  //   try {
-  //     if (favorite) {
-  //       // await removeFavoriteRecipe(recipe._id);
-  //       console.log('Removing from favorites:', recipe._id);
-  //       setFavorite(false);
-  //     } else {
-  //       // await addFavoriteRecipe(recipe._id);
-  //       console.log('Adding to favorites:', recipe._id);
-  //       setFavorite(true);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error toggling favorite:', error);
-  //   } finally
-  //     setLoading(false);
-  //   }
-  // };
+    try {
+      if (favorite) {
+        await removeFavoriteRecipe(recipe._id);
+
+        removeSavedRecipe(recipe._id);
+
+        setFavorite(false);
+      } else {
+        await addFavoriteRecipe(recipe._id);
+
+        addSavedRecipe(recipe._id);
+
+        setFavorite(true);
+      }
+    } catch {
+      import('izitoast').then((iziToast) => {
+        iziToast.default.error({
+          message: 'Error toggling favorite!',
+          position: 'topRight',
+        });
+      });
+    }
+  };
 
   return (
     <section>
@@ -83,19 +112,19 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
             <button
               type="button"
               className={css.favBtn}
-              // onClick={handleFavorite}
+              onClick={handleFavorite}
             >
               {favorite ? (
                 <>
-                  <span className={css.favBtnTitle}>Save</span>
-                  <svg className={css.favBtnIconSave} width="24" height="24">
+                  <span className={css.favBtnTitle}>Unsave</span>
+                  <svg className={css.favBtnIconUnsave} width="24" height="24">
                     <use href="/Sprite.svg#icon-Genericbookmark-alternative" />
                   </svg>
                 </>
               ) : (
                 <>
-                  <span className={css.favBtnTitle}>Unsave</span>
-                  <svg className={css.favBtnIconUnsave} width="24" height="24">
+                  <span className={css.favBtnTitle}>Save</span>
+                  <svg className={css.favBtnIconSave} width="24" height="24">
                     <use href="/Sprite.svg#icon-Genericbookmark-alternative" />
                   </svg>
                 </>

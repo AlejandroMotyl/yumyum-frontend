@@ -13,8 +13,8 @@ const SearchBox = () => {
   const searchSchema = Yup.object().shape({
     search: Yup.string()
       .trim()
-      .min(3, '3 characters minimum')
-      .required('The field cannot be empty'),
+      .min(3, 'Must be at least 3 characters')
+      .required('Search field is required'),
   });
 
   const validateSearch = async (query: string) => {
