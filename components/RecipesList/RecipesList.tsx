@@ -19,7 +19,6 @@ import { useFiltersStore } from '@/lib/store/useFiltersStore';
 import { AuthModal } from '../AuthModal/AuthModal';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
-import iziToast from 'izitoast';
 
 export interface Props {
   recipes: Recipe[];
@@ -66,7 +65,9 @@ export function RecipesList() {
       //   position: 'topRight',
       // });
     },
-    onError(error) {
+    async onError(error) {
+      const iziToast = (await import('izitoast')).default;
+
       iziToast.error({
         title: 'Error',
         message: error?.message || 'Something went wrong',
@@ -81,7 +82,9 @@ export function RecipesList() {
     onSuccess(_, variables) {
       removeSavedRecipe(variables.recipeId);
     },
-    onError(error) {
+    async onError(error) {
+      const iziToast = (await import('izitoast')).default;
+
       iziToast.error({
         title: 'Error',
         message: error?.message || 'Something went wrong',
