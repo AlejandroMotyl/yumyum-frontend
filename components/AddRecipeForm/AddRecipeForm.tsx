@@ -8,6 +8,9 @@ import {
   FieldArray,
   ErrorMessage,
   FormikHelpers,
+  useFormikContext,
+  FormikErrors,
+  FormikTouched,
 } from 'formik';
 import * as Yup from 'yup';
 import { api } from '@/lib/api/api';
@@ -33,16 +36,38 @@ interface Ingredient {
   name: string;
 }
 
+interface IngredientValue {
+  id: string;
+  name: string;
+  amount: string;
+}
+
 interface RecipeFormValues {
   title: string;
   description: string;
   time: string;
   cals?: string;
   category: string;
-  ingredients: [{ id: string; name: string; amount: string }];
-  tempIngredient: { id: string; name: string; amount: string };
+  ingredients: IngredientValue[];
   instructions: string;
   thumb?: File | null;
+}
+
+type IngredientErrors = FormikErrors<IngredientValue> | string | undefined;
+
+interface RecipeFormErrors {
+  ingredients?: IngredientErrors[];
+}
+
+interface AddIngredientButtonProps {
+  push: (obj: IngredientValue) => void;
+  values: RecipeFormValues;
+  css: any;
+
+  errors: FormikErrors<RecipeFormValues>;
+
+  touched: FormikTouched<RecipeFormValues>;
+  getIziToast: () => Promise<any>;
 }
 
 const validationSchema = Yup.object({
@@ -65,11 +90,12 @@ const validationSchema = Yup.object({
       Yup.object({
         id: Yup.string().required('Choose an ingredient'),
         name: Yup.string().required(),
-        amount: Yup.string().required('Specify the quantity'),
+        amount: Yup.string()
+          .required('Specify the quantity')
+          .min(1, 'Specify the quantity'),
       }),
     )
-    .min(2, 'Add at least 2 ingredients')
-    .max(16, 'Maximum 16 ingredients'),
+    .min(1, 'Add at least 1 ingredient (placeholder included).'),
   instructions: Yup.string().max(1200).required('Specify the instructions'),
   thumb: Yup.mixed().nullable().optional(),
 });
@@ -110,7 +136,6 @@ export const RecipeForm = () => {
     cals: '',
     category: '',
     ingredients: [{ id: '', name: '', amount: '' }],
-    tempIngredient: { id: '', name: '', amount: '' },
     instructions: '',
     thumb: null,
   };
@@ -120,6 +145,20 @@ export const RecipeForm = () => {
     { setSubmitting }: FormikHelpers<RecipeFormValues>,
   ) => {
     const iziToast = await getIziToast();
+
+    const finalIngredients = values.ingredients.slice(0, -1);
+
+    if (finalIngredients.length === 0) {
+      if (iziToast) {
+        iziToast.error({
+          title: 'Error',
+          message: 'Please add at least one ingredient.',
+          position: 'topRight',
+        });
+      }
+      setSubmitting(false);
+      return;
+    }
 
     try {
       const formData = new FormData();
@@ -131,7 +170,7 @@ export const RecipeForm = () => {
       formData.append('instructions', values.instructions);
       if (values.thumb) formData.append('thumb', values.thumb);
 
-      const ingredientsForBackend = values.ingredients.map((ing) => ({
+      const ingredientsForBackend = finalIngredients.map((ing) => ({
         id: ing.id,
         measure: ing.amount,
       }));
@@ -166,7 +205,7 @@ export const RecipeForm = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ values, setFieldValue, isSubmitting }) => (
+        {({ values, setFieldValue, isSubmitting, errors, touched }) => (
           <Form className={css.addRecipeForm}>
             {/* --- Upload Photo Block --- */}
             <div className={css.addRecipeImgBlock}>
@@ -206,7 +245,7 @@ export const RecipeForm = () => {
               </label>
             </div>
 
-            {/* ---  General Block --- */}
+            {/* ---  General Block --- */}
             <div className={css.addRecipeInfoBlock}>
               <div className={css.addRecipeGeneralGroup}>
                 <p className={css.addRecipeFormBlockTitle}>
@@ -303,142 +342,128 @@ export const RecipeForm = () => {
                 </label>
 
                 <FieldArray name="ingredients">
-                  {({ push, remove }) => (
-                    <div>
-                      <div className={css.ingredientRow}>
-                        <label className={css.addRecipeFormBlockSubtitle}>
-                          Name
-                          <Field
-                            as="select"
-                            name="tempIngredient.id"
-                            className={css.addRecipeFormIngredientsInput}
-                            onChange={(e: any) => {
-                              const selected = ingredientsList.find(
-                                (i) => i._id === e.target.value,
-                              );
+                  {({ push, remove }) => {
+                    const lastIndex = values.ingredients.length - 1;
 
-                              setFieldValue(
-                                'tempIngredient.id',
-                                selected?._id || '',
-                              );
-                              setFieldValue(
-                                'tempIngredient.name',
-                                selected?.name || '',
-                              );
-                            }}
-                            value={values.tempIngredient?.id || ''}
-                          >
-                            <option value="">Select ingredient</option>{' '}
-                            {ingredientsList.map((i) => (
-                              <option key={i._id} value={i._id}>
-                                {i.name}
-                              </option>
-                            ))}
-                          </Field>
-                          <ErrorMessage
-                            name="tempIngredient.id"
-                            component="div"
-                            className={css.errorMessage}
-                          />
-                        </label>
+                    return (
+                      <div>
+                        {values.ingredients.length > 0 && (
+                          <div className={css.ingredientRow}>
+                            <label className={css.addRecipeFormBlockSubtitle}>
+                              Name
+                              <Field
+                                as="select"
+                                name={`ingredients[${lastIndex}].id`}
+                                className={css.addRecipeFormIngredientsInput}
+                                onChange={(e: any) => {
+                                  const selected = ingredientsList.find(
+                                    (i) => i._id === e.target.value,
+                                  );
 
-                        <label className={css.addRecipeFormBlockSubtitle}>
-                          Amount
-                          <Field
-                            name="tempIngredient.amount"
-                            className={css.addRecipeFormIngredientsInput}
-                            placeholder="100g"
-                          />
-                          <ErrorMessage
-                            name="tempIngredient.amount"
-                            component="div"
-                            className={css.errorMessage}
-                          />
-                        </label>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (
-                            values.tempIngredient?.id &&
-                            values.tempIngredient?.amount
-                          ) {
-                            push({
-                              id: values.tempIngredient.id,
-                              name: values.tempIngredient.name,
-                              amount: values.tempIngredient.amount,
-                            });
-
-                            setFieldValue('tempIngredient.id', '');
-                            setFieldValue('tempIngredient.name', '');
-                            setFieldValue('tempIngredient.amount', '');
-                          } else {
-                            // alert('Please select an ingredient and enter amount');
-                          }
-                        }}
-                        className={css.addIngredientButton}
-                      >
-                        Add new Ingredient
-                      </button>
-
-                      <ErrorMessage name="ingredients">
-                        {(msg) => {
-                          if (typeof msg === 'string') {
-                            return (
-                              <div className={css.errorMessage}>{msg}</div>
-                            );
-                          }
-                          return null;
-                        }}
-                      </ErrorMessage>
-
-                      {/* === ТАБЛИЦЯ — З’ЯВЛЯЄТЬСЯ ЛИШЕ КОЛИ Є ХОЧ 1 ІНГРЕДІЄНТ === */}
-                      {values.ingredients.length > 1 && (
-                        <div className={css.ingredientsTable}>
-                          <div className={css.tableHeader}>
-                            <span>Name:</span>
-                            <span>Amount:</span>
-                            <span></span>
-                          </div>
-
-                          {values.ingredients.map((ing, index) => (
-                            <div key={index} className={css.tableRow}>
-                              <span className={css.tableName}>{ing.name}</span>
-                              <span className={css.tableAmount}>
-                                {ing.amount}
-                              </span>
-
-                              <button
-                                type="button"
-                                onClick={() => remove(index)}
-                                className={css.removeButton}
+                                  setFieldValue(
+                                    `ingredients[${lastIndex}].id`,
+                                    selected?._id || '',
+                                  );
+                                  setFieldValue(
+                                    `ingredients[${lastIndex}].name`,
+                                    selected?.name || '',
+                                  );
+                                }}
+                                value={values.ingredients[lastIndex].id}
                               >
-                                <svg
-                                  className={css.removeIcon}
-                                  width="15"
-                                  height="15"
-                                >
-                                  <use href="/sprite.svg#icon-Genericdelete"></use>
-                                </svg>
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                                <option value="">Select ingredient</option>{' '}
+                                {ingredientsList.map((i) => (
+                                  <option key={i._id} value={i._id}>
+                                    {i.name}
+                                  </option>
+                                ))}
+                              </Field>
+                              <ErrorMessage
+                                name={`ingredients[${lastIndex}].id`}
+                                component="div"
+                                className={css.errorMessage}
+                              />
+                            </label>
 
-                      <ErrorMessage name="ingredients">
-                        {(msg) => {
-                          if (typeof msg === 'string') {
-                            return (
-                              <div className={css.errorMessage}>{msg}</div>
-                            );
+                            <label className={css.addRecipeFormBlockSubtitle}>
+                              Amount
+                              <Field
+                                name={`ingredients[${lastIndex}].amount`}
+                                className={css.addRecipeFormIngredientsInput}
+                                placeholder="100g"
+                              />
+                              <ErrorMessage
+                                name={`ingredients[${lastIndex}].amount`}
+                                component="div"
+                                className={css.errorMessage}
+                              />
+                            </label>
+                          </div>
+                        )}
+
+                        <AddIngredientButton
+                          push={push}
+                          values={values}
+                          css={css}
+                          errors={
+                            errors as unknown as FormikErrors<RecipeFormValues>
                           }
-                          return null;
-                        }}
-                      </ErrorMessage>
-                    </div>
-                  )}
+                          touched={
+                            touched as unknown as FormikTouched<RecipeFormValues>
+                          }
+                          getIziToast={getIziToast}
+                        />
+
+                        {values.ingredients.length > 1 && (
+                          <div className={css.ingredientsTable}>
+                            <div className={css.tableHeader}>
+                              <span>Name:</span>
+                              <span>Amount:</span>
+                              <span></span>
+                            </div>
+
+                            {values.ingredients
+                              .slice(0, -1)
+                              .map((ing, index) => (
+                                <div key={index} className={css.tableRow}>
+                                  <span className={css.tableName}>
+                                    {ing.name}
+                                  </span>
+                                  <span className={css.tableAmount}>
+                                    {ing.amount}
+                                  </span>
+
+                                  <button
+                                    type="button"
+                                    onClick={() => remove(index)}
+                                    className={css.removeButton}
+                                  >
+                                    <svg
+                                      className={css.removeIcon}
+                                      width="15"
+                                      height="15"
+                                    >
+                                      <use href="/sprite.svg#icon-Genericdelete"></use>
+                                    </svg>
+                                  </button>
+                                </div>
+                              ))}
+                          </div>
+                        )}
+
+                        <ErrorMessage name="ingredients">
+                          {(msg) => {
+                            if (typeof msg === 'string') {
+                              return (
+                                <div className={css.errorMessage}>{msg}</div>
+                              );
+                            }
+                            return null;
+                          }}
+                        </ErrorMessage>
+                      </div>
+                    );
+                  }}
                 </FieldArray>
               </div>
 
@@ -473,5 +498,72 @@ export const RecipeForm = () => {
         )}
       </Formik>
     </>
+  );
+};
+
+const AddIngredientButton = ({
+  push,
+  values,
+  css,
+  errors,
+  touched,
+  getIziToast,
+}: AddIngredientButtonProps) => {
+  const { validateForm, setTouched } = useFormikContext<RecipeFormValues>();
+  const lastIndex = values.ingredients.length - 1;
+
+  const handleAdd = async () => {
+    const iziToast = await getIziToast();
+
+    setTouched({
+      ...touched,
+
+      ingredients: [
+        ...(
+          (touched.ingredients as FormikTouched<IngredientValue>[]) || []
+        ).slice(0, lastIndex),
+        { id: true, name: true, amount: true },
+      ],
+    });
+
+    const validationErrors = await validateForm();
+
+    const ingredientErrors = validationErrors.ingredients as
+      | IngredientErrors[]
+      | undefined;
+
+    if (ingredientErrors && ingredientErrors[lastIndex]) {
+      if (iziToast) {
+        iziToast.error({
+          title: 'Validation Error',
+          message: 'Please select an ingredient and specify the amount.',
+          position: 'topRight',
+        });
+      }
+      return;
+    }
+
+    const ingToPush = values.ingredients[lastIndex];
+    if (ingToPush.id && ingToPush.amount) {
+      push({ id: '', name: '', amount: '' });
+    } else {
+      if (iziToast) {
+        iziToast.error({
+          title: 'Error',
+          message: 'Please select an ingredient and specify the amount.',
+          position: 'topRight',
+        });
+      }
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleAdd}
+      className={css.addIngredientButton}
+    >
+      Add new Ingredient
+    </button>
   );
 };
