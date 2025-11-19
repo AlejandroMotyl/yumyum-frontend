@@ -9,6 +9,7 @@ import AuthProvider from '@/components/AuthProvider/AuthProvider';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import css from './layout.module.css';
 import Footer from '@/components/Footer/Footer';
+import 'izitoast/dist/css/iziToast.min.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_DOMAIN),
