@@ -116,6 +116,12 @@
   font: var(--body-md-regular);
 }
 
+.preparationDescriptionWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 /* Styles for Tablet devices */
 @media only screen and (min-width: 768px) {
   .titleWrapper {

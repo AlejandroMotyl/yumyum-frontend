@@ -49,11 +49,6 @@ const RecipeDetails = async ({ recipe }: { recipe: Recipe }) => {
                 alt={recipe.title}
               />
             </picture>
-            {/* <img
-              className={css.titleImg}
-              src={recipe.thumb}
-              alt={recipe.title}
-            /> */}
           </div>
           <h2 className={css.title}>{recipe.title}</h2>
         </div>
@@ -121,9 +116,13 @@ const RecipeDetails = async ({ recipe }: { recipe: Recipe }) => {
             </div>
             <div className={css.preparationWrapper}>
               <h3 className={css.preparationTitle}>Preparation Steps:</h3>
-              <p className={css.preparationDescription}>
-                {recipe.instructions}
-              </p>
+              <div className={css.preparationDescriptionWrapper}>
+                {recipe.instructions.split('\r\n').map((step, index) => (
+                  <p key={index} className={css.preparationDescription}>
+                    {step}
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
         </div>
