@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     images: [
       {
         alt: 'YumYum Recipes',
-        url: `/public/hero/hero-tablet.jpg`,
+        url: `/hero/hero-tablet.jpg`,
       },
     ],
   },
