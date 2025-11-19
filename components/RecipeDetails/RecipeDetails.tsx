@@ -1,26 +1,14 @@
-'use client';
 import Container from '../Container/Container';
 import { Recipe } from '@/types/recipe';
 import css from './RecipeDetails.module.css';
-import { getIngredients } from '@/lib/api/clientApi';
-import { useEffect, useState } from 'react';
 import { getIngredientsProps } from '@/types/filter';
 
-const RecipeDetails = ({ recipe }: { recipe: Recipe }) => {
-  const [ingredients, setIngredients] = useState<getIngredientsProps[]>([]);
+interface RecipeDetailsProps {
+  recipe: Recipe;
+  ingredients: getIngredientsProps[];
+}
 
-  useEffect(() => {
-    const fetchIngredients = async () => {
-      try {
-        const data = await getIngredients();
-        setIngredients(data);
-      } catch (error) {
-        console.error('Failed to fetch ingredients:', error);
-      }
-    };
-    fetchIngredients();
-  }, []);
-
+const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
   const ingredientsMap = new Map(ingredients.map((ing) => [ing._id, ing]));
 
   const getIngredientName = (id: string): string => {
