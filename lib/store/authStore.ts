@@ -4,7 +4,6 @@ import { User } from '@/types/user';
 export interface AuthProps {
   user: User | null;
   isAuthenticated: boolean;
-  savedRecipes: string[];
 
   setUser: (user: User) => void;
   clearIsAuthenticated: () => void;
@@ -15,7 +14,6 @@ export interface AuthProps {
 export const useAuthStore = create<AuthProps>()((set) => ({
   user: null,
   isAuthenticated: false,
-  savedRecipes: [],
 
   setUser: (user) =>
     set({
@@ -27,18 +25,36 @@ export const useAuthStore = create<AuthProps>()((set) => ({
     set({
       user: null,
       isAuthenticated: false,
-      savedRecipes: [],
     }),
 
   addSavedRecipe: (id) =>
-    set((state) => ({
-      savedRecipes: state.savedRecipes.includes(id)
-        ? state.savedRecipes
-        : [...state.savedRecipes, id],
-    })),
+    set((state) => {
+      if (!state.user) {
+        return state;
+      }
+      return {
+        user: {
+          ...state.user,
+          savedRecipes: state.user.savedRecipes.includes(id)
+            ? state.user.savedRecipes
+            : [...state.user.savedRecipes, id],
+        },
+      };
+    }),
 
   removeSavedRecipe: (id) =>
-    set((state) => ({
-      savedRecipes: state.savedRecipes.filter((recipeId) => recipeId !== id),
-    })),
+    set((state) => {
+      if (!state.user) {
+        return state;
+      }
+
+      return {
+        user: {
+          ...state.user,
+          savedRecipes: state.user.savedRecipes.filter(
+            (recipeId) => recipeId !== id,
+          ),
+        },
+      };
+    }),
 }));
