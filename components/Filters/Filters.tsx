@@ -41,13 +41,8 @@ export default function Filters({ totalRecipes }: { totalRecipes: number }) {
     function handleClickOutside(event: MouseEvent) {
       const target = event.target as Node;
 
-      // If inside panel -> ignore
       if (panelRef.current?.contains(target)) return;
-
-      // If click on filters button -> ignore
       if (buttonRef.current?.contains(target)) return;
-
-      // Click on everything else -> close filter
       setIsOpen(false);
     }
 
@@ -97,5 +92,3 @@ export default function Filters({ totalRecipes }: { totalRecipes: number }) {
     </section>
   );
 }
-
-// todo: all color changes via transition

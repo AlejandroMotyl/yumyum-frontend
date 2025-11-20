@@ -76,6 +76,7 @@
   }
 }
 
+/* List */
 .viewport {
   padding: 8px 8px;
   max-height: calc(6 * 41px);
@@ -90,9 +91,14 @@
   font: var(--body-md-regular);
   color: var(--black);
   cursor: pointer;
+  border-radius: 4px;
+
+
 }
 
 .item:hover {
   outline: none;
   background-color: var(--light-gray-2);
+
+  ;
 }

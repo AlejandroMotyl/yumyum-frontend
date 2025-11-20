@@ -29,8 +29,6 @@
   width: 100%;
   justify-content: space-between;
   align-items: center;
-
-
 }
 
 .totalRecipes {
@@ -42,8 +40,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-
 }
 
 @media (min-width: 1440px) {
@@ -67,8 +63,6 @@
   pointer-events: none;
   transform: translateY(8px);
   transition: opacity 150ms ease, transform 150ms ease;
-
-
 
 }
 
