@@ -12,6 +12,7 @@ import Filters from '../Filters/Filters';
 import css from './RecipesList.module.css';
 import Container from '../Container/Container';
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
+import NoResults from '../NoResults/NoResults';
 
 export interface Props {
   recipes: Recipe[];
@@ -67,26 +68,34 @@ export function RecipesList() {
     return <Loader />;
   }
 
+  const isFound = data?.totalRecipes > 0;
+
   return (
     <Container>
       <h1 className={css.titleRecipes}>Recipes</h1>
 
       <Filters totalRecipes={data.totalRecipes} />
 
-      <ul className={css.listRecipes}>
-        {recipes.map((recipe) => (
-          <li key={recipe._id} className={css.oneRecipe}>
-            <RecipeCard recipe={recipe} />
-          </li>
-        ))}
-      </ul>
-
-      {isLoading ? (
-        <Loader />
+      {!isFound ? (
+        <NoResults />
       ) : (
-        <div>
-          <LoadMoreBtn onClick={loadMore} disabled={!hasMore} />
-        </div>
+        <>
+          <ul className={css.listRecipes}>
+            {recipes.map((recipe) => (
+              <li key={recipe._id} className={css.oneRecipe}>
+                <RecipeCard recipe={recipe} />
+              </li>
+            ))}
+          </ul>
+
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <div>
+              <LoadMoreBtn onClick={loadMore} disabled={!hasMore} />
+            </div>
+          )}
+        </>
       )}
     </Container>
   );
