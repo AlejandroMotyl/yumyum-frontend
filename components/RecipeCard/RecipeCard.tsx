@@ -6,31 +6,39 @@ import css from './RecipeCard.module.css';
 import Link from 'next/link';
 import { Recipe } from '@/types/recipe';
 import AuthModaling from '../AuthModaling/AuthModaling';
+import { useAuthStore } from '@/lib/store/authStore';
+import { api } from '@/lib/api/api';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 interface RecipeCardProps {
   recipe: Recipe;
-  isAuthenticated: boolean;
-  addFavoriteRecipe: (recipeId: string) => void;
 }
 
-export default function RecipeCard({
-  recipe,
-  isAuthenticated,
-  addFavoriteRecipe,
-}: RecipeCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
+export default function RecipeCard({ recipe }: RecipeCardProps) {
+  const { isAuthenticated, user, addSavedRecipe, removeSavedRecipe } =
+    useAuthStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  const handleFavoriteClick = () => {
+  const isFavorite = user?.savedRecipes?.includes(recipe._id) ?? false;
+
+  const handleFavoriteClick = async () => {
     if (!isAuthenticated) {
       setShowAuthModal(true);
       return;
     }
 
-    addFavoriteRecipe(recipe._id);
-    setIsFavorite(!isFavorite);
+    try {
+      if (isFavorite) {
+        await api.delete(`/recipes/favorites/${recipe._id}`);
+        removeSavedRecipe(recipe._id);
+      } else {
+        await api.post(`/recipes/favorites/${recipe._id}`);
+        addSavedRecipe(recipe._id);
+      }
+    } catch (error) {
+      <ErrorMessage />;
+    }
   };
-
   return (
     <>
       <Image
