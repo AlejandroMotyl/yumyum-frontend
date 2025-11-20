@@ -1,10 +1,7 @@
-/*! Scroll does not work on desktop when filters open*/
-
 /* Select field */
 .trigger {
   position: relative;
   display: flex;
-
   width: 100%;
   align-items: center;
   justify-content: space-between;
@@ -19,7 +16,6 @@
   cursor: pointer;
 
 }
-
 
 /* placeholder style */
 .trigger [data-placeholder] {
@@ -48,14 +44,18 @@
   justify-content: center;
   pointer-events: none;
   color: var(--black);
+}
 
-
+/* base arrow style */
+.trigger svg {
+  transform: rotate(0deg);
+  /* closed = default */
+  transition: transform 150ms ease;
 }
 
 /* Rotate arrow when open */
 .trigger[data-state='open'] svg {
   transform: rotate(180deg);
-  transition: transform 150ms ease;
 }
 
 /* Dropdown panel */
@@ -65,12 +65,14 @@
   box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4), 0 8px 24px -6px rgba(0, 0, 0, 0.16);
   overflow: hidden;
   z-index: 1001;
-  width: var(--radix-select-trigger-width);
+  width: 264px;
+
 }
 
 @media (min-width: 1440px) {
   .content {
     overflow: visible;
+    width: 179px;
   }
 }
 

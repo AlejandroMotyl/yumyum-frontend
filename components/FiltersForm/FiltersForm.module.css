@@ -46,6 +46,7 @@
 .resetButton {
   font: var(--body-sm-semibold);
   border-bottom: 1px solid var(--black);
+  cursor: pointer;
 
 }
 

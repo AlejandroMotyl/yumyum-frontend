@@ -1,6 +1,7 @@
-import * as Select from '@radix-ui/react-select';
+import * as Popover from '@radix-ui/react-popover';
 import type { CustomSelectProps } from '@/types/filter';
 import css from './CustomSelect.module.css';
+// import { useLayoutEffect, useRef, useState } from 'react';
 
 export function CustomSelect({
   placeholder,
@@ -10,36 +11,57 @@ export function CustomSelect({
   name,
 }: CustomSelectProps) {
   const selectHasValue = Boolean(value);
+  // const triggerRef = useRef<HTMLLIElement | null>(null);
+  // const [triggerWidth, setTriggerWidth] = useState<number | null>(null);
+
+  // useLayoutEffect(() => {
+  //   if (triggerRef.current) {
+  //     const width = triggerRef.current.offsetWidth;
+  //     setTriggerWidth(width);
+  //   }
+  // }, [triggerRef.current, options, value]);
 
   return (
-    <Select.Root value={value} onValueChange={onChange}>
-      <Select.Trigger
+    <Popover.Root modal={false}>
+      <Popover.Trigger
         className={`${css.trigger} ${selectHasValue ? css.triggerSelected : ''}`}
-        area-label={name}
+        aria-label={name}
       >
-        <Select.Value placeholder={placeholder} />
-        <Select.Icon className={css.icon}>
+        <span className={selectHasValue ? css.valueText : css.placeholder}>
+          {selectHasValue
+            ? options.find((o) => o.value === value)?.label
+            : placeholder}
+        </span>
+
+        <div className={css.icon}>
           <svg width="16" height="16">
             <use href="/Sprite-new.svg#icon-big-chevron-down-small" />
           </svg>
-        </Select.Icon>
-      </Select.Trigger>
+        </div>
+      </Popover.Trigger>
 
-      <Select.Portal>
-        <Select.Content className={css.content} position="popper">
-          <Select.Viewport className={css.viewport}>
-            {options.map((option) => (
-              <Select.Item
-                key={option.value}
-                value={option.value}
-                className={css.item}
-              >
-                <Select.ItemText>{option.label}</Select.ItemText>
-              </Select.Item>
-            ))}
-          </Select.Viewport>
-        </Select.Content>
-      </Select.Portal>
-    </Select.Root>
+      <Popover.Content
+        className={css.content}
+        // style={{
+        //   width: triggerWidth ? `${triggerWidth}px` : 'auto',
+        // }}
+        // align="start"
+      >
+        <ul className={css.viewport}>
+          {options.map((option) => (
+            <li
+              key={option.value}
+              className={css.item}
+              data-checked={option.value === value}
+              onClick={() => {
+                onChange(option.value);
+              }}
+            >
+              {option.label}
+            </li>
+          ))}
+        </ul>
+      </Popover.Content>
+    </Popover.Root>
   );
 }
