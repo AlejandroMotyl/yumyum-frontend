@@ -128,14 +128,14 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
                 <>
                   <span className={css.favBtnTitle}>Unsave</span>
                   <svg className={css.favBtnIconUnsave} width="24" height="24">
-                    <use href="/Sprite.svg#icon-Genericbookmark-alternative" />
+                    <use href="/sprite-new.svg#icon-bookmark-filled-large" />
                   </svg>
                 </>
               ) : (
                 <>
                   <span className={css.favBtnTitle}>Save</span>
                   <svg className={css.favBtnIconSave} width="24" height="24">
-                    <use href="/Sprite.svg#icon-Genericbookmark-alternative" />
+                    <use href="/sprite-new.svg#icon-bookmark-filled-large" />
                   </svg>
                 </>
               )}
