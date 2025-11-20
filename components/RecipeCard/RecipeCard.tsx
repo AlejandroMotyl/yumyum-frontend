@@ -7,16 +7,19 @@ import Link from 'next/link';
 import { Recipe } from '@/types/recipe';
 import AuthModaling from '../AuthModaling/AuthModaling';
 import { useAuthStore } from '@/lib/store/authStore';
-import { api } from '@/lib/api/api';
+import {
+  addFavoriteRecipe,
+  removeFavoriteRecipe,
+} from '@/lib/services/favorites';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import iziToast from 'izitoast';
 
 interface RecipeCardProps {
   recipe: Recipe;
 }
 
 export default function RecipeCard({ recipe }: RecipeCardProps) {
-  const { isAuthenticated, user, addSavedRecipe, removeSavedRecipe } =
-    useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const isFavorite = user?.savedRecipes?.includes(recipe._id) ?? false;
@@ -29,16 +32,23 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 
     try {
       if (isFavorite) {
-        await api.delete(`/recipes/favorites/${recipe._id}`);
-        removeSavedRecipe(recipe._id);
+        await removeFavoriteRecipe(recipe._id);
+        iziToast.error({
+          message: 'Recipe removed to favorites',
+          position: 'topRight',
+        });
       } else {
-        await api.post(`/recipes/favorites/${recipe._id}`);
-        addSavedRecipe(recipe._id);
+        await addFavoriteRecipe(recipe._id);
+        iziToast.success({
+          message: 'Recipe added to favorites',
+          position: 'topRight',
+        });
       }
     } catch (error) {
       <ErrorMessage />;
     }
   };
+
   return (
     <>
       <Image
