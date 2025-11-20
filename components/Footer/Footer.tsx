@@ -20,7 +20,7 @@ export default function Footer() {
 
   const handleAccountClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (isAuthenticated) {
-      router.push('/profile');
+      router.push('/profile/own');
     } else {
       setShowModal(true);
     }

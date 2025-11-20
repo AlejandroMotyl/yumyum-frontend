@@ -48,7 +48,7 @@ export default function Filters({ totalRecipes }: { totalRecipes: number }) {
           >
             <span>Filters</span>
             <svg width="24" height="24">
-              <use href="/Sprite.svg#icon-Mailfilter" />
+              <use href="/sprite.svg#icon-Mailfilter" />
             </svg>
           </button>
           {/* desktop inline form */}

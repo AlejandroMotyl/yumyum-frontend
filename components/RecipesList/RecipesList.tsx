@@ -12,22 +12,17 @@ import Filters from '../Filters/Filters';
 import css from './RecipesList.module.css';
 import Container from '../Container/Container';
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
-
-export interface Props {
-  recipes: Recipe[];
-  hasMore: boolean;
-  loadMore: () => void;
-}
+import Pagination from '../Pagination/Pagination';
 
 export function RecipesList() {
   const search = useSearchStore((state) => state.searchQuery) || null;
   const category = useFiltersStore((state) => state.category) || null;
   const ingredient = useFiltersStore((state) => state.ingredient) || null;
 
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [page, setPage] = useState('1');
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    setRecipes([]);
+    setPage(1);
   }, [search, category, ingredient]);
 
   const { data, isLoading } = useQuery({
@@ -42,30 +37,22 @@ export function RecipesList() {
     ],
     queryFn: () =>
       getAllRecipes({
-        page: page,
+        page: String(page),
         category: category,
         search: search,
         ingredient: ingredient,
       }),
-    placeholderData: (prev) => prev,
   });
 
-  useEffect(() => {
-    if (data?.recipes) {
-      setRecipes((prev) => [...prev, ...data.recipes]);
-    }
-  }, [data]);
-
-  const hasMore = data ? data.totalPages > Number(page) : false;
-
-  const loadMore = () => {
-    const next = Number(page) + 1;
-    setPage(String(next));
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
   };
 
   if (isLoading || !data) {
     return <Loader />;
   }
+
+  const recipes = data?.recipes || [];
 
   return (
     <Container>
@@ -74,7 +61,7 @@ export function RecipesList() {
       <Filters totalRecipes={data.totalRecipes} />
 
       <ul className={css.listRecipes}>
-        {recipes.map((recipe) => (
+        {recipes.map((recipe: Recipe) => (
           <li key={recipe._id} className={css.oneRecipe}>
             <RecipeCard recipe={recipe} />
           </li>
@@ -84,11 +71,12 @@ export function RecipesList() {
       {isLoading ? (
         <Loader />
       ) : (
-        hasMore && (
-          <div>
-            <LoadMoreBtn onClick={loadMore} />
-          </div>
-        )
+        <Pagination
+          onChange={handlePageChange}
+          currentPage={page}
+          totalPages={data.totalPages}
+          recipes={recipes.length > 0}
+        />
       )}
     </Container>
   );
