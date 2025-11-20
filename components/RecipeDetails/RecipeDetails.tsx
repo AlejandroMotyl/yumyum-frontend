@@ -21,8 +21,6 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const savedRecipes = useAuthStore((state) => state.savedRecipes);
-  const addSavedRecipe = useAuthStore((state) => state.addSavedRecipe);
-  const removeSavedRecipe = useAuthStore((state) => state.removeSavedRecipe);
 
   const ingredientsMap = new Map(ingredients.map((ing) => [ing._id, ing]));
 
@@ -47,20 +45,16 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
       if (favorite) {
         await removeFavoriteRecipe(recipe._id);
 
-        removeSavedRecipe(recipe._id);
-
         setFavorite(false);
       } else {
         await addFavoriteRecipe(recipe._id);
-
-        addSavedRecipe(recipe._id);
 
         setFavorite(true);
       }
     } catch {
       import('izitoast').then((iziToast) => {
         iziToast.default.error({
-          message: 'Error toggling favorite!',
+          message: `Error toggling favorite!`,
           position: 'topRight',
         });
       });
