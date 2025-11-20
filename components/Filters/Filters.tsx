@@ -84,17 +84,15 @@ export default function Filters({ totalRecipes }: { totalRecipes: number }) {
           </button>
         </div>
 
-        {isOpen && (
-          <div
-            ref={panelRef}
-            className={`${css.filtersPanel}  ${isOpen ? css.filtersPanelOpen : ''}`}
-          >
-            <FiltersForm
-              categories={categoriesOptions}
-              ingredients={ingredientsOptions}
-            />
-          </div>
-        )}
+        <div
+          ref={panelRef}
+          className={`${css.filtersPanel}  ${isOpen ? css.filtersPanelOpen : ''}`}
+        >
+          <FiltersForm
+            categories={categoriesOptions}
+            ingredients={ingredientsOptions}
+          />
+        </div>
       </div>
     </section>
   );
