@@ -33,8 +33,8 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
     try {
       if (isFavorite) {
         await removeFavoriteRecipe(recipe._id);
-        iziToast.error({
-          message: 'Recipe removed to favorites',
+        iziToast.success({
+          message: 'Recipe removed from favorites',
           position: 'topRight',
         });
       } else {
@@ -45,7 +45,10 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         });
       }
     } catch (error) {
-      <ErrorMessage />;
+      iziToast.error({
+        message: 'Something went wrong',
+        position: 'topRight',
+      });
     }
   };
 
