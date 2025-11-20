@@ -1,12 +1,9 @@
-/** Input-Reset Wrapper */
 .inputResetWrapper {
   display: flex;
   flex-direction: column;
   gap: 24px;
   align-items: flex-start;
-
-
-
+  width: 100%;
 }
 
 @media (min-width: 1440px) {
@@ -15,25 +12,48 @@
     gap: 24px;
     align-items: center;
     flex-flow: row-reverse;
+    width: 480px;
+
   }
 }
 
-/*! Input-Reset Wrapper*/
 
+.filterFieldsWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
+}
 
+@media (min-width: 1440px) {
+  .filterFieldsWrapper {
+    flex-direction: row;
+  }
+}
 
 .filtersField {
-  border: 1px solid var(--light-gray);
-  border-radius: 4px;
-  font: var(--body-md-regular);
-  color: var(--gray);
   width: 100%;
 
 }
 
-.resetButton {
+@media (min-width: 1440px) {
+  .filtersField {
+    width: 179px;
+    height: 33px;
+  }
+}
 
+.resetButton {
   font: var(--body-sm-semibold);
   border-bottom: 1px solid var(--black);
+  cursor: pointer;
 
+}
+
+@media (min-width: 1440px) {
+  .resetButton {
+    width: auto;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 }

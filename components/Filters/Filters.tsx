@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import css from './Filters.module.css';
 import type { Option } from '@/types/filter';
 import { FiltersForm } from '../FiltersForm/FiltersForm';
-import { FiltersModal } from '../FiltersModal/FiltersModal';
 import { useQuery } from '@tanstack/react-query';
 import { getCategories, getIngredients } from '@/lib/api/clientApi';
 
@@ -33,41 +32,63 @@ export default function Filters({ totalRecipes }: { totalRecipes: number }) {
     })) ?? [];
 
   const [isOpen, setIsOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Node;
+
+      if (panelRef.current?.contains(target)) return;
+      if (buttonRef.current?.contains(target)) return;
+      setIsOpen(false);
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
+
+  const handleToggle = () => {
+    setIsOpen((prev) => !prev);
+  };
 
   return (
     <section className={css.filtersSection}>
-      <div>
-        <div className={css.filtersWrapper}>
+      <div className={css.filtersWrapper}>
+        <div className={css.filtersHeader}>
           <p className={css.totalRecipes}>{totalRecipes} recipes</p>
 
-          {/* mobile toggle */}
           <button
+            ref={buttonRef}
             className={css.filtersToggle}
             type="button"
-            onClick={() => setIsOpen(true)}
+            onClick={handleToggle}
           >
             <span>Filters</span>
             <svg width="24" height="24">
-              <use href="/sprite.svg#icon-Mailfilter" />
+              {isOpen ? (
+                <use href="/Sprite-new.svg#icon-close-circle-medium" />
+              ) : (
+                <use href="/Sprite-new.svg#icon-filter-medium" />
+              )}
             </svg>
           </button>
-          {/* desktop inline form */}
-          <div className={css.desktopFiltersPanel}>
-            <FiltersForm
-              categories={categoriesOptions}
-              ingredients={ingredientsOptions}
-            />
-          </div>
+        </div>
+
+        <div
+          ref={panelRef}
+          className={`${css.filtersPanel}  ${isOpen ? css.filtersPanelOpen : ''}`}
+        >
+          <FiltersForm
+            categories={categoriesOptions}
+            ingredients={ingredientsOptions}
+          />
         </div>
       </div>
-
-      {/* mobile modal */}
-      <FiltersModal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        categories={categoriesOptions}
-        ingredients={ingredientsOptions}
-      />
     </section>
   );
 }

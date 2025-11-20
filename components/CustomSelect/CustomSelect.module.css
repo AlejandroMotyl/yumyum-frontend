@@ -1,0 +1,104 @@
+/* Select field */
+.trigger {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-radius: 4px;
+  border: 1px solid var(--light-gray);
+  font: var(--body-md-regular);
+  background-color: var(--white);
+  color: var(--gray);
+  cursor: pointer;
+
+}
+
+/* placeholder style */
+.trigger [data-placeholder] {
+  font: var(--body-md-regular);
+  color: var(--gray);
+
+}
+
+/* Focus on keyboard action only*/
+.trigger:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.triggerSelected {
+  color: var(--black);
+
+}
+
+/* Arrow down icon */
+.icon {
+  position: absolute;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: var(--black);
+}
+
+/* base arrow style */
+.trigger svg {
+  transform: rotate(0deg);
+  /* closed = default */
+  transition: transform 150ms ease;
+}
+
+/* Rotate arrow when open */
+.trigger[data-state='open'] svg {
+  transform: rotate(180deg);
+}
+
+/* Dropdown panel */
+.content {
+  background-color: var(--white);
+  border-radius: 4px;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4), 0 8px 24px -6px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+  z-index: 1001;
+  width: 264px;
+
+}
+
+@media (min-width: 1440px) {
+  .content {
+    overflow: visible;
+    width: 179px;
+  }
+}
+
+/* List */
+.viewport {
+  padding: 8px 8px;
+  max-height: calc(6 * 41px);
+  overflow-y: auto;
+  width: 100%;
+
+}
+
+/* Dropdown item */
+.item {
+  padding: 8px 12px;
+  font: var(--body-md-regular);
+  color: var(--black);
+  cursor: pointer;
+  border-radius: 4px;
+
+
+}
+
+.item:hover {
+  outline: none;
+  background-color: var(--light-gray-2);
+
+  ;
+}
