@@ -1,4 +1,5 @@
 'use client';
+import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import Loader from '@/components/Loader/Loader';
 import RecipeDetails from '@/components/RecipeDetails/RecipeDetails';
 import { getRecipeById } from '@/lib/api/clientApi';
@@ -15,7 +16,7 @@ const RecipeDetailsClient = ({ recipeId }: { recipeId: string }) => {
     <>
       {data && <RecipeDetails recipe={data} />}
       {isLoading && <Loader />}
-      {!data && error && <p>Something went wrong.</p>}
+      {!data && error && <ErrorMessage />}
     </>
   );
 };

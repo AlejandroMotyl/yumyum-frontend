@@ -90,3 +90,21 @@ export const getIngredients = async (): Promise<getIngredientsProps[]> => {
   const { data } = await api.get('/ingredients');
   return data;
 };
+
+export const addToFavorite = async ({
+  recipeId,
+}: {
+  recipeId: string;
+}): Promise<{ message: string }> => {
+  const res = await api.post(`/recipes/favorites/${recipeId}`);
+  return res.data;
+};
+
+export const removeFromFavorite = async ({
+  recipeId,
+}: {
+  recipeId: string;
+}): Promise<{ message: string }> => {
+  const res = await api.delete(`/recipes/favorites/${recipeId}`);
+  return res.data;
+};
