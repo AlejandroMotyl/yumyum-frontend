@@ -71,12 +71,18 @@ export function RecipesList() {
       {isLoading ? (
         <Loader />
       ) : (
+<<<<<<< HEAD
         <Pagination
           onChange={handlePageChange}
           currentPage={page}
           totalPages={data.totalPages}
           recipes={recipes.length > 0}
         />
+=======
+        <div>
+          <LoadMoreBtn onClick={loadMore} disabled={!hasMore} />
+        </div>
+>>>>>>> b351bc05f4c5ad94f7aafddaaa7f0e306efbb5ec
       )}
     </Container>
   );
