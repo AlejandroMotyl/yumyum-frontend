@@ -25,12 +25,12 @@
   background: var(--light-brown);
 }
 
-.pagination :global(.previous) a {
-  color: var(--white);
-}
-
-.pagination :global(.next) a {
-  color: var(--white);
+.nextArrow {
+  stroke-width: #fff;
+  fill: #fff;
+  width: 24px;
+  height: 24px;
+  display: block;
 }
 
 .pagination li {
@@ -56,10 +56,6 @@
 .pagination li:focus {
   background: var(--brown);
 }
-.pagination li a:hover,
-.pagination li a:focus {
-  color: var(--white);
-}
 
 .active {
   background: var(--light-brown);
@@ -68,4 +64,14 @@
 .active a {
   color: #fff !important;
   font: var(--body-md-semibold);
+}
+
+.paginationPlaceholder {
+  height: 44px;
+  margin: 40px auto;
+  opacity: 0;
+}
+
+.disabled {
+  display: none;
 }

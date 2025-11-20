@@ -5,10 +5,19 @@ interface PaginationProps {
   onChange: (page: number) => void;
   currentPage: number;
   totalPages: number;
+  recipes: boolean;
 }
-const Pagination = ({ onChange, currentPage, totalPages }: PaginationProps) => {
+const Pagination = ({
+  onChange,
+  currentPage,
+  totalPages,
+  recipes,
+}: PaginationProps) => {
   if (!totalPages || totalPages <= 1) {
-    return null;
+    return <div className={css.paginationPlaceholder} />;
+  }
+  if (!recipes) {
+    return <div className={css.paginationPlaceholder} />;
   }
 
   return (
@@ -20,8 +29,22 @@ const Pagination = ({ onChange, currentPage, totalPages }: PaginationProps) => {
       forcePage={currentPage - 1}
       containerClassName={css.pagination}
       activeClassName={css.active}
-      nextLabel="→"
-      previousLabel="←"
+      disabledClassName={css.disabled}
+      nextLabel={
+        <svg width="24" height="24" className={css.nextArrow}>
+          <use href="/sprite.svg#icon-rightArrow" />
+        </svg>
+      }
+      previousLabel={
+        <svg
+          width="24"
+          height="24"
+          className={css.nextArrow}
+          style={{ display: 'block' }}
+        >
+          <use href="/sprite.svg#icon-leftArrow" />
+        </svg>
+      }
     />
   );
 };
