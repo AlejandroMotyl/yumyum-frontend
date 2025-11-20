@@ -5,7 +5,7 @@
     justify-content: flex-start;
     flex-direction: column;
     gap: 24px;
-    width: 361px;
+    max-width: 361px;
     padding-top: 16px;
   }
 
@@ -35,7 +35,7 @@
   }
 
   .addRecipeInstructionsGroup {
-    width: 361px;
+    max-width: 361px;
   }
 
   .addRecipeCalsAndCategoryWrapper {
@@ -44,8 +44,7 @@
     justify-content: flex-start;
     flex-direction: row;
     gap: 16px;
-    width: 361px;
-    height: 78px;
+    max-width: 361px;
   }
 
   /* ==================================== */
@@ -83,8 +82,8 @@
   .imagePlaceholder,
   .addRecipeFormPreviewImage {
     border-radius: 16px;
-    width: 361px;
-    height: 383px;
+    max-width: 361px;
+    max-height: 383px;
     object-fit: cover;
     object-position: center;
     overflow: hidden;
@@ -144,8 +143,42 @@
     color: var(--black);
     font: var(--body-lg-regular);
     align-items: center;
-    height: 46px;
-    max-height: 48px;
+  }
+
+  .selectWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .addRecipeFormIngredientsInput {
+    display: flex;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    stroke: currentColor;
+    fill: none;
+    padding-right: 40px;
+    width: 100%;
+    height: auto;
+    flex-grow: 1;
+  }
+
+  .arrowIcon,
+  .arrowIconCategory {
+    display: flex;
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+    z-index: 5;
+  }
+
+  .arrowIcon {
+    transform: translateY(-50%);
   }
 
   .addRecipeFormIngredientsInput:first-child {
@@ -166,7 +199,6 @@
     font: var(--body-lg-regular);
     resize: none;
     align-items: flex-start;
-    height: 144px;
   }
 
   .addRecipeFormInstructionsTextarea {
@@ -176,6 +208,9 @@
   .addRecipeFormCategoryInput,
   .addRecipeFormCalsInput {
     display: flex;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     justify-content: flex-start;
     flex-direction: row;
     gap: 8px;
@@ -186,8 +221,6 @@
     font: var(--body-lg-regular);
     align-items: center;
     width: 172px;
-    height: 46px;
-    max-height: 48px;
   }
 
   .addRecipeFormInput::placeholder,
@@ -315,4 +348,11 @@
   .addRecipeFormCalsInput.is-invalid::placeholder {
     color: var(--red);
   }
+}
+/* TABLET STYLES */
+@media screen and (min-width: 768px) {
+}
+
+/* DESC STYLES */
+@media screen and (min-width: 1440px) {
 }

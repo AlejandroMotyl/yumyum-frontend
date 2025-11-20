@@ -288,7 +288,7 @@ export const RecipeForm = () => {
                     <Field
                       name="description"
                       as="textarea"
-                      rows={3}
+                      rows={4}
                       className={`${css.addRecipeFormTextarea} ${isFieldInvalid('description')}`}
                       placeholder="Enter a brief description of your recipe"
                     />
@@ -331,18 +331,23 @@ export const RecipeForm = () => {
 
                     <label className={css.addRecipeFormBlockSubtitle}>
                       Category
-                      <Field
-                        name="category"
-                        as="select"
-                        className={`${css.addRecipeFormCategoryInput} ${isFieldInvalid('category')}`}
-                      >
-                        <option value="">Soup</option>
-                        {categories.map((cat) => (
-                          <option key={cat._id} value={cat._id}>
-                            {cat.name}
-                          </option>
-                        ))}
-                      </Field>
+                      <div className={css.selectWrapper}>
+                        <Field
+                          name="category"
+                          as="select"
+                          className={`${css.addRecipeFormCategoryInput} ${isFieldInvalid('category')}`}
+                        >
+                          <option value="Soup">Soup</option>
+                          {categories.map((cat) => (
+                            <option key={cat._id} value={cat._id}>
+                              {cat.name}
+                            </option>
+                          ))}
+                        </Field>
+                        <svg className={css.arrowIconCategory}>
+                          <use href="/sprite.svg#icon-Controlschevron-down"></use>
+                        </svg>
+                      </div>
                       <ErrorMessage
                         name="category"
                         component="div"
@@ -368,33 +373,40 @@ export const RecipeForm = () => {
                             <div className={css.ingredientRow}>
                               <label className={css.addRecipeFormBlockSubtitle}>
                                 Name
-                                <Field
-                                  as="select"
-                                  name={`ingredients[${lastIndex}].id`}
-                                  className={css.addRecipeFormIngredientsInput}
-                                  onChange={(e: any) => {
-                                    const selected = ingredientsList.find(
-                                      (i) => i._id === e.target.value,
-                                    );
+                                <div className={css.selectWrapper}>
+                                  <Field
+                                    as="select"
+                                    name={`ingredients[${lastIndex}].id`}
+                                    className={
+                                      css.addRecipeFormIngredientsInput
+                                    }
+                                    onChange={(e: any) => {
+                                      const selected = ingredientsList.find(
+                                        (i) => i._id === e.target.value,
+                                      );
 
-                                    setFieldValue(
-                                      `ingredients[${lastIndex}].id`,
-                                      selected?._id || '',
-                                    );
-                                    setFieldValue(
-                                      `ingredients[${lastIndex}].name`,
-                                      selected?.name || '',
-                                    );
-                                  }}
-                                  value={values.ingredients[lastIndex].id}
-                                >
-                                  <option value="">Broccoli</option>
-                                  {ingredientsList.map((i) => (
-                                    <option key={i._id} value={i._id}>
-                                      {i.name}
-                                    </option>
-                                  ))}
-                                </Field>
+                                      setFieldValue(
+                                        `ingredients[${lastIndex}].id`,
+                                        selected?._id || '',
+                                      );
+                                      setFieldValue(
+                                        `ingredients[${lastIndex}].name`,
+                                        selected?.name || '',
+                                      );
+                                    }}
+                                    value={values.ingredients[lastIndex].id}
+                                  >
+                                    <option value="Broccoli">Broccoli</option>
+                                    {ingredientsList.map((i) => (
+                                      <option key={i._id} value={i._id}>
+                                        {i.name}
+                                      </option>
+                                    ))}
+                                  </Field>
+                                  <svg className={css.arrowIcon}>
+                                    <use href="/sprite.svg#icon-Controlschevron-down"></use>
+                                  </svg>
+                                </div>
                                 <ErrorMessage
                                   name={`ingredients[${lastIndex}].id`}
                                   component="div"
