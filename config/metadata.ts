@@ -1,5 +1,5 @@
 export const SITE_NAME = 'Tasteorama';
-export const SITE_DOMAIN = 'https://yumyum-frontend.vercel.app';
+export const SITE_DOMAIN = 'https://yumyum-frontend.vercel.app/';
 export const OG_IMAGE = {
   alt: SITE_NAME,
   url: `${SITE_DOMAIN}/hero/hero-desktop.jpg`,

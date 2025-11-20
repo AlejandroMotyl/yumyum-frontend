@@ -13,6 +13,7 @@ import css from './RecipesList.module.css';
 import Container from '../Container/Container';
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
 import Pagination from '../Pagination/Pagination';
+import Pagination from '../Pagination/Pagination';
 
 export function RecipesList() {
   const search = useSearchStore((state) => state.searchQuery) || null;
@@ -21,7 +22,10 @@ export function RecipesList() {
 
   const [page, setPage] = useState(1);
 
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
+    setPage(1);
     setPage(1);
   }, [search, category, ingredient]);
 
@@ -38,10 +42,15 @@ export function RecipesList() {
     queryFn: () =>
       getAllRecipes({
         page: String(page),
+        page: String(page),
         category: category,
         search: search,
         ingredient: ingredient,
       }),
+  });
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
   });
 
   const handlePageChange = (newPage: number) => {
@@ -54,6 +63,8 @@ export function RecipesList() {
 
   const recipes = data?.recipes || [];
 
+  const recipes = data?.recipes || [];
+
   return (
     <Container>
       <h1 className={css.titleRecipes}>Recipes</h1>
@@ -61,6 +72,7 @@ export function RecipesList() {
       <Filters totalRecipes={data.totalRecipes} />
 
       <ul className={css.listRecipes}>
+        {recipes.map((recipe: Recipe) => (
         {recipes.map((recipe: Recipe) => (
           <li key={recipe._id} className={css.oneRecipe}>
             <RecipeCard recipe={recipe} />

@@ -16,9 +16,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
   return (
     <>
       <Image
-        src={
-          recipe?.thumb ? recipe.thumb : '/img-default/default-img-desktop.jpg'
-        }
+        src={recipe?.thumb ? recipe.thumb : '/img-default/default-img-tablet'}
         alt={recipe.title}
         width={300}
         height={300}

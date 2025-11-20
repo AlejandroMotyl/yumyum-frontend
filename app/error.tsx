@@ -1,13 +1,15 @@
 'use client';
 
-import css from './error.module.css';
+interface ErrorProps {
+  error: Error & { digest?: string };
+  reset: () => void;
+}
 
-const Error = () => {
+export default function Error({ error, reset }: ErrorProps) {
   return (
-    <div className={css.wrapper}>
-      <img src="/Error.webp" alt="Error" className={css.hat} />
+    <div style={{ textAlign: 'center', padding: '10px' }}>
+      <p>Could not fetch the list of notes. {error.message}</p>
+      <button onClick={() => reset()}>Try again</button>
     </div>
   );
-};
-
-export default Error;
+}
