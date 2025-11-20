@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { register } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
-import 'izitoast/dist/css/iziToast.min.css';
 
 import styles from './page.module.css';
 import { useState } from 'react';

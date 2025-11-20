@@ -11,8 +11,7 @@ import { logout } from '@/lib/api/clientApi';
 import { createPortal } from 'react-dom';
 
 export default function Header() {
-  const { isAuthenticated, clearIsAuthenticated, user, setUser } =
-    useAuthStore();
+  const { isAuthenticated, clearIsAuthenticated, user } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const firstLetterUserName = user?.name?.[0]?.toUpperCase() ?? '';
