@@ -86,8 +86,8 @@
   /* background-color: var(--light-brown); */
   border-radius: 8px;
   padding: 8px;
-  /* width: 289px; */
   width: 100%;
+  /* width: 289px; */
   height: 40px;
   font: var(--body-md-semibold);
   color: var(--black);
@@ -112,13 +112,13 @@
 
 @media screen and (min-width: 768px) {
   .button {
-    width: 267px;
+    /* width: 267px; */
   }
 }
 
 @media screen and (min-width: 1440px) {
   .button {
-    width: 216px;
+    /* width: 216px; */
   }
 }
 
