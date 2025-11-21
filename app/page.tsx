@@ -1,12 +1,9 @@
 import Hero from '@/components/Hero/Hero';
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getAllRecipes } from '@/lib/api/clientApi';
 import { RecipesList } from '@/components/RecipesList/RecipesList';
 import Container from '@/components/Container/Container';
+import getQueryClient from '@/lib/getQueryClient';
 
 export async function generateMetadata() {
   const title = `YumYum Recipes`;
@@ -21,7 +18,7 @@ export async function generateMetadata() {
       url: 'yumyum-frontend.vercel.app/',
       images: [
         {
-          url: '/public/hero/hero-tablet.jpg',
+          url: '/hero/hero-tablet.jpg',
           width: 1200,
           height: 630,
           alt: 'YumYum Recipes',
@@ -32,7 +29,7 @@ export async function generateMetadata() {
 }
 
 export default async function Home() {
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
     queryKey: [
