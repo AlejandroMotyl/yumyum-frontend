@@ -50,6 +50,8 @@ const SearchBox = () => {
     if (isValid) {
       setGlobalSearchQuery(searchQuery.trim());
     }
+
+    (e.target as HTMLFormElement).querySelector('button')?.blur();
   };
 
   return (
