@@ -50,7 +50,9 @@ export function RecipesList() {
 
   return (
     <Container>
-      <h1 className={css.titleRecipes}>Recipes</h1>
+      <h1 className={css.titleRecipes}>
+        {search ? `Search Results for “${search}”` : 'Recipes'}
+      </h1>
 
       <Filters totalRecipes={data.totalRecipes} />
 
