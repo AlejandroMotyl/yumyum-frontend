@@ -1,9 +1,18 @@
-.addRecipeMain {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 16px;
-  padding-top: 48px;
-  padding-bottom: 48px;
+@media screen {
+  .addRecipeMain {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .addRecipeMain {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
 }
