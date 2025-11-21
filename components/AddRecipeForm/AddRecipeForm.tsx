@@ -27,6 +27,8 @@ import {
 import { createRecipe } from '@/lib/api/clientApi';
 import { FormikSelect } from './FormikSelect/FormikSelect';
 import { SelectOption } from '@/types/formik';
+import { useRecipeDraftStore } from '@/lib/store/recipeDraftStore';
+import FormDraftManager from './FormDraftManager/FormDraftManager';
 
 const getIziToast = async () => {
   if (typeof window !== 'undefined') {
@@ -101,6 +103,8 @@ export const RecipeForm = () => {
     label: ing.name,
     data: ing,
   }));
+  const [isInitialValuesLoaded, setIsInitialValuesLoaded] = useState(false);
+  const { clearDraft } = useRecipeDraftStore();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -180,6 +184,7 @@ export const RecipeForm = () => {
       console.log('Sending formData keys:', Array.from(formData.keys()));
 
       const res = await createRecipe(formData);
+      clearDraft();
 
       if (iziToast) {
         iziToast.success({ title: 'Success', message: 'Recipe created!' });
@@ -217,271 +222,289 @@ export const RecipeForm = () => {
 
           return (
             <Form className={css.addRecipeForm}>
-              {/* --- Upload Photo Block --- */}
-              <div className={css.addRecipeImgBlock}>
-                <label className={css.addRecipeFormBlockTitle}>
-                  Upload Photo
-                  <div className={css.customFileInputWrapper}>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className={css.hiddenFileInput}
-                      onChange={(e) => {
-                        const file = e.target.files?.[0] || null;
-                        setFieldValue('thumb', file);
-                        setPreview(file ? URL.createObjectURL(file) : null);
-                      }}
-                    />
-                    {preview ? (
-                      <img
-                        src={preview}
-                        alt="Preview"
-                        className={css.addRecipeFormPreviewImage}
-                      />
-                    ) : (
-                      <picture className={css.imagePlaceholder}>
-                        <source
-                          media="(min-width: 1440px)"
-                          srcSet="/img-default/default-img-desktop.jpg"
+              <FormDraftManager
+                initialValues={initialValues}
+                setInitialValuesLoaded={setIsInitialValuesLoaded}
+              />
+              {!isInitialValuesLoaded ? (
+                <p>Draft loading...</p>
+              ) : (
+                <>
+                  {/* --- Upload Photo Block --- */}
+                  <div className={css.addRecipeImgBlock}>
+                    <label className={css.addRecipeFormBlockTitle}>
+                      Upload Photo
+                      <div className={css.customFileInputWrapper}>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className={css.hiddenFileInput}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0] || null;
+                            setFieldValue('thumb', file);
+                            setPreview(file ? URL.createObjectURL(file) : null);
+                          }}
                         />
+                        {preview ? (
+                          <img
+                            src={preview}
+                            alt="Preview"
+                            className={css.addRecipeFormPreviewImage}
+                          />
+                        ) : (
+                          <picture className={css.imagePlaceholder}>
+                            <source
+                              media="(min-width: 1440px)"
+                              srcSet="/img-default/default-img-desktop.jpg"
+                            />
 
-                        <source
-                          media="(min-width: 768px)"
-                          srcSet="/img-default/default-img-tablet.jpg"
-                        />
+                            <source
+                              media="(min-width: 768px)"
+                              srcSet="/img-default/default-img-tablet.jpg"
+                            />
 
-                        <img
-                          src="/img-default/default-img-mobile.jpg"
-                          alt="Default Recipe Placeholder"
-                          className={css.defaultPlaceholderImage}
-                          width="361"
-                          height="383"
-                        />
-                      </picture>
-                    )}
-                    {values.thumb && (
-                      <span className={css.fileNameDisplay}>
-                        {(values.thumb as File).name}
-                      </span>
-                    )}
-                  </div>
-                  <ErrorMessage
-                    name="thumb"
-                    component="div"
-                    className={css.errorMessage}
-                  />
-                </label>
-              </div>
-
-              {/* ---  General Block --- */}
-              <div className={css.addRecipeInfoBlock}>
-                <div className={css.addRecipeGeneralGroup}>
-                  <p className={css.addRecipeFormBlockTitle}>
-                    General Information
-                  </p>
-
-                  <label className={css.addRecipeFormBlockSubtitle}>
-                    Recipe Title
-                    <Field
-                      name="title"
-                      className={`${css.addRecipeFormInput} ${isFieldInvalid('title')}`}
-                      placeholder="Enter the name of your recipe"
-                    />
-                    <ErrorMessage
-                      name="title"
-                      component="div"
-                      className={css.errorMessage}
-                    />
-                  </label>
-
-                  <label className={css.addRecipeFormBlockSubtitle}>
-                    Recipe Description
-                    <Field
-                      name="description"
-                      as="textarea"
-                      rows={4}
-                      className={`${css.addRecipeFormTextarea} ${isFieldInvalid('description')}`}
-                      placeholder="Enter a brief description of your recipe"
-                    />
-                    <ErrorMessage
-                      name="description"
-                      component="div"
-                      className={css.errorMessage}
-                    />
-                  </label>
-
-                  <label className={css.addRecipeFormBlockSubtitle}>
-                    Cooking time in minutes
-                    <Field
-                      name="time"
-                      type="number"
-                      className={`${css.addRecipeFormInput} ${isFieldInvalid('time')}`}
-                      placeholder="10"
-                    />
-                    <ErrorMessage
-                      name="time"
-                      component="div"
-                      className={css.errorMessage}
-                    />
-                  </label>
-                  <div className={css.addRecipeCalsAndCategoryWrapper}>
-                    <label className={css.addRecipeFormBlockSubtitle}>
-                      Calories
-                      <Field
-                        name="cals"
-                        type="number"
-                        className={`${css.addRecipeFormCalsInput} ${isFieldInvalid('cals')}`}
-                        placeholder="150 cals"
-                      />
+                            <img
+                              src="/img-default/default-img-mobile.jpg"
+                              alt="Default Recipe Placeholder"
+                              className={css.defaultPlaceholderImage}
+                              width="361"
+                              height="383"
+                            />
+                          </picture>
+                        )}
+                        {values.thumb && (
+                          <span className={css.fileNameDisplay}>
+                            {(values.thumb as File).name}
+                          </span>
+                        )}
+                      </div>
                       <ErrorMessage
-                        name="cals"
+                        name="thumb"
                         component="div"
                         className={css.errorMessage}
                       />
                     </label>
-
-                    <FormikSelect
-                      label="Category"
-                      name="category"
-                      options={categoryOptions}
-                      placeholder="Soup"
-                    />
                   </div>
-                </div>
 
-                {/* --- Ingredients Block --- */}
-                <div className={css.addRecipeIngredientsGroup}>
-                  <label className={css.addRecipeFormBlockTitle}>
-                    Ingredients
-                  </label>
+                  {/* ---  General Block --- */}
+                  <div className={css.addRecipeInfoBlock}>
+                    <div className={css.addRecipeGeneralGroup}>
+                      <p className={css.addRecipeFormBlockTitle}>
+                        General Information
+                      </p>
 
-                  <FieldArray name="ingredients">
-                    {({ push, remove }) => {
-                      const lastIndex = values.ingredients.length - 1;
+                      <label className={css.addRecipeFormBlockSubtitle}>
+                        Recipe Title
+                        <Field
+                          name="title"
+                          className={`${css.addRecipeFormInput} ${isFieldInvalid('title')}`}
+                          placeholder="Enter the name of your recipe"
+                        />
+                        <ErrorMessage
+                          name="title"
+                          component="div"
+                          className={css.errorMessage}
+                        />
+                      </label>
 
-                      return (
-                        <div>
-                          {values.ingredients.length > 0 && (
-                            <div className={css.ingredientRow}>
-                              <FormikSelect
-                                label="Name"
-                                name={`ingredients[${lastIndex}].id`}
-                                options={ingredientOptions}
-                                placeholder="Broccoli"
-                                width="100%"
-                                onChange={(option: SelectOption | null) => {
-                                  const selectedName = option
-                                    ? option.label
-                                    : '';
-                                  setFieldValue(
-                                    `ingredients[${lastIndex}].name`,
-                                    selectedName,
-                                  );
-                                }}
-                              />
-                              <ErrorMessage
-                                name={`ingredients[${lastIndex}].id`}
-                                component="div"
-                                className={css.errorMessage}
-                              />
+                      <label className={css.addRecipeFormBlockSubtitle}>
+                        Recipe Description
+                        <Field
+                          name="description"
+                          as="textarea"
+                          rows={4}
+                          className={`${css.addRecipeFormTextarea} ${isFieldInvalid('description')}`}
+                          placeholder="Enter a brief description of your recipe"
+                        />
+                        <ErrorMessage
+                          name="description"
+                          component="div"
+                          className={css.errorMessage}
+                        />
+                      </label>
 
-                              <label className={css.addRecipeFormBlockSubtitle}>
-                                Amount
-                                <Field
-                                  name={`ingredients[${lastIndex}].amount`}
-                                  className={css.addRecipeFormIngredientsInput}
-                                  placeholder="100g"
-                                />
-                                <ErrorMessage
-                                  name={`ingredients[${lastIndex}].amount`}
-                                  component="div"
-                                  className={css.errorMessage}
-                                />
-                              </label>
-                            </div>
-                          )}
-
-                          <AddIngredientButton
-                            push={push}
-                            values={values}
-                            css={css}
-                            errors={errors as FormikErrors<RecipeFormValues>}
-                            touched={touched as FormikTouched<RecipeFormValues>}
-                            getIziToast={getIziToast}
+                      <label className={css.addRecipeFormBlockSubtitle}>
+                        Cooking time in minutes
+                        <Field
+                          name="time"
+                          type="number"
+                          className={`${css.addRecipeFormInput} ${isFieldInvalid('time')}`}
+                          placeholder="10"
+                        />
+                        <ErrorMessage
+                          name="time"
+                          component="div"
+                          className={css.errorMessage}
+                        />
+                      </label>
+                      <div className={css.addRecipeCalsAndCategoryWrapper}>
+                        <label className={css.addRecipeFormBlockSubtitle}>
+                          Calories
+                          <Field
+                            name="cals"
+                            type="number"
+                            className={`${css.addRecipeFormCalsInput} ${isFieldInvalid('cals')}`}
+                            placeholder="150 cals"
                           />
+                          <ErrorMessage
+                            name="cals"
+                            component="div"
+                            className={css.errorMessage}
+                          />
+                        </label>
 
-                          {values.ingredients.length > 1 && (
-                            <div className={css.ingredientsTable}>
-                              <div className={css.tableHeader}>
-                                <span>Name:</span>
-                                <span>Amount:</span>
-                                <span></span>
-                              </div>
+                        <FormikSelect
+                          label="Category"
+                          name="category"
+                          options={categoryOptions}
+                          placeholder="Soup"
+                        />
+                      </div>
+                    </div>
 
-                              {values.ingredients
-                                .slice(0, -1)
-                                .map((ing, index) => (
-                                  <div key={index} className={css.tableRow}>
-                                    <span className={css.tableName}>
-                                      {ing.name}
-                                    </span>
-                                    <span className={css.tableAmount}>
-                                      {ing.amount}
-                                    </span>
+                    {/* --- Ingredients Block --- */}
+                    <div className={css.addRecipeIngredientsGroup}>
+                      <label className={css.addRecipeFormBlockTitle}>
+                        Ingredients
+                      </label>
 
-                                    <button
-                                      type="button"
-                                      onClick={() => remove(index)}
-                                      className={css.removeButton}
-                                    >
-                                      <svg className={css.removeIcon}>
-                                        <use href="/sprite.svg#icon-Genericdelete"></use>
-                                      </svg>
-                                    </button>
+                      <FieldArray name="ingredients">
+                        {({ push, remove }) => {
+                          const lastIndex = values.ingredients.length - 1;
+
+                          return (
+                            <div>
+                              {values.ingredients.length > 0 && (
+                                <div className={css.ingredientRow}>
+                                  <FormikSelect
+                                    label="Name"
+                                    name={`ingredients[${lastIndex}].id`}
+                                    options={ingredientOptions}
+                                    placeholder="Broccoli"
+                                    width="100%"
+                                    onChange={(option: SelectOption | null) => {
+                                      const selectedName = option
+                                        ? option.label
+                                        : '';
+                                      setFieldValue(
+                                        `ingredients[${lastIndex}].name`,
+                                        selectedName,
+                                      );
+                                    }}
+                                  />
+                                  <ErrorMessage
+                                    name={`ingredients[${lastIndex}].id`}
+                                    component="div"
+                                    className={css.errorMessage}
+                                  />
+
+                                  <label
+                                    className={css.addRecipeFormBlockSubtitle}
+                                  >
+                                    Amount
+                                    <Field
+                                      name={`ingredients[${lastIndex}].amount`}
+                                      className={
+                                        css.addRecipeFormIngredientsInput
+                                      }
+                                      placeholder="100g"
+                                    />
+                                    <ErrorMessage
+                                      name={`ingredients[${lastIndex}].amount`}
+                                      component="div"
+                                      className={css.errorMessage}
+                                    />
+                                  </label>
+                                </div>
+                              )}
+
+                              <AddIngredientButton
+                                push={push}
+                                values={values}
+                                css={css}
+                                errors={
+                                  errors as FormikErrors<RecipeFormValues>
+                                }
+                                touched={
+                                  touched as FormikTouched<RecipeFormValues>
+                                }
+                                getIziToast={getIziToast}
+                              />
+
+                              {values.ingredients.length > 1 && (
+                                <div className={css.ingredientsTable}>
+                                  <div className={css.tableHeader}>
+                                    <span>Name:</span>
+                                    <span>Amount:</span>
+                                    <span></span>
                                   </div>
-                                ))}
+
+                                  {values.ingredients
+                                    .slice(0, -1)
+                                    .map((ing, index) => (
+                                      <div key={index} className={css.tableRow}>
+                                        <span className={css.tableName}>
+                                          {ing.name}
+                                        </span>
+                                        <span className={css.tableAmount}>
+                                          {ing.amount}
+                                        </span>
+
+                                        <button
+                                          type="button"
+                                          onClick={() => remove(index)}
+                                          className={css.removeButton}
+                                        >
+                                          <svg className={css.removeIcon}>
+                                            <use href="/sprite.svg#icon-Genericdelete"></use>
+                                          </svg>
+                                        </button>
+                                      </div>
+                                    ))}
+                                </div>
+                              )}
+
+                              {values.ingredients.slice(0, -1).length < 2 && (
+                                <div className={css.errorMessage}>
+                                  Please add at least 2 ingredients.
+                                </div>
+                              )}
                             </div>
-                          )}
+                          );
+                        }}
+                      </FieldArray>
+                    </div>
 
-                          {values.ingredients.slice(0, -1).length < 2 && (
-                            <div className={css.errorMessage}>
-                              Please add at least 2 ingredients.
-                            </div>
-                          )}
-                        </div>
-                      );
-                    }}
-                  </FieldArray>
-                </div>
+                    {/* --- Instructions Block --- */}
 
-                {/* --- Instructions Block --- */}
+                    <div className={css.addRecipeInstructionsGroup}>
+                      <label className={css.addRecipeFormBlockTitle}>
+                        Instructions
+                        <Field
+                          name="instructions"
+                          as="textarea"
+                          rows={5}
+                          className={`${css.addRecipeFormInstructionsTextarea} ${isFieldInvalid('description')}`}
+                          placeholder="Enter a text"
+                        />
+                        <ErrorMessage
+                          name="instructions"
+                          component="div"
+                          className={css.errorMessage}
+                        />
+                      </label>
+                    </div>
 
-                <div className={css.addRecipeInstructionsGroup}>
-                  <label className={css.addRecipeFormBlockTitle}>
-                    Instructions
-                    <Field
-                      name="instructions"
-                      as="textarea"
-                      rows={5}
-                      className={`${css.addRecipeFormInstructionsTextarea} ${isFieldInvalid('description')}`}
-                      placeholder="Enter a text"
-                    />
-                    <ErrorMessage
-                      name="instructions"
-                      component="div"
-                      className={css.errorMessage}
-                    />
-                  </label>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className={css.addRecipeFormButtonSubmit}
-                >
-                  Publish Recipe
-                </button>
-              </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className={css.addRecipeFormButtonSubmit}
+                    >
+                      Publish Recipe
+                    </button>
+                  </div>
+                </>
+              )}
             </Form>
           );
         }}
