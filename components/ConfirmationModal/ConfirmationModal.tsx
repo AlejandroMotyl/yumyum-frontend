@@ -15,8 +15,9 @@ interface ConfirmationModalProps {
   cancelButtonText?: string; // ? Текст відмовлення (По замовчуванню "Ні")
   onConfirm: () => void; // ? Функція що виконується у разі підтвердження
   onCancel: () => void; // ? Функція що виконується у разі відмовлення, закриття модального вікна
-  confirmButtonVariant?: 'Login' | 'Logout' | 'Register' | 'GoToMyProfile';
-  cancelButtonVariant?: 'Cancel';
+  confirmButtonVariant?: 'Login' | 'Logout' | 'GoToMyProfile';
+  cancelButtonVariant?: 'Cancel' | 'Register';
+  reverseOrder?: boolean;
 }
 
 export default function ConfirmationModal({
@@ -27,7 +28,8 @@ export default function ConfirmationModal({
   onConfirm,
   onCancel,
   confirmButtonVariant,
-  cancelButtonVariant = 'Cancel',
+  cancelButtonVariant,
+  reverseOrder,
 }: ConfirmationModalProps) {
   // ? Обробка escape
   useEffect(() => {
@@ -79,7 +81,11 @@ export default function ConfirmationModal({
         </button>
         <h2 className={css.title}>{title}</h2>
         <p className={css.paragraph}>{paragraph}</p>
-        <ul className={css.ulElement}>
+        <ul
+          className={`${css.ulElement} ${
+            reverseOrder ? css.ulElementReverse : ''
+          }`}
+        >
           <li className={css.listElement}>
             <button
               className={`${css.buttonCancel} ${css[`btn${cancelButtonVariant}`]}`}
