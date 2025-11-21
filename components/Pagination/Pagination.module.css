@@ -96,6 +96,7 @@
   height: 44px;
   margin: 40px auto;
   opacity: 0;
+  display: none;
 }
 
 .disabled {

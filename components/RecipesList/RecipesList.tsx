@@ -12,6 +12,7 @@ import css from './RecipesList.module.css';
 import Container from '../Container/Container';
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
 import Pagination from '../Pagination/Pagination';
+import NoResults from '../NoResults/NoResults';
 
 export function RecipesList() {
   const search = useSearchStore((state) => state.searchQuery) || null;
@@ -52,13 +53,17 @@ export function RecipesList() {
 
       <Filters totalRecipes={data.totalRecipes} />
 
-      <ul className={css.listRecipes}>
-        {recipes.map((recipe: Recipe) => (
-          <li key={recipe._id} className={css.oneRecipe}>
-            <RecipeCard recipe={recipe} />
-          </li>
-        ))}
-      </ul>
+      {recipes.length === 0 ? (
+        <NoResults />
+      ) : (
+        <ul className={css.listRecipes}>
+          {recipes.map((recipe: Recipe) => (
+            <li key={recipe._id} className={css.oneRecipe}>
+              <RecipeCard recipe={recipe} />
+            </li>
+          ))}
+        </ul>
+      )}
 
       <Pagination
         onChange={handlePageChange}
