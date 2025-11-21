@@ -1,7 +1,6 @@
 'use client';
 
 import RecipeCard from '../RecipeCard/RecipeCard';
-import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import { Recipe } from '@/types/recipe';
 import { useSearchStore } from '@/lib/store/useSearchStore';
 import { useQuery } from '@tanstack/react-query';
@@ -12,60 +11,40 @@ import Filters from '../Filters/Filters';
 import css from './RecipesList.module.css';
 import Container from '../Container/Container';
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
-
-export interface Props {
-  recipes: Recipe[];
-  hasMore: boolean;
-  loadMore: () => void;
-}
+import Pagination from '../Pagination/Pagination';
 
 export function RecipesList() {
   const search = useSearchStore((state) => state.searchQuery) || null;
   const category = useFiltersStore((state) => state.category) || null;
   const ingredient = useFiltersStore((state) => state.ingredient) || null;
 
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [page, setPage] = useState('1');
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    setRecipes([]);
+    setPage(1);
   }, [search, category, ingredient]);
 
   const { data, isLoading } = useQuery({
-    queryKey: [
-      'recipes',
-      {
-        page: page,
-        category: category,
-        search: search,
-        ingredient: ingredient,
-      },
-    ],
+    queryKey: ['recipes', page, category, search, ingredient],
     queryFn: () =>
       getAllRecipes({
-        page: page,
-        category: category,
-        search: search,
-        ingredient: ingredient,
+        page: String(page),
+        category,
+        search,
+        ingredient,
       }),
-    placeholderData: (prev) => prev,
   });
 
-  useEffect(() => {
-    if (data?.recipes) {
-      setRecipes((prev) => [...prev, ...data.recipes]);
-    }
-  }, [data]);
-
-  const hasMore = data ? data.totalPages > Number(page) : false;
-
-  const loadMore = () => {
-    const next = Number(page) + 1;
-    setPage(String(next));
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   if (isLoading || !data) {
     return <Loader />;
   }
+
+  const recipes = data.recipes || [];
 
   return (
     <Container>
@@ -74,20 +53,19 @@ export function RecipesList() {
       <Filters totalRecipes={data.totalRecipes} />
 
       <ul className={css.listRecipes}>
-        {recipes.map((recipe) => (
+        {recipes.map((recipe: Recipe) => (
           <li key={recipe._id} className={css.oneRecipe}>
             <RecipeCard recipe={recipe} />
           </li>
         ))}
       </ul>
 
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div>
-          <LoadMoreBtn onClick={loadMore} disabled={!hasMore} />
-        </div>
-      )}
+      <Pagination
+        onChange={handlePageChange}
+        currentPage={page}
+        totalPages={data.totalPages}
+        recipes={recipes.length > 0}
+      />
     </Container>
   );
 }
