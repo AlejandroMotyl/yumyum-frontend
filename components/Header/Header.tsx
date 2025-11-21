@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
 import { createPortal } from 'react-dom';
-
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 export default function Header() {
   const { isAuthenticated, clearIsAuthenticated, user } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,6 +19,11 @@ export default function Header() {
   const closeMenu = () => setIsMenuOpen(false);
   const router = useRouter();
   const pathname = usePathname();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleLogoutClick = () => {
+    setIsModalOpen(true);
+  };
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -147,7 +152,7 @@ export default function Header() {
                     <span className={css.line} />
                     <button
                       className={css.logoutLink}
-                      onClick={handleLogout}
+                      onClick={handleLogoutClick}
                       aria-label="Log out"
                     >
                       <svg
@@ -211,6 +216,21 @@ export default function Header() {
           />,
           document.body,
         )}
+      {isModalOpen && (
+        <ConfirmationModal
+          onConfirm={() => {
+            setIsModalOpen(false);
+            handleLogout();
+          }}
+          title="Are you shure?"
+          paragraph="We will miss you!"
+          confirmSecondButtonText="Cancel"
+          confirmSecondButtonVariant="Cancel"
+          confirmButtonText="Logout"
+          confirmButtonVariant="Logout"
+          onConfirmSecond={() => setIsModalOpen(false)}
+        />
+      )}
     </header>
   );
 }
