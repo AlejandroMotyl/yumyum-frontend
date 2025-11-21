@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { isAxiosError } from 'axios';
 import { api } from '@/app/api/api';
-import { logErrorResponse } from '../../../_utils/utils';
+import { logErrorResponse } from '../../../../_utils/utils';
 import { Recipe } from '@/types/recipe';
 import { cookies } from 'next/headers';
 

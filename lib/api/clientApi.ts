@@ -114,6 +114,6 @@ export const deleteMyRecipe = async ({
 }: {
   recipeId: string;
 }): Promise<{ message: string }> => {
-  const res = await api.delete(`/recipes/delete/${recipeId}`);
+  const res = await api.delete(`/recipes/own/delete/${recipeId}`);
   return res.data;
 };
