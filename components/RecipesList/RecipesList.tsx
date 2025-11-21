@@ -12,6 +12,7 @@ import css from './RecipesList.module.css';
 import Container from '../Container/Container';
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
 import Pagination from '../Pagination/Pagination';
+import NoResults from '../NoResults/NoResults';
 
 export function RecipesList() {
   const search = useSearchStore((state) => state.searchQuery) || null;
@@ -45,6 +46,7 @@ export function RecipesList() {
   }
 
   const recipes = data.recipes || [];
+  const isEmpty = data.totalRecipes < 1;
 
   return (
     <Container>
@@ -52,20 +54,26 @@ export function RecipesList() {
 
       <Filters totalRecipes={data.totalRecipes} />
 
-      <ul className={css.listRecipes}>
-        {recipes.map((recipe: Recipe) => (
-          <li key={recipe._id} className={css.oneRecipe}>
-            <RecipeCard recipe={recipe} />
-          </li>
-        ))}
-      </ul>
+      {isEmpty ? (
+        <NoResults />
+      ) : (
+        <>
+          <ul className={css.listRecipes}>
+            {recipes.map((recipe: Recipe) => (
+              <li key={recipe._id} className={css.oneRecipe}>
+                <RecipeCard recipe={recipe} />
+              </li>
+            ))}
+          </ul>
 
-      <Pagination
-        onChange={handlePageChange}
-        currentPage={page}
-        totalPages={data.totalPages}
-        recipes={recipes.length > 0}
-      />
+          <Pagination
+            onChange={handlePageChange}
+            currentPage={page}
+            totalPages={data.totalPages}
+            recipes={recipes.length > 0}
+          />
+        </>
+      )}
     </Container>
   );
 }
