@@ -5,13 +5,58 @@ import Image from 'next/image';
 import css from './RecipeCard.module.css';
 import Link from 'next/link';
 import { Recipe } from '@/types/recipe';
+import { useAuthStore } from '@/lib/store/authStore';
+import {
+  addFavoriteRecipe,
+  removeFavoriteRecipe,
+} from '@/lib/services/favorites';
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 
 interface RecipeCardProps {
   recipe: Recipe;
 }
 
 export default function RecipeCard({ recipe }: RecipeCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { isAuthenticated, user } = useAuthStore();
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const isFavorite = user?.savedRecipes?.includes(recipe._id) ?? false;
+
+  const handleFavoriteClick = async () => {
+    if (!isAuthenticated) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    try {
+      if (isFavorite) {
+        await removeFavoriteRecipe(recipe._id);
+        import('izitoast').then((iziToast) => {
+          iziToast.default.success({
+            title: 'Success',
+            message: 'Removed from favorites',
+            position: 'topRight',
+          });
+        });
+      } else {
+        await addFavoriteRecipe(recipe._id);
+        import('izitoast').then((iziToast) => {
+          iziToast.default.success({
+            title: 'Success',
+            message: 'Successfully saved to favorites',
+            position: 'topRight',
+          });
+        });
+      }
+    } catch (error) {
+      import('izitoast').then((iziToast) => {
+        iziToast.default.error({
+          message: `Error toggling favorite!`,
+          position: 'topRight',
+        });
+      });
+    }
+  };
 
   return (
     <>
@@ -49,7 +94,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           className={`${css.favoriteButton} ${isFavorite ? css.active : ''}`}
           onClick={(e) => {
             e.currentTarget.blur();
-            setIsFavorite(!isFavorite);
+            handleFavoriteClick();
           }}
           type="button"
         >
@@ -58,6 +103,20 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           </svg>
         </button>
       </div>
+
+      {showAuthModal && (
+        <ConfirmationModal
+          title="Login Required"
+          confirmButtonText="Login"
+          cancelButtonText="Cancel"
+          onConfirm={() => {
+            setShowAuthModal(false);
+          }}
+          onCancel={() => {
+            setShowAuthModal(false);
+          }}
+        />
+      )}
     </>
   );
 }

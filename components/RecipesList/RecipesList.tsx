@@ -1,7 +1,6 @@
 'use client';
 
 import RecipeCard from '../RecipeCard/RecipeCard';
-import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import { Recipe } from '@/types/recipe';
 import { useSearchStore } from '@/lib/store/useSearchStore';
 import { useQuery } from '@tanstack/react-query';
@@ -25,43 +24,26 @@ export function RecipesList() {
   const category = useFiltersStore((state) => state.category) || null;
   const ingredient = useFiltersStore((state) => state.ingredient) || null;
 
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [page, setPage] = useState('1');
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    setRecipes([]);
+    setPage(1);
   }, [search, category, ingredient]);
 
   const { data, isLoading } = useQuery({
-    queryKey: [
-      'recipes',
-      {
-        page: page,
-        category: category,
-        search: search,
-        ingredient: ingredient,
-      },
-    ],
+    queryKey: ['recipes', page, category, search, ingredient],
     queryFn: () =>
       getAllRecipes({
-        page: page,
-        category: category,
-        search: search,
-        ingredient: ingredient,
+        page: String(page),
+        category,
+        search,
+        ingredient,
       }),
-    placeholderData: (prev) => prev,
   });
 
-  useEffect(() => {
-    if (data?.recipes) {
-      setRecipes((prev) => [...prev, ...data.recipes]);
-    }
-  }, [data]);
-
-  const hasMore = data ? data.totalPages > Number(page) : false;
-
-  const loadMore = () => {
-    const next = Number(page) + 1;
-    setPage(String(next));
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   if (isLoading || !data) {

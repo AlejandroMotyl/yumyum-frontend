@@ -5,34 +5,35 @@ import {
 } from '@tanstack/react-query';
 import { getRecipeById } from '@/lib/api/clientApi';
 import RecipeDetailsClient from './RecipeDetails.client';
+import { Metadata } from 'next';
 
 interface RecipeDetailsProps {
   params: Promise<{ recipeId: string }>;
 }
 
-// export const generateMetadata = async ({
-//   params,
-// }: RecipeDetailsProps): Promise<Metadata> => {
-//   const { id } = await params;
-//   const note = await getRecipeById(id);
-//   return {
-//     title: note.title,
-//     description: note.content.slice(0, 15) + '..',
-//     openGraph: {
-//       title: note.title,
-//       description: note.content.slice(0, 15) + '..',
-//       url: `https://09-auth-five-theta.vercel.app/notes/${id}`,
-//       images: [
-//         {
-//           url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
-//           width: 1200,
-//           height: 630,
-//           alt: note.title,
-//         },
-//       ],
-//     },
-//   };
-// };
+export const generateMetadata = async ({
+  params,
+}: RecipeDetailsProps): Promise<Metadata> => {
+  const { recipeId } = await params;
+  const recipe = await getRecipeById(recipeId);
+  return {
+    title: recipe.title,
+    description: recipe.description.slice(0, 15) + '..',
+    openGraph: {
+      title: recipe.title,
+      description: recipe.description.slice(0, 15) + '..',
+      url: `https://nodejs-hw-zdyd.onrender.com/api/recipes/${recipeId}`,
+      images: [
+        {
+          url: recipe.thumb || '/public/img-default/default-img-tablet.jpg',
+          width: 1200,
+          height: 630,
+          alt: recipe.title,
+        },
+      ],
+    },
+  };
+};
 
 const RecipeDetailsPage = async ({ params }: RecipeDetailsProps) => {
   const { recipeId } = await params;

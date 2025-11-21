@@ -9,7 +9,7 @@ export interface Recipe {
   category: string;
   area?: string;
   instructions: string;
-  description?: string;
+  description: string;
   thumb?: string;
   time: number;
   cals?: number;
