@@ -11,13 +11,7 @@ import Filters from '../Filters/Filters';
 import css from './RecipesList.module.css';
 import Container from '../Container/Container';
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
-import NoResults from '../NoResults/NoResults';
-
-export interface Props {
-  recipes: Recipe[];
-  hasMore: boolean;
-  loadMore: () => void;
-}
+import Pagination from '../Pagination/Pagination';
 
 export function RecipesList() {
   const search = useSearchStore((state) => state.searchQuery) || null;
@@ -50,7 +44,7 @@ export function RecipesList() {
     return <Loader />;
   }
 
-  const isFound = data?.totalRecipes > 0;
+  const recipes = data.recipes || [];
 
   return (
     <Container>
@@ -58,27 +52,20 @@ export function RecipesList() {
 
       <Filters totalRecipes={data.totalRecipes} />
 
-      {!isFound ? (
-        <NoResults />
-      ) : (
-        <>
-          <ul className={css.listRecipes}>
-            {recipes.map((recipe) => (
-              <li key={recipe._id} className={css.oneRecipe}>
-                <RecipeCard recipe={recipe} />
-              </li>
-            ))}
-          </ul>
+      <ul className={css.listRecipes}>
+        {recipes.map((recipe: Recipe) => (
+          <li key={recipe._id} className={css.oneRecipe}>
+            <RecipeCard recipe={recipe} />
+          </li>
+        ))}
+      </ul>
 
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <div>
-              <LoadMoreBtn onClick={loadMore} disabled={!hasMore} />
-            </div>
-          )}
-        </>
-      )}
+      <Pagination
+        onChange={handlePageChange}
+        currentPage={page}
+        totalPages={data.totalPages}
+        recipes={recipes.length > 0}
+      />
     </Container>
   );
 }
