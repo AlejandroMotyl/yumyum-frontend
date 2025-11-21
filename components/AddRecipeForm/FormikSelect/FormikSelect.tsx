@@ -35,13 +35,10 @@ const DropdownIndicator = (
   ) : null;
 };
 
-const getCustomStyles = (
-  selectWidth: string,
-): StylesConfig<SelectOption, false> => ({
+const getCustomStyles = (): StylesConfig<SelectOption, false> => ({
   control: (provided, state) => ({
     ...provided,
     height: '48px',
-    width: selectWidth,
     minHeight: '48px',
     borderRadius: '8px',
     backgroundColor: 'transparent',
@@ -115,19 +112,11 @@ const getCustomStyles = (
 
 export const FormikSelect: React.FC<
   FormikSelectProps & {
-    width?: string;
     onChange?: (option: SelectOption | null) => void;
   }
-> = ({
-  label,
-  options,
-  placeholder,
-  width = '172px',
-  onChange: externalOnChange,
-  ...props
-}) => {
+> = ({ label, options, placeholder, onChange: externalOnChange, ...props }) => {
   const [field, meta, helpers] = useField(props);
-  const selectStyles = React.useMemo(() => getCustomStyles(width), [width]);
+  const selectStyles = React.useMemo(() => getCustomStyles(), []);
 
   const handleChange = (option: SelectOption | null) => {
     helpers.setValue(option ? option.value : '');

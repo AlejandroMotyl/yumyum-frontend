@@ -352,13 +352,14 @@ export const RecipeForm = () => {
                             className={css.errorMessage}
                           />
                         </label>
-
-                        <FormikSelect
-                          label="Category"
-                          name="category"
-                          options={categoryOptions}
-                          placeholder="Soup"
-                        />
+                        <div className={css.addRecipeFormSelectCategoryWrapper}>
+                          <FormikSelect
+                            label="Category"
+                            name="category"
+                            options={categoryOptions}
+                            placeholder="Soup"
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -381,63 +382,70 @@ export const RecipeForm = () => {
                                       css.addRecipeFormBlockIngSubtitle
                                     }
                                   >
-                                    <FormikSelect
-                                      label="Name"
-                                      name={`ingredients[${lastIndex}].id`}
-                                      options={ingredientOptions}
-                                      placeholder="Broccoli"
-                                      width="100%"
-                                      onChange={(
-                                        option: SelectOption | null,
-                                      ) => {
-                                        const selectedName = option
-                                          ? option.label
-                                          : '';
-                                        setFieldValue(
-                                          `ingredients[${lastIndex}].name`,
-                                          selectedName,
-                                        );
-                                      }}
-                                    />
-                                  </div>
-                                  <ErrorMessage
-                                    name={`ingredients[${lastIndex}].id`}
-                                    component="div"
-                                    className={css.errorMessage}
-                                  />
-
-                                  <label
-                                    className={css.addRecipeFormBlockSubtitle}
-                                  >
-                                    Amount
-                                    <Field
-                                      name={`ingredients[${lastIndex}].amount`}
+                                    <div
                                       className={
-                                        css.addRecipeFormIngredientsInput
+                                        css.addRecipeFormSelectIngredientWrapper
                                       }
-                                      placeholder="100g"
-                                    />
+                                    >
+                                      <FormikSelect
+                                        label="Name"
+                                        name={`ingredients[${lastIndex}].id`}
+                                        options={ingredientOptions}
+                                        placeholder="Broccoli"
+                                        width="100%"
+                                        onChange={(
+                                          option: SelectOption | null,
+                                        ) => {
+                                          const selectedName = option
+                                            ? option.label
+                                            : '';
+                                          setFieldValue(
+                                            `ingredients[${lastIndex}].name`,
+                                            selectedName,
+                                          );
+                                        }}
+                                      />
+                                    </div>
                                     <ErrorMessage
-                                      name={`ingredients[${lastIndex}].amount`}
+                                      name={`ingredients[${lastIndex}].id`}
                                       component="div"
                                       className={css.errorMessage}
                                     />
-                                  </label>
+
+                                    <label
+                                      className={css.addRecipeFormBlockSubtitle}
+                                    >
+                                      Amount
+                                      <Field
+                                        name={`ingredients[${lastIndex}].amount`}
+                                        className={
+                                          css.addRecipeFormIngredientsInput
+                                        }
+                                        placeholder="100g"
+                                      />
+                                      <ErrorMessage
+                                        name={`ingredients[${lastIndex}].amount`}
+                                        component="div"
+                                        className={css.errorMessage}
+                                      />
+                                    </label>
+                                  </div>
                                 </div>
                               )}
-
-                              <AddIngredientButton
-                                push={push}
-                                values={values}
-                                css={css}
-                                errors={
-                                  errors as FormikErrors<RecipeFormValues>
-                                }
-                                touched={
-                                  touched as FormikTouched<RecipeFormValues>
-                                }
-                                getIziToast={getIziToast}
-                              />
+                              <div className={css.addIngredientButtonWrapper}>
+                                <AddIngredientButton
+                                  push={push}
+                                  values={values}
+                                  css={css}
+                                  errors={
+                                    errors as FormikErrors<RecipeFormValues>
+                                  }
+                                  touched={
+                                    touched as FormikTouched<RecipeFormValues>
+                                  }
+                                  getIziToast={getIziToast}
+                                />
+                              </div>
 
                               {values.ingredients.length > 1 && (
                                 <div className={css.ingredientsTable}>
