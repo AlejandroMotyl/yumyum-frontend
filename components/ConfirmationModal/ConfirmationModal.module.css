@@ -89,7 +89,7 @@
   color: var(--white);
   transition: background var(--primary-transition);
 }
-.closeButton {
+.confirmSecondButton {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -100,14 +100,14 @@
   align-items: center;
   cursor: pointer;
 }
-.closeButton svg {
+.confirmSecondButton svg {
   color: var(--black);
   width: 24px;
   height: 24px;
 }
 
-.closeButton:hover svg,
-.closeButton:focus svg {
+.confirmSecondButton:hover svg,
+.confirmSecondButton:focus svg {
   color: var(--black-60);
 }
 .buttonCancel {
@@ -152,7 +152,7 @@
   .ulElementReverse {
     flex-direction: row-reverse;
   }
-  .closeButton {
+  .confirmSecondButton {
     right: 32px;
   }
   .buttonAccept,
@@ -184,7 +184,7 @@
     padding: 56px 32px;
     min-height: 277px;
   }
-  .closeButton {
+  .confirmSecondButton {
     top: 32px;
   }
   .buttonAccept {

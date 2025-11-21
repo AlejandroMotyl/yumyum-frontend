@@ -12,30 +12,30 @@ interface ConfirmationModalProps {
   title?: string; // ? Текст попередження (По замовчуванню 'Ви точно хочете вийти?')
   paragraph?: string; // ? Додатковий текст попередження
   confirmButtonText?: string; // ? Текст підтвердження (По замовчуванню "Так")
-  cancelButtonText?: string; // ? Текст відмовлення (По замовчуванню "Ні")
+  confirmSecondButtonText?: string; // ? Текст відмовлення (По замовчуванню "Ні")
   onConfirm: () => void; // ? Функція що виконується у разі підтвердження
-  onCancel: () => void; // ? Функція що виконується у разі відмовлення, закриття модального вікна
+  onConfirmSecond: () => void; // ? Функція що виконується у разі відмовлення, закриття модального вікна
   confirmButtonVariant?: 'Login' | 'Logout';
-  cancelButtonVariant?: 'Cancel' | 'Register' | 'GoToMyProfile';
-  reverseOrder?: boolean;
+  confirmSecondButtonVariant?: 'Cancel' | 'Register' | 'GoToMyProfile';
+  reverseOrder?: boolean; // ? Чи міняти порядок кнопок місцями - нужно только для Login Register модалки
 }
 
 export default function ConfirmationModal({
   title,
   paragraph,
   confirmButtonText,
-  cancelButtonText,
+  confirmSecondButtonText,
   onConfirm,
-  onCancel,
+  onConfirmSecond,
   confirmButtonVariant,
-  cancelButtonVariant,
+  confirmSecondButtonVariant,
   reverseOrder,
 }: ConfirmationModalProps) {
   // ? Обробка escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onCancel();
+        onConfirmSecond();
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -45,11 +45,11 @@ export default function ConfirmationModal({
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
-  }, [onCancel]);
+  }, [onConfirmSecond]);
   // ? Обробка натиску на бекдроп
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
-      onCancel();
+      onConfirmSecond();
     }
   };
 
@@ -69,10 +69,10 @@ export default function ConfirmationModal({
     >
       <div className={css.modal}>
         <button
-          className={css.closeButton}
+          className={css.confirmSecondButton}
           type="button"
           onClick={() => {
-            onCancel();
+            onConfirmSecond();
           }}
         >
           <svg stroke="currentColor">
@@ -88,16 +88,16 @@ export default function ConfirmationModal({
         >
           <li className={css.listElement}>
             <button
-              className={`${css.buttonCancel} ${css[`btn${cancelButtonVariant}`]}`}
+              className={`${css.buttonCancel} ${css[`btn${confirmSecondButtonVariant}`]}`}
               type="button"
               onClick={() => {
-                onCancel();
+                onConfirmSecond();
               }}
             >
-              {cancelButtonText}
+              {confirmSecondButtonText}
             </button>
           </li>
-          {cancelButtonVariant === 'GoToMyProfile' ? null : (
+          {confirmSecondButtonVariant === 'GoToMyProfile' ? null : (
             <li className={css.listElement}>
               <button
                 className={`${css.buttonAccept} ${css[`btn${confirmButtonVariant}`]}`}
