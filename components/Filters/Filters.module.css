@@ -51,7 +51,7 @@
 .filtersPanel {
   position: absolute;
   top: 60%;
-  left: 72px;
+  /* left: 72px; */
   right: 0;
   display: flex;
   width: 80%;
@@ -69,7 +69,7 @@
 @media (min-width: 768px) {
   .filtersPanel {
     width: 288px;
-    left: 414px;
+    /* left: 414px; */
 
   }
 }
