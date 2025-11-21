@@ -18,6 +18,7 @@ interface RecipeDetailsProps {
 
 const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
   const [favorite, setFavorite] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const savedRecipes = useAuthStore((state) => state.user?.savedRecipes);
 
@@ -35,12 +36,11 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
     return ingredient?.name || 'Unknown ingredient';
   };
 
-  const handleFavorite = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.blur();
-
+  const handleFavorite = async () => {
     if (!isAuthenticated) {
       return;
     }
+    setIsLoading(true);
 
     try {
       if (!favorite) {
@@ -74,6 +74,10 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
           position: 'topRight',
         });
       });
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
   };
 
@@ -123,19 +127,20 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
               type="button"
               className={css.favBtn}
               onClick={handleFavorite}
+              disabled={isLoading}
             >
               {favorite ? (
                 <>
                   <span className={css.favBtnTitle}>Unsave</span>
                   <svg className={css.favBtnIconUnsave} width="24" height="24">
-                    <use href="/Sprite.svg#icon-Genericbookmark-alternative" />
+                    <use href="/sprite-new.svg#icon-bookmark-filled-large" />
                   </svg>
                 </>
               ) : (
                 <>
                   <span className={css.favBtnTitle}>Save</span>
                   <svg className={css.favBtnIconSave} width="24" height="24">
-                    <use href="/Sprite.svg#icon-Genericbookmark-alternative" />
+                    <use href="/sprite-new.svg#icon-bookmark-filled-large" />
                   </svg>
                 </>
               )}
