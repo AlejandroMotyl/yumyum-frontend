@@ -4,28 +4,26 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.60);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 10000;
   padding: 64px 20px;
 }
 
 .modal {
-  background-color: #ffffff;
-  padding: 64px 20px;
+  background-color: var(--light-beige);
+  padding: 56px 24px 32px 24px;
   border-radius: 40px;
   position: relative;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 335px;
-  min-height: 413px;
-  max-width: 768px;
+  min-width: 362px;
 }
 .closeButton {
   position: absolute;
-  top: 20;
-  right: 20;
+  top: 20px;
+  right: 20px;
   width: 48px;
   height: 48px;
   background: none;
@@ -44,13 +42,13 @@
   fill: #ffcbd3;
 }
 .title {
-  font-family: var(--font-comfortaa);
+  font: var(--body-md-semibold);
   font-weight: 700;
   font-size: 36px;
   line-height: 120%;
   letter-spacing: 0.01em;
   text-align: center;
-  margin-bottom: 48px;
+    margin-bottom: 20px;
   color: var(--font-color);
 }
 .ulElement {
@@ -58,15 +56,14 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  row-gap: 24px;
+  row-gap: 20px;
 }
 .buttonCancel {
-  background: var(--btn-color);
-  border-bottom: var(--btn-color-bottom);
-  border-radius: 100px;
-  padding: 10px 24px;
-  width: 268px;
-  height: 42px;
+  border-radius: 8px;
+  padding: 16px 16px;
+  text-align: center;
+  width: 314px;
+  height: 54px;
   transition:
     background var(--primary-transition),
     border-bottom var(--primary-transition);
@@ -84,12 +81,11 @@
 }
 
 .buttonAccept {
-  background: var(--secondary-btn);
-  border-bottom: var(--secondary-btn-color-bottom);
-  border-radius: 100px;
-  padding: 10px 24px;
-  width: 268px;
-  height: 42px;
+  text-align: center;
+  border-radius: 8px;
+  padding: 16px 16px;
+  width: 314px;
+  height: 54px;
   transition: background var(--primary-transition);
   cursor: pointer;
 }
@@ -100,34 +96,54 @@
 .buttonAccept:active {
   background: var(--secondary-btn-active);
 }
+.paragraph{
+  text-align: center;
+  font: var(--body-md-regular);
+  text-wrap: wrap;
+  margin-bottom: 20px;
+}
 
 @media screen and (min-width: 768px) {
   .backdrop {
     padding: 64px 32px;
   }
   .modal {
-    padding: 64px 32px;
-    width: 704px;
-    min-height: 261px;
+    padding: 56px 32px 32px 32px;
+    width: 420px;
   }
   .closeButton {
-    right: 32;
+    right: 32px;
   }
   .ulElement {
     flex-direction: row;
     column-gap: 24px;
   }
+  .buttonAccept {
+    padding: 12px 54px;
+    height: 44px;
+    width: 164px;
+  }
+  .buttonCancel {
+    padding: 12px 54px;
+    height: 44px;
+    width: 164px;
+  }
 }
 @media screen and (min-width: 1440px) {
   .modal {
-    padding: 64px;
-    width: 768px;
-    min-height: 338px;
-  }
-  .title {
-    font-size: 48px;
+    padding: 56px 32px;
+    min-height: 277px;
   }
   .closeButton {
-    top: 32;
+    top: 32px;
+  }
+  .buttonAccept {
+    padding: 8px 56px;
+    height: 36px;
+
+  }
+  .buttonCancel {
+    padding: 8px 56px;
+    height: 36px;
   }
 }

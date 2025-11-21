@@ -10,6 +10,7 @@ import { createPortal } from 'react-dom';
 // !!ЩОБ КОМПОНЕНТ ПРАЦЮВАВ ОБОВ'ЯЗКОВО ПЕРЕДАТИ ЦІ ПРОПСИ
 interface ConfirmationModalProps {
   title?: string; // ? Текст попередження (По замовчуванню 'Ви точно хочете вийти?')
+  paragraph?: string; // ? Додатковий текст попередження
   confirmButtonText?: string; // ? Текст підтвердження (По замовчуванню "Так")
   cancelButtonText?: string; // ? Текст відмовлення (По замовчуванню "Ні")
   onConfirm: () => void; // ? Функція що виконується у разі підтвердження
@@ -17,9 +18,10 @@ interface ConfirmationModalProps {
 }
 
 export default function ConfirmationModal({
-  title = 'Ви точно хочете вийти?',
-  confirmButtonText = 'Так',
-  cancelButtonText = 'Ні',
+  title = 'Are you sure?',
+  paragraph = 'We will miss you!',
+  confirmButtonText = 'Yes',
+  cancelButtonText = 'No',
   onConfirm,
   onCancel,
 }: ConfirmationModalProps) {
@@ -62,6 +64,7 @@ export default function ConfirmationModal({
       <div className={css.modal}>
         {/* <button className={css.closeButton}type='button' onClick={()=> {onCancel()}}> <IoIosClose  className={css.closeButtonIcon} size={48} /></button> */}
         <h2 className={css.title}>{title}</h2>
+        <p className={css.paragraph}>{paragraph}</p>
         <ul className={css.ulElement}>
           <li className={css.listElement}>
             <button
