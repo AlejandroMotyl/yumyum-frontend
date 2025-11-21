@@ -1,7 +1,7 @@
 'use client';
 
 import RecipeCard from '../RecipeCard/RecipeCard';
-import { Recipe } from '@/types/recipe';
+import { AnyRecipe, Recipe } from '@/types/recipe';
 import { useSearchStore } from '@/lib/store/useSearchStore';
 import { useQuery } from '@tanstack/react-query';
 import { getAllRecipes } from '@/lib/api/clientApi';
@@ -9,12 +9,28 @@ import Loader from '../Loader/Loader';
 import { useEffect, useState } from 'react';
 import Filters from '../Filters/Filters';
 import css from './RecipesList.module.css';
-import Container from '../Container/Container';
+
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
 import Pagination from '../Pagination/Pagination';
 import NoResults from '../NoResults/NoResults';
 
-export function RecipesList() {
+interface RecipesListProps {
+  recipes?: AnyRecipe[];
+  isLoadingExternal?: boolean;
+  disableFetch?: boolean;
+  externalTotalPages?: number;
+  externalCurrentPage?: number;
+  externalOnChangePage?: (page: number) => void;
+}
+
+export function RecipesList({
+  recipes: externalRecipes,
+  isLoadingExternal,
+  disableFetch = false,
+  externalTotalPages,
+  externalCurrentPage,
+  externalOnChangePage,
+}: RecipesListProps) {
   const search = useSearchStore((state) => state.searchQuery) || null;
   const category = useFiltersStore((state) => state.category) || null;
   const ingredient = useFiltersStore((state) => state.ingredient) || null;
@@ -22,11 +38,15 @@ export function RecipesList() {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    setPage(1);
-  }, [search, category, ingredient]);
+    if (!disableFetch) {
+      setPage(1);
+    }
+  }, [search, category, ingredient, disableFetch]);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['recipes', page, category, search, ingredient],
+    queryKey: disableFetch
+      ? []
+      : ['recipes', page, category, search, ingredient],
     queryFn: () =>
       getAllRecipes({
         page: String(page),
@@ -34,34 +54,44 @@ export function RecipesList() {
         search,
         ingredient,
       }),
+    enabled: !disableFetch,
   });
 
   const handlePageChange = (newPage: number) => {
+    if (disableFetch && externalOnChangePage) {
+      externalOnChangePage(newPage);
+      return;
+    }
     setPage(newPage);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (isLoading || !data) {
-    return <Loader />;
-  }
+  // Выбираем данные: внешние (own/favorites) или внутренние (search)
+  const recipes = externalRecipes ?? data?.recipes ?? [];
+  const loading = isLoadingExternal ?? isLoading;
+  const totalPages = externalTotalPages ?? data?.totalPages ?? 1;
+  const currentPage = externalCurrentPage ?? page;
 
-  const recipes = data.recipes || [];
-  const isEmpty = data.totalRecipes < 1;
+  if (loading) return <Loader />;
+  if (!externalRecipes && !data) return <Loader />;
+
+  const isEmpty = recipes.length < 1;
 
   return (
-    <Container>
-      <h1 className={css.titleRecipes}>
-        {search ? `Search Results for “${search}”` : 'Recipes'}
-      </h1>
+    <>
+      {!externalRecipes && (
+        <h1 className={css.titleRecipes}>
+          {search ? `Search Results for "${search}"` : 'Recipes'}
+        </h1>
+      )}
 
-      <Filters totalRecipes={data.totalRecipes} />
-
+      {!externalRecipes && <Filters totalRecipes={data?.totalRecipes ?? 0} />}
       {isEmpty ? (
         <NoResults />
       ) : (
         <>
           <ul className={css.listRecipes}>
-            {recipes.map((recipe: Recipe) => (
+            {recipes.map((recipe: AnyRecipe) => (
               <li key={recipe._id} className={css.oneRecipe}>
                 <RecipeCard recipe={recipe} />
               </li>
@@ -71,11 +101,11 @@ export function RecipesList() {
           <Pagination
             onChange={handlePageChange}
             currentPage={page}
-            totalPages={data.totalPages}
+            totalPages={totalPages}
             recipes={recipes.length > 0}
           />
         </>
       )}
-    </Container>
+    </>
   );
 }

@@ -4,23 +4,28 @@ import { useState } from 'react';
 import Image from 'next/image';
 import css from './RecipeCard.module.css';
 import Link from 'next/link';
-import { Recipe } from '@/types/recipe';
+import { AnyRecipe } from '@/types/recipe';
 import { useAuthStore } from '@/lib/store/authStore';
 import {
   addFavoriteRecipe,
   removeFavoriteRecipe,
 } from '@/lib/services/favorites';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import { useQueryClient } from '@tanstack/react-query';
+import { usePathname } from 'next/navigation';
 
 interface RecipeCardProps {
-  recipe: Recipe;
+  recipe: AnyRecipe;
 }
 
 export default function RecipeCard({ recipe }: RecipeCardProps) {
   const { isAuthenticated, user } = useAuthStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const queryClient = useQueryClient();
+  const pathname = usePathname();
 
   const isFavorite = user?.savedRecipes?.includes(recipe._id) ?? false;
+  const hideFavorite = pathname === '/profile/own';
 
   const handleFavoriteClick = async () => {
     if (!isAuthenticated) {
@@ -48,6 +53,9 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           });
         });
       }
+      // обновляем список избранного
+      queryClient.invalidateQueries({ queryKey: ['recipes', 'favorites'] });
+      queryClient.invalidateQueries({ queryKey: ['recipes'] });
     } catch (error) {
       import('izitoast').then((iziToast) => {
         iziToast.default.error({
@@ -90,18 +98,20 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           Learn more
         </Link>
 
-        <button
-          className={`${css.favoriteButton} ${isFavorite ? css.active : ''}`}
-          onClick={(e) => {
-            e.currentTarget.blur();
-            handleFavoriteClick();
-          }}
-          type="button"
-        >
-          <svg className={css.favoriteIcon} width="14" height="17">
-            <use href={`/sprite.svg#favorite`}></use>
-          </svg>
-        </button>
+        {!hideFavorite && (
+          <button
+            className={`${css.favoriteButton} ${isFavorite ? css.active : ''}`}
+            onClick={(e) => {
+              e.currentTarget.blur();
+              handleFavoriteClick();
+            }}
+            type="button"
+          >
+            <svg className={css.favoriteIcon} width="14" height="17">
+              <use href={`/sprite.svg#favorite`}></use>
+            </svg>
+          </button>
+        )}
       </div>
 
       {showAuthModal && (
