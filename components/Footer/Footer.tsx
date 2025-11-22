@@ -72,7 +72,7 @@ export default function Footer() {
             }}
             confirmSecondButtonText="Cancel"
             confirmSecondButtonVariant="Cancel"
-            onConfirmSecond={() => setShowModal(false)}
+            onClose={() => setShowModal(false)}
           />
         )}
       </Container>
