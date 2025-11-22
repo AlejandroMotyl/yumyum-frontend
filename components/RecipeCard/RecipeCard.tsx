@@ -12,7 +12,7 @@ import {
 } from '@/lib/services/favorites';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import { useQueryClient } from '@tanstack/react-query';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { showError, showSuccess } from '@/utils/toast';
 import { deleteMyRecipe } from '@/lib/api/clientApi';
 
@@ -24,6 +24,8 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
   const { isAuthenticated, user } = useAuthStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [savedSuccess, setSavedSuccess] = useState(false);
+  const router = useRouter();
 
   const queryClient = useQueryClient();
   const pathname = usePathname();
@@ -147,9 +149,33 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         <ConfirmationModal
           title="Login Required"
           confirmButtonText="Login"
-          cancelButtonText="Cancel"
-          onConfirm={() => setShowAuthModal(false)}
-          onCancel={() => setShowAuthModal(false)}
+          confirmSecondButtonText="Cancel"
+          onConfirm={() => {
+            setShowAuthModal(false);
+            router.push('/auth/login');
+          }}
+          onConfirmSecond={() => {
+            setShowAuthModal(false);
+          }}
+          onClose={() => {
+            setShowAuthModal(false);
+          }}
+          confirmButtonVariant="Login"
+          confirmSecondButtonVariant="Cancel"
+        />
+      )}
+      {savedSuccess && (
+        <ConfirmationModal
+          title="Done! Recipe saved"
+          confirmSecondButtonText="Go To My Profile"
+          confirmSecondButtonVariant="GoToMyProfile"
+          onConfirmSecond={() => {
+            setSavedSuccess(false);
+            router.push('/profile/own');
+          }}
+          onClose={() => {
+            setSavedSuccess(false);
+          }}
         />
       )}
     </>
