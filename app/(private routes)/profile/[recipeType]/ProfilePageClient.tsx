@@ -9,6 +9,7 @@ import { getOwnRecipes, getFavoriteRecipes } from '@/lib/api/clientApi';
 
 import Container from '@/components/Container/Container';
 import css from './ProfilePageClient.module.css';
+import Filters from '@/components/Filters/Filters';
 
 type RecipeType = 'own' | 'favorites';
 
@@ -38,6 +39,7 @@ export default function ProfilePageClient({
       <div className={css.wrapper}>
         <h1 className={css.title}>My profile</h1>
         <ProfileNavigation />
+        {/* <Filters/> */}
         <RecipesList
           recipes={data?.recipes ?? []}
           isLoadingExternal={isLoading}
