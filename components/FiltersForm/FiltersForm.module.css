@@ -13,10 +13,8 @@
     align-items: center;
     flex-flow: row-reverse;
     width: 480px;
-
   }
 }
-
 
 .filterFieldsWrapper {
   display: flex;
@@ -33,7 +31,7 @@
 
 .filtersField {
   width: 100%;
-
+  border: none;
 }
 
 @media (min-width: 1440px) {
@@ -45,9 +43,21 @@
 
 .resetButton {
   font: var(--body-sm-semibold);
-  border-bottom: 1px solid var(--black);
   cursor: pointer;
+  color: var(--black);
+  border-bottom: 1px solid transparent;
+  transition:
+    color var(--primary-transition),
+    border-bottom var(--primary-transition);
+}
 
+.resetButton:hover,
+.resetButton:focus {
+  color: var(--black-50);
+}
+
+.resetButton:active {
+  border-bottom: 1px solid var(--black);
 }
 
 @media (min-width: 1440px) {

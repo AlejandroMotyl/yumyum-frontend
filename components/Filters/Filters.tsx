@@ -52,7 +52,8 @@ export default function Filters({ totalRecipes }: { totalRecipes: number }) {
     };
   }, [isOpen]);
 
-  const handleToggle = () => {
+  const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.blur();
     setIsOpen((prev) => !prev);
   };
 

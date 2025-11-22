@@ -10,6 +10,8 @@ import {
   addFavoriteRecipe,
   removeFavoriteRecipe,
 } from '@/lib/services/favorites';
+import { deleteMyRecipe } from '@/lib/api/clientApi';
+import { useRouter } from 'next/navigation';
 
 interface RecipeDetailsProps {
   recipe: Recipe;
@@ -18,18 +20,25 @@ interface RecipeDetailsProps {
 
 const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
   const [favorite, setFavorite] = useState(false);
+  const [isMyRecipe, setIsMyRecipe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const currentUserId = useAuthStore((state) => state.user?._id);
   const savedRecipes = useAuthStore((state) => state.user?.savedRecipes);
 
   const ingredientsMap = new Map(ingredients.map((ing) => [ing._id, ing]));
 
   useEffect(() => {
+    const isOwner = currentUserId === recipe.owner;
+    setIsMyRecipe(isOwner);
+
     const isSaved = savedRecipes?.includes(recipe._id) || false;
     if (!isSaved) {
       setFavorite(false);
     } else setFavorite(isSaved);
-  }, [savedRecipes, recipe._id]);
+  }, [savedRecipes, recipe._id, currentUserId, recipe.owner]);
 
   const getIngredientName = (id: string): string => {
     const ingredient = ingredientsMap.get(id);
@@ -41,23 +50,13 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
       return;
     }
     setIsLoading(true);
+    const previousState = favorite;
 
     try {
-      if (!favorite) {
-        addFavoriteRecipe(recipe._id);
+      if (favorite) {
+        await removeFavoriteRecipe(recipe._id);
 
         setFavorite(false);
-
-        import('izitoast').then((iziToast) => {
-          iziToast.default.success({
-            title: 'Success',
-            message: 'Successfully saved to favorites',
-            position: 'topRight',
-          });
-        });
-      } else {
-        removeFavoriteRecipe(recipe._id);
-        setFavorite(true);
 
         import('izitoast').then((iziToast) => {
           iziToast.default.success({
@@ -66,8 +65,22 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
             position: 'topRight',
           });
         });
+      } else {
+        await addFavoriteRecipe(recipe._id);
+
+        setFavorite(true);
+
+        import('izitoast').then((iziToast) => {
+          iziToast.default.success({
+            title: 'Success',
+            message: 'Successfully saved to favorites',
+            position: 'topRight',
+          });
+        });
       }
     } catch {
+      setFavorite(previousState);
+
       import('izitoast').then((iziToast) => {
         iziToast.default.error({
           message: `Error toggling favorite!`,
@@ -81,6 +94,39 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!isAuthenticated || !isMyRecipe) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await deleteMyRecipe({ recipeId: recipe._id });
+
+      import('izitoast').then((iziToast) => {
+        iziToast.default.success({
+          title: 'Success',
+          message: 'Recipe deleted successfully',
+          position: 'topRight',
+        });
+      });
+
+      setTimeout(() => {
+        router.push('/');
+      }, 1000);
+    } catch (error) {
+      import('izitoast').then((iziToast) => {
+        iziToast.default.error({
+          message: 'Error deleting recipe!',
+          position: 'topRight',
+        });
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <section>
       <Container>
@@ -88,12 +134,22 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
           <div className={css.imgWrapper}>
             <picture>
               <source
+                media="(min-width: 1440px)"
+                srcSet={
+                  recipe.thumb?.replace('preview', 'preview/large') ||
+                  '/img-default/default-img-desktop.jpg'
+                }
+              />
+              <source
                 media="(min-width: 768px)"
-                srcSet={recipe.thumb?.replace('preview', 'preview/large')}
+                srcSet={
+                  recipe.thumb?.replace('preview', 'preview/large') ||
+                  '/img-default/default-img-tablet.jpg'
+                }
               />
               <img
                 className={css.titleImg}
-                src={recipe.thumb}
+                src={recipe.thumb || '/img-default/default-img-mobile.jpg'}
                 alt={recipe.title}
               />
             </picture>
@@ -123,28 +179,47 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
                 </li>
               </ul>
             </div>
-            <button
-              type="button"
-              className={css.favBtn}
-              onClick={handleFavorite}
-              disabled={isLoading}
-            >
-              {favorite ? (
-                <>
-                  <span className={css.favBtnTitle}>Unsave</span>
-                  <svg className={css.favBtnIconUnsave} width="24" height="24">
-                    <use href="/sprite-new.svg#icon-bookmark-filled-large" />
-                  </svg>
-                </>
-              ) : (
-                <>
-                  <span className={css.favBtnTitle}>Save</span>
-                  <svg className={css.favBtnIconSave} width="24" height="24">
-                    <use href="/sprite-new.svg#icon-bookmark-filled-large" />
-                  </svg>
-                </>
-              )}
-            </button>
+            {isMyRecipe ? (
+              <button
+                type="button"
+                className={css.deleteBtn}
+                onClick={handleDelete}
+                disabled={isLoading}
+              >
+                <span>Delete</span>
+                <svg className={css.deleteBtnIcon} width="24" height="24">
+                  <use href="/sprite-new.svg#icon-Genericdelete" />
+                </svg>
+              </button>
+            ) : (
+              /* Кнопка Save/Unsave для чужих рецептів */
+              <button
+                type="button"
+                className={css.favBtn}
+                onClick={handleFavorite}
+                disabled={isLoading}
+              >
+                {favorite ? (
+                  <>
+                    <span className={css.favBtnTitle}>Unsave</span>
+                    <svg
+                      className={css.favBtnIconUnsave}
+                      width="24"
+                      height="24"
+                    >
+                      <use href="/sprite-new.svg#icon-bookmark-filled-large" />
+                    </svg>
+                  </>
+                ) : (
+                  <>
+                    <span className={css.favBtnTitle}>Save</span>
+                    <svg className={css.favBtnIconSave} width="24" height="24">
+                      <use href="/sprite-new.svg#icon-bookmark-filled-large" />
+                    </svg>
+                  </>
+                )}
+              </button>
+            )}
           </div>
           <div className={css.otherInfoWrapper}>
             <div className={css.aboutWrapper}>

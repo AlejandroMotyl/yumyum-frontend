@@ -1,5 +1,4 @@
 'use client';
-import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import Loader from '@/components/Loader/Loader';
 import RecipeDetails from '@/components/RecipeDetails/RecipeDetails';
 import { getIngredients, getRecipeById } from '@/lib/api/clientApi';

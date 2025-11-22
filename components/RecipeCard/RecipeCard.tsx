@@ -1,69 +1,94 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import css from './RecipeCard.module.css';
 import Link from 'next/link';
-import { Recipe } from '@/types/recipe';
+import { AnyRecipe } from '@/types/recipe';
 import { useAuthStore } from '@/lib/store/authStore';
 import {
   addFavoriteRecipe,
   removeFavoriteRecipe,
 } from '@/lib/services/favorites';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import { useQueryClient } from '@tanstack/react-query';
+import { usePathname } from 'next/navigation';
+import { showError, showSuccess } from '@/utils/toast';
+import { deleteMyRecipe } from '@/lib/api/clientApi';
 
 interface RecipeCardProps {
-  recipe: Recipe;
+  recipe: AnyRecipe;
 }
 
 export default function RecipeCard({ recipe }: RecipeCardProps) {
   const { isAuthenticated, user } = useAuthStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const queryClient = useQueryClient();
+  const pathname = usePathname();
+
+  const ownerId =
+    typeof recipe.owner === 'object' ? recipe.owner._id : recipe.owner;
   const isFavorite = user?.savedRecipes?.includes(recipe._id) ?? false;
+  const isMyRecipe = user?._id === ownerId;
+  const isOwnRecipesPage = pathname === '/profile/own';
+  const showDeleteButton = isMyRecipe && isOwnRecipesPage;
 
-  const handleFavoriteClick = async () => {
+  const [optimisticFavorite, setOptimisticFavorite] = useState(isFavorite);
+
+  useEffect(() => {
+    setOptimisticFavorite(isFavorite);
+  }, [isFavorite]);
+
+  const handleFavorite = async () => {
     if (!isAuthenticated) {
       setShowAuthModal(true);
       return;
     }
 
+    const previousState = optimisticFavorite;
+    setOptimisticFavorite(!previousState);
+    setIsLoading(true);
+
     try {
-      if (isFavorite) {
+      if (previousState) {
         await removeFavoriteRecipe(recipe._id);
-        import('izitoast').then((iziToast) => {
-          iziToast.default.success({
-            title: 'Success',
-            message: 'Removed from favorites',
-            position: 'topRight',
-          });
-        });
+        await showError('Recipe removed from favorites');
       } else {
         await addFavoriteRecipe(recipe._id);
-        import('izitoast').then((iziToast) => {
-          iziToast.default.success({
-            title: 'Success',
-            message: 'Successfully saved to favorites',
-            position: 'topRight',
-          });
-        });
+        await showSuccess('Recipe saved to favorites');
       }
-    } catch (error) {
-      import('izitoast').then((iziToast) => {
-        iziToast.default.error({
-          message: `Error toggling favorite!`,
-          position: 'topRight',
-        });
-      });
+      queryClient.invalidateQueries({ queryKey: ['recipes', 'favorites'] });
+      queryClient.invalidateQueries({ queryKey: ['recipes'] });
+    } catch {
+      setOptimisticFavorite(previousState);
+      await showError('Error toggling favorite!');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!isAuthenticated || !isMyRecipe) return;
+
+    setIsLoading(true);
+    try {
+      await deleteMyRecipe({ recipeId: recipe._id });
+      await showError('Recipe deleted successfully');
+      queryClient.invalidateQueries({ queryKey: ['recipes', 'own'] });
+      queryClient.invalidateQueries({ queryKey: ['recipes'] });
+    } catch {
+      await showError('Error deleting recipe!');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <>
       <Image
-        src={
-          recipe?.thumb ? recipe.thumb : '/img-default/default-img-desktop.jpg'
-        }
+        src={recipe.thumb || '/img-default/default-img-desktop.jpg'}
         alt={recipe.title}
         width={300}
         height={300}
@@ -90,18 +115,32 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           Learn more
         </Link>
 
-        <button
-          className={`${css.favoriteButton} ${isFavorite ? css.active : ''}`}
-          onClick={(e) => {
-            e.currentTarget.blur();
-            handleFavoriteClick();
-          }}
-          type="button"
-        >
-          <svg className={css.favoriteIcon} width="14" height="17">
-            <use href={`/sprite.svg#favorite`}></use>
-          </svg>
-        </button>
+        {showDeleteButton ? (
+          <button
+            type="button"
+            className={css.deleteBtn}
+            onClick={handleDelete}
+            disabled={isLoading}
+          >
+            <svg className={css.deleteBtnIcon} width="24" height="24">
+              <use href="/sprite-new.svg#icon-Genericdelete" />
+            </svg>
+          </button>
+        ) : (
+          <button
+            className={`${css.favoriteButton} ${optimisticFavorite ? css.active : ''}`}
+            onClick={(e) => {
+              e.currentTarget.blur();
+              handleFavorite();
+            }}
+            type="button"
+            disabled={isLoading}
+          >
+            <svg className={css.favoriteIcon} width="14" height="17">
+              <use href="/sprite.svg#favorite"></use>
+            </svg>
+          </button>
+        )}
       </div>
 
       {showAuthModal && (
@@ -109,12 +148,8 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           title="Login Required"
           confirmButtonText="Login"
           cancelButtonText="Cancel"
-          onConfirm={() => {
-            setShowAuthModal(false);
-          }}
-          onCancel={() => {
-            setShowAuthModal(false);
-          }}
+          onConfirm={() => setShowAuthModal(false)}
+          onCancel={() => setShowAuthModal(false)}
         />
       )}
     </>

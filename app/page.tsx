@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-query';
 import { getAllRecipes } from '@/lib/api/clientApi';
 import { RecipesList } from '@/components/RecipesList/RecipesList';
+import Container from '@/components/Container/Container';
 
 export async function generateMetadata() {
   const title = `YumYum Recipes`;
@@ -45,7 +46,9 @@ export default async function Home() {
     <>
       <Hero />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <RecipesList />
+        <Container>
+          <RecipesList />
+        </Container>
       </HydrationBoundary>
     </>
   );
