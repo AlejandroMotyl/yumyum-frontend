@@ -129,10 +129,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         ) : (
           <button
             className={`${css.favoriteButton} ${optimisticFavorite ? css.active : ''}`}
-            onClick={(e) => {
-              e.currentTarget.blur();
-              handleFavorite();
-            }}
+            onClick={handleFavorite}
             type="button"
             disabled={isLoading}
           >
