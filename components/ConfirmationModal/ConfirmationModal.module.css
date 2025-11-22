@@ -144,6 +144,12 @@
   color: var(--white);
   background: var(--light-brown);
 }
+.modalLogoutCancel {
+  padding: 56px 24px 16px 24px ;
+}
+.modalGoToMyProfile {
+  padding: 64px 16px;
+}
 @media screen and (min-width: 768px) {
   .backdrop {
     padding: 64px 32px;
@@ -196,7 +202,9 @@
 @media screen and (min-width: 1440px) {
   .modal {
     padding: 56px 32px;
-    min-height: 277px;
+  }
+  .modalLogoutCancel {
+    padding: 56px 32px 32px 32px;
   }
   .confirmSecondButton {
     top: 32px;
@@ -219,5 +227,8 @@
   }
   .btnGoToMyProfile {
     height: 44px;
+  }
+  .modalGoToMyProfile {
+    padding: 56px 32px 32px 32px;
   }
 }

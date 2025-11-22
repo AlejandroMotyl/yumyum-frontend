@@ -12,9 +12,9 @@ interface ConfirmationModalProps {
   confirmSecondButtonText?: string; // ? Текст другої кнопки
   onConfirm: () => void; // ? Функція що виконується у разі підтвердження
   onConfirmSecond: () => void; // ? Функція що виконується у разі підтвердження
-  confirmButtonVariant?: 'Login' | 'Logout';
-  confirmSecondButtonVariant?: 'Cancel' | 'Register' | 'GoToMyProfile';
-  reverseOrder?: boolean; // ? Чи міняти порядок кнопок місцями - нужно только для Login Register модалки
+  confirmButtonVariant?: 'Login' | 'Logout'; //? Перша кнопка стилі
+  confirmSecondButtonVariant?: 'Cancel' | 'Register' | 'GoToMyProfile'; //? Друга кнопка стилі
+  reverseOrder?: boolean; // ? Чи міняти порядок кнопок місцями - потрібно тільки для Login Register модалки
 }
 
 export default function ConfirmationModal({
@@ -64,7 +64,15 @@ export default function ConfirmationModal({
       aria-modal="true"
       onClick={(e) => handleBackdropClick(e)}
     >
-      <div className={css.modal}>
+      <div
+        className={`${css.modal} ${
+          confirmButtonVariant === 'Logout' &&
+          confirmSecondButtonVariant === 'Cancel'
+            ? css.modalLogoutCancel
+            : ''
+        }
+          ${confirmSecondButtonVariant === 'GoToMyProfile' ? css.modalGoToMyProfile : ''}`}
+      >
         <button
           className={css.confirmSecondButton}
           type="button"
