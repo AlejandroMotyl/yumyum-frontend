@@ -230,6 +230,7 @@ export default function Header() {
           confirmButtonText="Logout"
           confirmButtonVariant="Logout"
           onConfirmSecond={() => setIsModalOpen(false)}
+          reverseOrder
         />
       )}
     </header>

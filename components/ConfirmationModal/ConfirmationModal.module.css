@@ -40,9 +40,6 @@
 .ulElement li {
   width: 100%;
 }
-.ulElementReverse {
-  flex-direction: column-reverse;
-}
 
 .paragraph {
   text-align: center;
@@ -150,14 +147,11 @@
   row-gap: 16px;
 }
 .modalGoToMyProfile {
-  .title {
-    line-height: 100%;
-    letter-spacing: 0;
-  }
   padding: 64px 16px;
 }
 
 @media screen and (min-width: 768px) {
+
   .backdrop {
     padding: 64px 32px;
   }
@@ -172,9 +166,6 @@
     flex-direction: row;
     column-gap: 27px;
     align-items: normal;
-  }
-  .ulElementReverse {
-    flex-direction: row-reverse;
   }
   .closeSvgButton {
     right: 32px;
@@ -211,6 +202,9 @@
   }
   .modalGoToMyProfile {
     padding: 56px 32px 32px 32px;
+  }
+  .ulElementReverse {
+    flex-direction: row-reverse;
   }
 }
 @media screen and (min-width: 1440px) {
