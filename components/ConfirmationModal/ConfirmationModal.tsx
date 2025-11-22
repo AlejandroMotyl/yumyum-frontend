@@ -10,8 +10,9 @@ interface ConfirmationModalProps {
   paragraph?: string; // ? Додатковий текст попередження
   confirmButtonText?: string; // ? Текст кнопки
   confirmSecondButtonText?: string; // ? Текст другої кнопки
-  onConfirm: () => void; // ? Функція що виконується у разі підтвердження
-  onConfirmSecond: () => void; // ? Функція що виконується у разі підтвердження
+  onConfirm?: () => void; // ? Функція що виконується у разі підтвердження
+  onConfirmSecond?: () => void; // ? Функція що виконується у разі підтвердження другої кнопки
+  onClose: () => void; // ? Функція для закриття модалки (X, backdrop, Escape)
   confirmButtonVariant?: 'Login' | 'Logout'; //? Перша кнопка стилі
   confirmSecondButtonVariant?: 'Cancel' | 'Register' | 'GoToMyProfile'; //? Друга кнопка стилі
   reverseOrder?: boolean; // ? Чи міняти порядок кнопок місцями - потрібно тільки для Login Register модалки
@@ -24,6 +25,7 @@ export default function ConfirmationModal({
   confirmSecondButtonText,
   onConfirm,
   onConfirmSecond,
+  onClose,
   confirmButtonVariant,
   confirmSecondButtonVariant,
   reverseOrder,
@@ -32,7 +34,7 @@ export default function ConfirmationModal({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onConfirmSecond();
+        onClose();
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -42,11 +44,11 @@ export default function ConfirmationModal({
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
-  }, [onConfirmSecond]);
+  }, [onClose]);
   // ? Обробка натиску на бекдроп
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
-      onConfirmSecond();
+      onClose();
     }
   };
 
@@ -77,7 +79,7 @@ export default function ConfirmationModal({
           className={css.closeSvgButton}
           type="button"
           onClick={() => {
-            onConfirmSecond();
+            onClose();
           }}
         >
           <svg stroke="currentColor">
@@ -98,7 +100,7 @@ export default function ConfirmationModal({
                            ${confirmSecondButtonVariant === 'Cancel' && confirmButtonVariant === 'Login' ? css.loginRequiredModalBtnCancel : ''}`}
               type="button"
               onClick={() => {
-                onConfirmSecond();
+                onConfirmSecond?.();
               }}
             >
               {confirmSecondButtonText}
@@ -110,7 +112,7 @@ export default function ConfirmationModal({
                 className={`${css.buttonAccept} ${css[`btn${confirmButtonVariant}`]}`}
                 type="button"
                 onClick={() => {
-                  onConfirm();
+                  onConfirm?.();
                 }}
               >
                 {confirmButtonText}
