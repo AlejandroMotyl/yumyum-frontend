@@ -253,6 +253,38 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
           </div>
         </div>
       </Container>
+      {favorite && (
+        <ConfirmationModal
+          title="Done! Recipe saved"
+          confirmSecondButtonText="Go To My Profile"
+          confirmSecondButtonVariant="GoToMyProfile"
+          onConfirmSecond={() => {
+            router.push('/profile/own');
+          }}
+          onClose={() => setFavorite(false)}
+        />
+      )}
+
+      {showAuthModal && (
+        <ConfirmationModal
+          title="Login Required"
+          confirmButtonText="Login"
+          confirmSecondButtonText="Register"
+          onConfirm={() => {
+            setShowAuthModal(false);
+            router.push('/auth/login');
+          }}
+          onConfirmSecond={() => {
+            router.push('/auth/register');
+            setShowAuthModal(false);
+          }}
+          onClose={() => {
+            setShowAuthModal(false);
+          }}
+          confirmButtonVariant="Login"
+          confirmSecondButtonVariant="Register"
+        />
+      )}
     </section>
   );
 };
