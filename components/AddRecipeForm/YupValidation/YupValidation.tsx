@@ -1,7 +1,11 @@
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object({
-  title: Yup.string().min(2).max(64).trim().required('Enter the recipe name'),
+  title: Yup.string()
+    .min(2)
+    .max(64, 'Title must be at most 64 characters')
+    .trim()
+    .required('Enter the recipe name'),
   description: Yup.string()
     .min(10)
     .max(200)

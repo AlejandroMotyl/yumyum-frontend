@@ -52,7 +52,7 @@ const getCustomStyles = (): StylesConfig<SelectOption, false> => ({
     justifyContent: 'space-between',
     '&:hover': {
       backgroundColor: 'var(--white)',
-      borderColor: state.isFocused ? 'var(--black)' : 'var(--light-gray)',
+      borderColor: 'var(--black)',
     },
   }),
 
