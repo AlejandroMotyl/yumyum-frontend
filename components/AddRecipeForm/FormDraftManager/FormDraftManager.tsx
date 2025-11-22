@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useFormikContext } from 'formik';
 
 import { RecipeFormValues } from '@/types/recipe';
@@ -9,6 +9,26 @@ interface FormDraftManagerProps {
   setInitialValuesLoaded: (loaded: boolean) => void;
 }
 
+const areDraftValuesDifferent = (
+  draft: any,
+  initialValues: RecipeFormValues,
+): boolean => {
+  if (draft.thumbName !== null) {
+    return true;
+  }
+
+  const serializableDraft = { ...draft };
+  delete serializableDraft.thumbName;
+
+  const serializableInitial = { ...initialValues };
+  delete serializableInitial.thumb;
+
+  const draftString = JSON.stringify(serializableDraft);
+  const initialString = JSON.stringify(serializableInitial);
+
+  return draftString !== initialString;
+};
+
 const FormDraftManager = ({
   initialValues,
   setInitialValuesLoaded,
@@ -16,26 +36,26 @@ const FormDraftManager = ({
   const { values, setValues } = useFormikContext<RecipeFormValues>();
   const { draft, setDraft, clearDraft } = useRecipeDraftStore();
 
+  const isDraftSaved = useMemo(() => {
+    return areDraftValuesDifferent(draft, initialValues);
+  }, [draft, initialValues]);
+
   useEffect(() => {
-    if (draft.title && draft.title !== initialValues.title) {
+    if (isDraftSaved) {
       setValues(
         {
           ...draft,
-
           thumb: null,
         } as RecipeFormValues,
         false,
       );
     }
     setInitialValuesLoaded(true);
-  }, [setValues, initialValues.title, draft.title, setInitialValuesLoaded]);
+  }, [setValues, draft, isDraftSaved, setInitialValuesLoaded]);
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      if (
-        values.title !== initialValues.title ||
-        values.description !== initialValues.description
-      ) {
+      if (areDraftValuesDifferent(values, initialValues)) {
         setDraft(values);
       }
     }, 2000);
@@ -43,7 +63,7 @@ const FormDraftManager = ({
     return () => {
       clearTimeout(handler);
     };
-  }, [values, setDraft, initialValues.title, initialValues.description]);
+  }, [values, setDraft, initialValues]);
 
   return null;
 };
