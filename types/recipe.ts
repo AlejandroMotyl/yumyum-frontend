@@ -2,6 +2,7 @@ export interface RecipeIngredient {
   id: string;
   measure: string;
 }
+export type AnyRecipe = Recipe | RecipeFavorite;
 
 export interface Recipe {
   _id: string;

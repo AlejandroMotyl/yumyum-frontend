@@ -5,6 +5,7 @@ import type { Option } from '@/types/filter';
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
 import { useSearchStore } from '@/lib/store/useSearchStore';
 import { CustomSelect } from '../CustomSelect/CustomSelect';
+import { useResetAll } from '@/lib/store/useResetAll';
 
 type FiltersFormProps = {
   categories: Option[];
@@ -24,11 +25,7 @@ export function FiltersForm({
   const resetFilters = useFiltersStore((s) => s.resetFilters);
   const clearSearchQuery = useSearchStore((s) => s.clearSearchQuery);
 
-  const handleReset = () => {
-    resetFilters();
-    clearSearchQuery();
-    onAfterReset?.();
-  };
+  const resetAll = useResetAll();
 
   return (
     <div className={css.inputResetWrapper}>
@@ -56,7 +53,7 @@ export function FiltersForm({
         </div>
       </div>
 
-      <button type="button" className={css.resetButton} onClick={handleReset}>
+      <button type="button" className={css.resetButton} onClick={resetAll}>
         Reset filters
       </button>
     </div>

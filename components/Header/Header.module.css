@@ -213,6 +213,7 @@
   .header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
   .myProfileLink {
     margin-bottom: 5px;
@@ -319,23 +320,22 @@
   .navMenu {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     position: static;
     padding: 0;
     z-index: 0;
     background: transparent;
     width: 100%;
     height: auto;
+    overflow: visible;
   }
 
   .navMenuInner {
     margin: 0 auto;
-    max-width: 768px;
     width: 100%;
-    padding: 0 32px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 0;
   }
   .navMenu ul {
@@ -391,5 +391,8 @@
   }
   .changeOrderOnTablet {
     order: -1;
+  }
+  .logoCloseBtnContainer{
+    display: none;
   }
 }

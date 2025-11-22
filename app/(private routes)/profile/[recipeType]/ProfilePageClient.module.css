@@ -1,0 +1,8 @@
+.title {
+  font: var(--display-lg-semibold);
+  color: var(--black);
+}
+.wrapper {
+  padding-top: 46px;
+  padding-bottom: 46px;
+}

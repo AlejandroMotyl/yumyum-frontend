@@ -59,7 +59,7 @@ export const getRecipeById = async (recipeId: string): Promise<Recipe> => {
   return data;
 };
 
-// !!!!!!!! НЕДОРОБЛЕНО!!!!
+// ========== FAVORITES ==========
 export const getFavoriteRecipes = async (params: {
   page?: string | null;
   perPage?: string;
@@ -76,6 +76,28 @@ export const getFavoriteRecipes = async (params: {
       perPage,
       page,
       ...rest,
+    },
+  });
+  return data;
+};
+
+// ========== OWN ==========
+export const getOwnRecipes = async (params: {
+  page?: string | null;
+  perPage?: string;
+}): Promise<{
+  page: number;
+  perPage: number;
+  totalRecipes: number;
+  totalPages: number;
+  recipes: Recipe[];
+}> => {
+  const { perPage = 12, page = 1 } = params;
+
+  const { data } = await api.get(`/recipes/own`, {
+    params: {
+      perPage,
+      page,
     },
   });
   return data;
@@ -106,5 +128,14 @@ export const removeFromFavorite = async ({
   recipeId: string;
 }): Promise<{ message: string }> => {
   const res = await api.delete(`/recipes/favorites/${recipeId}`);
+  return res.data;
+};
+
+export const deleteMyRecipe = async ({
+  recipeId,
+}: {
+  recipeId: string;
+}): Promise<{ message: string }> => {
+  const res = await api.delete(`/recipes/own/delete/${recipeId}`);
   return res.data;
 };

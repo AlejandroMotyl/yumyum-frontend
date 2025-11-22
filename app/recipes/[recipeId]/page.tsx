@@ -18,10 +18,10 @@ export const generateMetadata = async ({
   const recipe = await getRecipeById(recipeId);
   return {
     title: recipe.title,
-    description: recipe.description.slice(0, 15) + '..',
+    description: recipe.description.slice(0, 30) + '..',
     openGraph: {
       title: recipe.title,
-      description: recipe.description.slice(0, 15) + '..',
+      description: recipe.description.slice(0, 30) + '..',
       url: `https://nodejs-hw-zdyd.onrender.com/api/recipes/${recipeId}`,
       images: [
         {

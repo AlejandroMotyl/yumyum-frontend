@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-
 }
 
 .filtersWrapper {
@@ -40,6 +39,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: color var(--primary-transition);
+}
+
+.filtersToggle:hover,
+.filtersToggle:focus,
+.filtersToggle:active {
+  color: var(--black-50);
 }
 
 @media (min-width: 1440px) {
@@ -51,26 +57,28 @@
 .filtersPanel {
   position: absolute;
   top: 60%;
-  left: 72px;
+  /* left: 72px; */
   right: 0;
   display: flex;
   width: 80%;
   background-color: var(--white);
-  box-shadow: 0 0 1px 0 rgba(38, 9, 9, 0.4), 0 8px 24px -6px rgba(0, 0, 0, 0.16);
+  box-shadow:
+    0 0 1px 0 rgba(38, 9, 9, 0.4),
+    0 8px 24px -6px rgba(0, 0, 0, 0.16);
   padding: 16px 12px;
   border-radius: 8px;
   opacity: 0;
   pointer-events: none;
   transform: translateY(8px);
-  transition: opacity 150ms ease, transform 150ms ease;
-
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease;
 }
 
 @media (min-width: 768px) {
   .filtersPanel {
     width: 288px;
-    left: 414px;
-
+    /* left: 414px; */
   }
 }
 
@@ -91,7 +99,6 @@
     background: none;
     opacity: 1;
     pointer-events: auto;
-
   }
 }
 

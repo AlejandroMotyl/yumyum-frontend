@@ -1,6 +1,6 @@
 'use client';
 import css from './SearchBox.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useSearchStore } from '../../lib/store/useSearchStore';
 
@@ -8,7 +8,12 @@ const SearchBox = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState('');
 
+  const globalSearchQuery = useSearchStore((state) => state.searchQuery);
   const setGlobalSearchQuery = useSearchStore((state) => state.setSearchQuery);
+
+  useEffect(() => {
+    setSearchQuery(globalSearchQuery);
+  }, [globalSearchQuery]);
 
   const searchSchema = Yup.object().shape({
     search: Yup.string()
@@ -45,6 +50,8 @@ const SearchBox = () => {
     if (isValid) {
       setGlobalSearchQuery(searchQuery.trim());
     }
+
+    (e.target as HTMLFormElement).querySelector('button')?.blur();
   };
 
   return (
