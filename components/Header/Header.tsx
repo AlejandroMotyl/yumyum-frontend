@@ -222,7 +222,7 @@ export default function Header() {
             setIsModalOpen(false);
             handleLogout();
           }}
-          title="Are you shure?"
+          title="Are you sure?"
           paragraph="We will miss you!"
           confirmSecondButtonText="Cancel"
           confirmSecondButtonVariant="Cancel"
