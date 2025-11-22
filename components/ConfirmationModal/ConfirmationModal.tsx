@@ -37,12 +37,31 @@ export default function ConfirmationModal({
         onClose();
       }
     };
-    document.addEventListener('keydown', handleKeyDown);
+
+    // Зберігаємо поточну позицію скролу
+    const scrollY = window.scrollY;
+
+    // Блокуємо скрол на body і html
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
     document.body.style.overflow = 'hidden';
 
+    document.addEventListener('keydown', handleKeyDown);
+
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      // Відновлюємо скрол
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.overflow = '';
+
+      // Повертаємо позицію скролу
+      window.scrollTo(0, scrollY);
+
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose]);
   // ? Обробка натиску на бекдроп
