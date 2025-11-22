@@ -12,6 +12,7 @@ import {
 } from '@/lib/services/favorites';
 import { deleteMyRecipe } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
+import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
 
 interface RecipeDetailsProps {
   recipe: Recipe;
@@ -22,6 +23,8 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
   const [favorite, setFavorite] = useState(false);
   const [isMyRecipe, setIsMyRecipe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
   const router = useRouter();
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -47,6 +50,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
 
   const handleFavorite = async () => {
     if (!isAuthenticated) {
+      setShowAuthModal(true);
       return;
     }
     setIsLoading(true);
