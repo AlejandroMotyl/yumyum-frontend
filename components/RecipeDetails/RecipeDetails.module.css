@@ -272,6 +272,10 @@
     flex-direction: column;
   }
 
+  .otherInfoWrapper {
+    width: 100%;
+  }
+
   .favBtn {
     width: 393px;
   }
