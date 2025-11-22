@@ -10,26 +10,25 @@ import { FormikSelectProps, SelectOption } from '@/types/formik';
 import css from '../AddRecipeForm.module.css';
 
 const DropdownIndicator = (
-  props: DropdownIndicatorProps<SelectOption, false>,
+  props: DropdownIndicatorProps<SelectOption, false, GroupBase<SelectOption>>,
 ) => {
   const isMenuOpen = props.selectProps.menuIsOpen;
+
+  const rotationStyle: React.CSSProperties = {
+    transform: isMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+  };
 
   return components.DropdownIndicator ? (
     <components.DropdownIndicator {...props}>
       <svg
         className={css.arrowIcon}
+        style={rotationStyle}
         width="24"
         height="24"
         fill="none"
         stroke="currentColor"
       >
-        <use
-          href={
-            isMenuOpen
-              ? '/sprite.svg#icon-Controlschevron-up'
-              : '/sprite.svg#icon-Controlschevron-down'
-          }
-        ></use>
+        <use href={'/sprite.svg#icon-Controlschevron-down'}></use>
       </svg>
     </components.DropdownIndicator>
   ) : null;
@@ -41,7 +40,7 @@ const getCustomStyles = (): StylesConfig<SelectOption, false> => ({
     height: '48px',
     minHeight: '48px',
     borderRadius: '8px',
-    backgroundColor: 'transparent',
+    backgroundColor: 'var(--white)',
     borderColor: state.isFocused ? 'var(--black)' : 'var(--light-gray)',
     borderWidth: '1px',
     boxShadow: 'none',
@@ -52,7 +51,7 @@ const getCustomStyles = (): StylesConfig<SelectOption, false> => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     '&:hover': {
-      backgroundColor: 'transparent',
+      backgroundColor: 'var(--white)',
       borderColor: state.isFocused ? 'var(--black)' : 'var(--light-gray)',
     },
   }),
@@ -88,7 +87,7 @@ const getCustomStyles = (): StylesConfig<SelectOption, false> => ({
     padding: '8px 16px',
     fontSize: 'var(--body-md-regular)',
     ...(state.isSelected && {
-      backgroundColor: 'var(--light-gray-2)',
+      backgroundColor: 'var(--white)',
       color: 'var(--black)',
     }),
   }),

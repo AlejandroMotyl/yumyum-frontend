@@ -145,6 +145,7 @@
     border-radius: 8px;
     padding: 12px;
     width: 361px;
+    background-color: var(--white);
     color: var(--black);
     font: var(--body-lg-regular);
     align-items: center;
@@ -172,6 +173,7 @@
     border-radius: 8px;
     padding: 12px;
     width: 361px;
+    background-color: var(--white);
     color: var(--black);
     font: var(--body-lg-regular);
     resize: none;
@@ -195,6 +197,7 @@
     border: 1px solid var(--light-gray);
     border-radius: 8px;
     padding: 12px;
+    background-color: var(--white);
     color: var(--black);
     font: var(--body-lg-regular);
     align-items: center;
@@ -272,6 +275,18 @@
     fill: none;
     width: 24x;
     height: 24px;
+    transition: stroke var(--primary-transition);
+  }
+
+  .removeIcon:hover,
+  .removeIcon:focus {
+    stroke: var(--red);
+  }
+
+  .arrowIcon {
+    display: flex;
+    transition: transform var(--primary-transition);
+    transform-origin: center;
   }
 
   /* ==================================== */
