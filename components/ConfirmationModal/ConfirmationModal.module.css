@@ -46,6 +46,9 @@
   font: var(--body-md-regular);
   text-wrap: wrap;
   margin-bottom: 20px;
+  max-width: 311px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .btnLogout {
   background: var(--red);
@@ -149,6 +152,9 @@
 .modalGoToMyProfile {
   padding: 64px 16px;
 }
+.ulElement:has(.btnRegister) {
+  flex-direction: column-reverse;
+}
 
 @media screen and (min-width: 768px) {
   .backdrop {
@@ -203,6 +209,9 @@
     padding: 56px 32px 32px 32px;
   }
   .ulElementReverse {
+    flex-direction: row-reverse;
+  }
+  .ulElement:has(.btnRegister) {
     flex-direction: row-reverse;
   }
   .loginRequiredModalBtnCancel {

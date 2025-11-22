@@ -24,7 +24,6 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
   const { isAuthenticated, user } = useAuthStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [savedSuccess, setSavedSuccess] = useState(false);
   const router = useRouter();
 
   const queryClient = useQueryClient();
@@ -56,7 +55,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
     try {
       if (previousState) {
         await removeFavoriteRecipe(recipe._id);
-        await showError('Recipe removed from favorites');
+        await showSuccess('Removed from favorites');
       } else {
         await addFavoriteRecipe(recipe._id);
         await showSuccess('Recipe saved to favorites');
@@ -77,7 +76,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
     setIsLoading(true);
     try {
       await deleteMyRecipe({ recipeId: recipe._id });
-      await showError('Recipe deleted successfully');
+      await showSuccess('Recipe deleted successfully');
       queryClient.invalidateQueries({ queryKey: ['recipes', 'own'] });
       queryClient.invalidateQueries({ queryKey: ['recipes'] });
     } catch {
@@ -147,35 +146,24 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 
       {showAuthModal && (
         <ConfirmationModal
-          title="Login Required"
-          confirmButtonText="Login"
-          confirmSecondButtonText="Cancel"
+          title="Error while saving"
+          paragraph="To save this recipe, you need to authorize first"
+          confirmButtonText="Log in"
+          confirmSecondButtonText="Register"
           onConfirm={() => {
             setShowAuthModal(false);
             router.push('/auth/login');
           }}
           onConfirmSecond={() => {
+            router.push('/auth/register');
             setShowAuthModal(false);
           }}
           onClose={() => {
             setShowAuthModal(false);
           }}
           confirmButtonVariant="Login"
-          confirmSecondButtonVariant="Cancel"
-        />
-      )}
-      {savedSuccess && (
-        <ConfirmationModal
-          title="Done! Recipe saved"
-          confirmSecondButtonText="Go To My Profile"
-          confirmSecondButtonVariant="GoToMyProfile"
-          onConfirmSecond={() => {
-            setSavedSuccess(false);
-            router.push('/profile/own');
-          }}
-          onClose={() => {
-            setSavedSuccess(false);
-          }}
+          confirmSecondButtonVariant="Register"
+          reverseOrder
         />
       )}
     </>

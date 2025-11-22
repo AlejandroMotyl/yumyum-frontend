@@ -249,6 +249,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
       {showSuccessModal && (
         <ConfirmationModal
           title="Done! Recipe saved"
+          paragraph="You can find recipe in our profile"
           confirmSecondButtonText="Go To My Profile"
           confirmSecondButtonVariant="GoToMyProfile"
           onConfirmSecond={() => {
@@ -261,8 +262,9 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
 
       {showAuthModal && (
         <ConfirmationModal
-          title="Login Required"
-          confirmButtonText="Login"
+          title="Error while saving"
+          paragraph="To save this recipe, you need to authorize first"
+          confirmButtonText="Log in"
           confirmSecondButtonText="Register"
           onConfirm={() => {
             setShowAuthModal(false);
@@ -277,6 +279,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
           }}
           confirmButtonVariant="Login"
           confirmSecondButtonVariant="Register"
+          reverseOrder
         />
       )}
     </section>

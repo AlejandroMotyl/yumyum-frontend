@@ -227,7 +227,7 @@ export default function Header() {
           paragraph="We will miss you!"
           confirmSecondButtonText="Cancel"
           confirmSecondButtonVariant="Cancel"
-          confirmButtonText="Logout"
+          confirmButtonText="Log out"
           confirmButtonVariant="Logout"
           onConfirmSecond={() => setIsModalOpen(false)}
           reverseOrder
