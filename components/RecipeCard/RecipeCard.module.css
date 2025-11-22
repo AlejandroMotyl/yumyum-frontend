@@ -133,6 +133,7 @@
   justify-content: center;
   align-items: center;
   transition: all var(--primary-transition);
+  cursor: pointer;
 }
 
 .favoriteButton:hover,

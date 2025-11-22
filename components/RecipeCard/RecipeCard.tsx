@@ -12,7 +12,7 @@ import {
 } from '@/lib/services/favorites';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import { useQueryClient } from '@tanstack/react-query';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { showError, showSuccess } from '@/utils/toast';
 import { deleteMyRecipe } from '@/lib/api/clientApi';
 
@@ -27,7 +27,6 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 
   const queryClient = useQueryClient();
   const pathname = usePathname();
-  const router = useRouter();
 
   const ownerId =
     typeof recipe.owner === 'object' ? recipe.owner._id : recipe.owner;
@@ -77,7 +76,8 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
     try {
       await deleteMyRecipe({ recipeId: recipe._id });
       await showError('Recipe deleted successfully');
-      setTimeout(() => router.push('/'), 1000);
+      queryClient.invalidateQueries({ queryKey: ['recipes', 'favorites'] });
+      queryClient.invalidateQueries({ queryKey: ['recipes'] });
     } catch {
       await showError('Error deleting recipe!');
     } finally {
