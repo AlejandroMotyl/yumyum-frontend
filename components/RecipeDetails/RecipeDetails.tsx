@@ -65,7 +65,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
         import('izitoast').then((iziToast) => {
           iziToast.default.success({
             title: 'Success',
-            message: 'Successfully saved to favorites',
+            message: 'Removed from favorites',
             position: 'topRight',
           });
         });
@@ -77,7 +77,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
         import('izitoast').then((iziToast) => {
           iziToast.default.success({
             title: 'Success',
-            message: 'Removed from favorites',
+            message: 'Successfully saved to favorites',
             position: 'topRight',
           });
         });
@@ -138,12 +138,22 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
           <div className={css.imgWrapper}>
             <picture>
               <source
+                media="(min-width: 1440px)"
+                srcSet={
+                  recipe.thumb?.replace('preview', 'preview/large') ||
+                  '/img-default/default-img-desktop.jpg'
+                }
+              />
+              <source
                 media="(min-width: 768px)"
-                srcSet={recipe.thumb?.replace('preview', 'preview/large')}
+                srcSet={
+                  recipe.thumb?.replace('preview', 'preview/large') ||
+                  '/img-default/default-img-tablet.jpg'
+                }
               />
               <img
                 className={css.titleImg}
-                src={recipe.thumb}
+                src={recipe.thumb || '/img-default/default-img-mobile.jpg'}
                 alt={recipe.title}
               />
             </picture>

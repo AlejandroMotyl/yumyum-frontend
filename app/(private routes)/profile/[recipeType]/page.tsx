@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 import ProfilePageClient from './ProfilePageClient';
 import getQueryClient from '@/lib/getQueryClient';
-import { getOwnRecipes, getFavoriteRecipes } from '@/lib/api/clientApi';
+import { getOwnRecipes, getFavoriteRecipes } from '@/lib/api/serverApi';
 
 interface RecipesResponse {
   page: number;

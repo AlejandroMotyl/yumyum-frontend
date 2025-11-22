@@ -133,6 +133,7 @@
   justify-content: center;
   align-items: center;
   transition: all var(--primary-transition);
+  cursor: pointer;
 }
 
 .favoriteButton:hover,
@@ -178,6 +179,7 @@
   background-color: var(--brown);
   border-color: var(--brown);
 }
+
 .favoriteButton.active:active {
   background-color: var(--brown);
   border-color: var(--brown);
@@ -188,4 +190,47 @@
   fill: transparent;
   stroke: var(--white);
   transition: all var(--primary-transition);
+}
+
+.deleteBtn {
+  font: var(--body-lg-semibold);
+  background-color: var(--red);
+  border-radius: 8px;
+  padding: 8px;
+  margin-left: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all var(--primary-transition);
+  cursor: pointer;
+}
+
+.deleteBtn:hover,
+.deleteBtn:focus {
+  background: #d32f2f;
+}
+
+.deleteBtn:active {
+  box-shadow:
+    0 0 0 6px rgba(78, 70, 180, 0.12),
+    0 0 0 2px var(--white);
+  background: #c62828;
+}
+
+.deleteBtn:disabled {
+  box-shadow:
+    0 0 0 6px rgba(78, 70, 180, 0.12),
+    0 0 0 2px var(--white);
+  background: #ef9a9a;
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.deleteBtnIcon {
+  stroke-width: 1px;
+  stroke: var(--white);
+  fill: none;
 }

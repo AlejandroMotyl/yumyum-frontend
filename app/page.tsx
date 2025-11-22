@@ -21,7 +21,7 @@ export async function generateMetadata() {
       url: 'yumyum-frontend.vercel.app/',
       images: [
         {
-          url: '/public/hero/hero-tablet.jpg',
+          url: '/hero/hero-tablet.jpg',
           width: 1200,
           height: 630,
           alt: 'YumYum Recipes',
