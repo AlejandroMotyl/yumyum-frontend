@@ -61,7 +61,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
         import('izitoast').then((iziToast) => {
           iziToast.default.success({
             title: 'Success',
-            message: 'Successfully saved to favorites',
+            message: 'Removed from favorites',
             position: 'topRight',
           });
         });
@@ -73,7 +73,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
         import('izitoast').then((iziToast) => {
           iziToast.default.success({
             title: 'Success',
-            message: 'Removed from favorites',
+            message: 'Successfully saved to favorites',
             position: 'topRight',
           });
         });
