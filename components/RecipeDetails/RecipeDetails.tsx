@@ -12,6 +12,7 @@ import {
 } from '@/lib/services/favorites';
 import { deleteMyRecipe } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
+import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
 
 interface RecipeDetailsProps {
   recipe: Recipe;
@@ -22,6 +23,9 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
   const [favorite, setFavorite] = useState(false);
   const [isMyRecipe, setIsMyRecipe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
   const router = useRouter();
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -47,6 +51,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
 
   const handleFavorite = async () => {
     if (!isAuthenticated) {
+      setShowAuthModal(true);
       return;
     }
     setIsLoading(true);
@@ -67,16 +72,8 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
         });
       } else {
         await addFavoriteRecipe(recipe._id);
-
         setFavorite(true);
-
-        import('izitoast').then((iziToast) => {
-          iziToast.default.success({
-            title: 'Success',
-            message: 'Successfully saved to favorites',
-            position: 'topRight',
-          });
-        });
+        setShowSuccessModal(true);
       }
     } catch {
       setFavorite(previousState);
@@ -249,6 +246,42 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
           </div>
         </div>
       </Container>
+      {showSuccessModal && (
+        <ConfirmationModal
+          title="Done! Recipe saved"
+          paragraph="You can find recipe in our profile"
+          confirmSecondButtonText="Go To My Profile"
+          confirmSecondButtonVariant="GoToMyProfile"
+          onConfirmSecond={() => {
+            setShowSuccessModal(false);
+            router.push('/profile/own');
+          }}
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
+
+      {showAuthModal && (
+        <ConfirmationModal
+          title="Error while saving"
+          paragraph="To save this recipe, you need to authorize first"
+          confirmButtonText="Log in"
+          confirmSecondButtonText="Register"
+          onConfirm={() => {
+            setShowAuthModal(false);
+            router.push('/auth/login');
+          }}
+          onConfirmSecond={() => {
+            router.push('/auth/register');
+            setShowAuthModal(false);
+          }}
+          onClose={() => {
+            setShowAuthModal(false);
+          }}
+          confirmButtonVariant="Login"
+          confirmSecondButtonVariant="Register"
+          reverseOrder
+        />
+      )}
     </section>
   );
 };

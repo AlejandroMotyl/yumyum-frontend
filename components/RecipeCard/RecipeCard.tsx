@@ -12,7 +12,7 @@ import {
 } from '@/lib/services/favorites';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import { useQueryClient } from '@tanstack/react-query';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { showError, showSuccess } from '@/utils/toast';
 import { deleteMyRecipe } from '@/lib/api/clientApi';
 
@@ -24,6 +24,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
   const { isAuthenticated, user } = useAuthStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const queryClient = useQueryClient();
   const pathname = usePathname();
@@ -54,7 +55,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
     try {
       if (previousState) {
         await removeFavoriteRecipe(recipe._id);
-        await showError('Recipe removed from favorites');
+        await showSuccess('Removed from favorites');
       } else {
         await addFavoriteRecipe(recipe._id);
         await showSuccess('Recipe saved to favorites');
@@ -75,7 +76,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
     setIsLoading(true);
     try {
       await deleteMyRecipe({ recipeId: recipe._id });
-      await showError('Recipe deleted successfully');
+      await showSuccess('Recipe deleted successfully');
       queryClient.invalidateQueries({ queryKey: ['recipes', 'own'] });
       queryClient.invalidateQueries({ queryKey: ['recipes'] });
     } catch {
@@ -145,11 +146,24 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 
       {showAuthModal && (
         <ConfirmationModal
-          title="Login Required"
-          confirmButtonText="Login"
-          cancelButtonText="Cancel"
-          onConfirm={() => setShowAuthModal(false)}
-          onCancel={() => setShowAuthModal(false)}
+          title="Error while saving"
+          paragraph="To save this recipe, you need to authorize first"
+          confirmButtonText="Log in"
+          confirmSecondButtonText="Register"
+          onConfirm={() => {
+            setShowAuthModal(false);
+            router.push('/auth/login');
+          }}
+          onConfirmSecond={() => {
+            router.push('/auth/register');
+            setShowAuthModal(false);
+          }}
+          onClose={() => {
+            setShowAuthModal(false);
+          }}
+          confirmButtonVariant="Login"
+          confirmSecondButtonVariant="Register"
+          reverseOrder
         />
       )}
     </>

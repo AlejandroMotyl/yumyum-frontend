@@ -4,53 +4,28 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--black-60);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 64px 20px;
+  z-index: 10000;
+  padding: 64px 15px 64px 16px;
 }
 
 .modal {
-  background-color: #ffffff;
-  padding: 64px 20px;
+  background-color: var(--light-beige);
+  padding: 56px 24px 32px 24px;
   border-radius: 40px;
   position: relative;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 335px;
-  min-height: 413px;
-  max-width: 768px;
-}
-.closeButton {
-  position: absolute;
-  top: 20;
-  right: 20;
-  width: 48px;
-  height: 48px;
-  background: none;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  max-width: 362px;
+  width: 100%;
 }
 
-.closeButtonIcon {
-  transition: fill var(--primary-transition);
-}
-.closeButton:hover .closeButtonIcon,
-.closeButton:focus .closeButtonIcon {
-  fill: #ffcbd3;
-}
 .title {
-  font-family: var(--font-comfortaa);
-  font-weight: 700;
-  font-size: 36px;
-  line-height: 120%;
-  letter-spacing: 0.01em;
+  font: var(--display-md-semibold);
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 20px;
   color: var(--font-color);
 }
 .ulElement {
@@ -58,47 +33,127 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  row-gap: 24px;
+  row-gap: 16px;
+  font: var(--body-lg-semibold);
+  width: 100%;
 }
-.buttonCancel {
-  background: var(--btn-color);
-  border-bottom: var(--btn-color-bottom);
-  border-radius: 100px;
-  padding: 10px 24px;
-  width: 268px;
-  height: 42px;
-  transition:
-    background var(--primary-transition),
-    border-bottom var(--primary-transition);
-  cursor: pointer;
-}
-.buttonCancel:hover,
-.buttonCancel:focus {
-  pointer-events: all;
-  background: var(--btn-hover);
-  border-bottom: var(--btn-hover-bottom);
-}
-.buttonCancel:active {
-  background: var(--btn-active);
-  border-bottom: var(--btn-active-bottom);
+.ulElement li {
+  width: 100%;
 }
 
-.buttonAccept {
-  background: var(--secondary-btn);
-  border-bottom: var(--secondary-btn-color-bottom);
-  border-radius: 100px;
-  padding: 10px 24px;
-  width: 268px;
-  height: 42px;
+.paragraph {
+  text-align: center;
+  font: var(--body-md-regular);
+  text-wrap: wrap;
+  margin-bottom: 20px;
+  max-width: 311px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.btnLogout {
+  background: var(--red);
+  color: var(--white);
+  text-wrap: nowrap;
+  width: 100%;
+}
+.btnRegister {
+  color: var(--white);
+  background: var(--light-brown);
+}
+
+.btnRegister:hover,
+.btnRegister:focus,
+.btnGoToMyProfile:hover,
+.btnGoToMyProfile:focus,
+.btnRegister:active,
+.btnGoToMyProfile:active {
+  background: var(--brown);
   transition: background var(--primary-transition);
+}
+
+.btnCancel,
+.btnLogin {
+  background: var(--light-beige);
+  border: 1px solid var(--black);
+  text-wrap: nowrap;
+  width: 100%;
+}
+
+.btnLogout:hover,
+.btnLogout:focus,
+.btnLogout:active {
+  opacity: 0.7;
+  transition: opacity var(--primary-transition);
+}
+
+.btnCancel:hover,
+.btnCancel:focus,
+.btnLogin:hover,
+.btnLogin:focus,
+.btnCancel:active,
+.btnLogin:active {
+  border-color: var(--light-brown);
+  background: var(--light-brown);
+  color: var(--white);
+  transition: background var(--primary-transition);
+}
+
+.closeSvgButton {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 }
-.buttonAccept:hover,
-.buttonAccept:focus {
-  background: var(--secondary-btn-hover);
+.closeSvgButton svg {
+  color: var(--black);
+  width: 24px;
+  height: 24px;
 }
-.buttonAccept:active {
-  background: var(--secondary-btn-active);
+.closeSvgButton:hover svg,
+.closeSvgButton:focus svg {
+  color: var(--black-60);
+}
+
+.buttonCancel {
+  border-radius: 8px;
+  padding: 16px 16px;
+  text-align: center;
+  width: 100%;
+  height: 54px;
+  cursor: pointer;
+}
+.buttonAccept {
+  text-align: center;
+  border-radius: 8px;
+  padding: 16px 16px;
+  width: 100%;
+  height: 54px;
+  cursor: pointer;
+}
+
+.btnGoToMyProfile {
+  font: var(--body-md-semibold);
+  text-wrap: nowrap;
+  width: 100%;
+  padding: 12px clamp(20px, 8vw, 100px);
+  height: 44px;
+  color: var(--white);
+  background: var(--light-brown);
+}
+.modalLogoutCancel {
+  padding: 56px 24px 32px 24px;
+  row-gap: 16px;
+}
+.modalGoToMyProfile {
+  padding: 64px 16px;
+}
+.ulElement:has(.btnRegister) {
+  flex-direction: column-reverse;
 }
 
 @media screen and (min-width: 768px) {
@@ -106,28 +161,97 @@
     padding: 64px 32px;
   }
   .modal {
-    padding: 64px 32px;
-    width: 704px;
-    min-height: 261px;
+    padding: 56px 32px;
+    max-width: 420px;
+    width: 100%;
   }
-  .closeButton {
-    right: 32;
-  }
+
   .ulElement {
+    display: flex;
     flex-direction: row;
-    column-gap: 24px;
+    column-gap: 27px;
+    align-items: normal;
+  }
+  .closeSvgButton {
+    right: 32px;
+  }
+  .buttonAccept,
+  .buttonCancel {
+    padding: 12px 54px;
+    height: 44px;
+    width: 164px;
+  }
+  .btnLogin,
+  .btnRegister {
+    font: var(--body-md-semibold);
+    height: 36px;
+    width: 164px;
+    padding: 8px 56.75px;
+  }
+  .btnRegister {
+    padding: 8px 47.75px;
+  }
+  .btnGoToMyProfile {
+    font: var(--body-md-semibold);
+    text-wrap: nowrap;
+    width: 356px;
+    padding: 12px 99.5px;
+    height: 44px;
+  }
+  .btnLogout,
+  .btnCancel {
+    padding: 12px 50.25px;
+  }
+  .modalLogoutCancel {
+    padding: 56px 32px 32px 32px;
+  }
+  .modalGoToMyProfile {
+    padding: 56px 32px 32px 32px;
+  }
+  .ulElementReverse {
+    flex-direction: row-reverse;
+  }
+  .ulElement:has(.btnRegister) {
+    flex-direction: row-reverse;
+  }
+  .loginRequiredModalBtnCancel {
+    font: var(--body-md-semibold);
+    padding: 8px 48px;
+    height: 36px;
   }
 }
 @media screen and (min-width: 1440px) {
   .modal {
-    padding: 64px;
-    width: 768px;
-    min-height: 338px;
+    padding: 56px 32px;
   }
-  .title {
-    font-size: 48px;
+  .modalLogoutCancel {
+    padding: 56px 32px 32px 32px;
   }
-  .closeButton {
-    top: 32;
+  .buttonAccept {
+    padding: 8px 56px;
+    height: 36px;
+  }
+
+  .buttonCancel {
+    padding: 8px 56px;
+    height: 36px;
+  }
+  .btnLogout,
+  .btnCancel {
+    height: 44px;
+    padding: 8px 50.25px;
+  }
+
+  .btnRegister {
+    padding: 8px 47.75px;
+  }
+  .btnGoToMyProfile {
+    height: 44px;
+  }
+  .modalGoToMyProfile {
+    padding: 56px 32px 32px 32px;
+  }
+  .loginRequiredModalBtnCancel {
+    height: 36px;
   }
 }

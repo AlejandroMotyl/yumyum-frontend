@@ -9,16 +9,23 @@ import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
 import { createPortal } from 'react-dom';
+import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import { showError } from '@/utils/toast';
 
 export default function Header() {
   const { isAuthenticated, clearIsAuthenticated, user } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const firstLetterUserName = user?.name?.[0]?.toUpperCase() ?? '';
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
   const router = useRouter();
   const pathname = usePathname();
+
+  const handleLogoutClick = () => {
+    setIsModalOpen(true);
+  };
   const handleLogout = async () => {
     try {
       await logout();
@@ -26,7 +33,7 @@ export default function Header() {
       closeMenu();
       router.push('/');
     } catch (error) {
-      console.log('Logout failed: ', error);
+      await showError('Log out failed, try again');
     }
   };
 
@@ -72,7 +79,7 @@ export default function Header() {
             onClick={toggleMenu}
           >
             <svg stroke="var(--white)" width={32} height={32}>
-              <use href={'/sprite.svg#icon-Genericburger-regular'} />
+              <use href={'/sprite-new.svg#icon-burger-medium'} />
             </svg>
           </button>
         </div>
@@ -113,7 +120,7 @@ export default function Header() {
                   height={32}
                   className={css.closeIcon}
                 >
-                  <use href={'/sprite.svg#icon-Genericclose'} />
+                  <use href={'/sprite-new.svg#icon-close-circle-medium'} />
                 </svg>
               </button>
             </div>
@@ -147,7 +154,7 @@ export default function Header() {
                     <span className={css.line} />
                     <button
                       className={css.logoutLink}
-                      onClick={handleLogout}
+                      onClick={handleLogoutClick}
                       aria-label="Log out"
                     >
                       <svg
@@ -156,7 +163,7 @@ export default function Header() {
                         width={24}
                         height={24}
                       >
-                        <use href="/sprite.svg#icon-Genericlog-out" />
+                        <use href="/sprite-new.svg#icon-logout-medium" />
                       </svg>
                     </button>
                   </div>
@@ -211,6 +218,23 @@ export default function Header() {
           />,
           document.body,
         )}
+      {isModalOpen && (
+        <ConfirmationModal
+          onConfirm={() => {
+            setIsModalOpen(false);
+            handleLogout();
+          }}
+          title="Are you sure?"
+          paragraph="We will miss you!"
+          confirmSecondButtonText="Cancel"
+          confirmSecondButtonVariant="Cancel"
+          confirmButtonText="Log out"
+          confirmButtonVariant="Logout"
+          onConfirmSecond={() => setIsModalOpen(false)}
+          reverseOrder
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </header>
   );
 }

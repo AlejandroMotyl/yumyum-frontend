@@ -4,44 +4,70 @@ import { useEffect, useState } from 'react';
 import css from './ConfirmationModal.module.css';
 import { createPortal } from 'react-dom';
 
-// ! ІКОНКА XРЕСТИКА, ПРИ ПОТРЕБІ ЗАМІНИТИ
-// import { IoIosClose  } from "react-icons/io";
-
 // !!ЩОБ КОМПОНЕНТ ПРАЦЮВАВ ОБОВ'ЯЗКОВО ПЕРЕДАТИ ЦІ ПРОПСИ
 interface ConfirmationModalProps {
   title?: string; // ? Текст попередження (По замовчуванню 'Ви точно хочете вийти?')
-  confirmButtonText?: string; // ? Текст підтвердження (По замовчуванню "Так")
-  cancelButtonText?: string; // ? Текст відмовлення (По замовчуванню "Ні")
-  onConfirm: () => void; // ? Функція що виконується у разі підтвердження
-  onCancel: () => void; // ? Функція що виконується у разі відмовлення, закриття модального вікна
+  paragraph?: string; // ? Додатковий текст попередження
+  confirmButtonText?: string; // ? Текст кнопки
+  confirmSecondButtonText?: string; // ? Текст другої кнопки
+  onConfirm?: () => void; // ? Функція що виконується у разі підтвердження
+  onConfirmSecond?: () => void; // ? Функція що виконується у разі підтвердження другої кнопки
+  onClose: () => void; // ? Функція для закриття модалки (X, backdrop, Escape)
+  confirmButtonVariant?: 'Login' | 'Logout'; //? Перша кнопка стилі
+  confirmSecondButtonVariant?: 'Cancel' | 'Register' | 'GoToMyProfile'; //? Друга кнопка стилі
+  reverseOrder?: boolean; // ? Чи міняти порядок кнопок місцями - потрібно тільки для Login Register модалки
 }
 
 export default function ConfirmationModal({
-  title = 'Ви точно хочете вийти?',
-  confirmButtonText = 'Так',
-  cancelButtonText = 'Ні',
+  title,
+  paragraph,
+  confirmButtonText,
+  confirmSecondButtonText,
   onConfirm,
-  onCancel,
+  onConfirmSecond,
+  onClose,
+  confirmButtonVariant,
+  confirmSecondButtonVariant,
+  reverseOrder,
 }: ConfirmationModalProps) {
   // ? Обробка escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onCancel();
+        onClose();
       }
     };
-    document.addEventListener('keydown', handleKeyDown);
+
+    // Зберігаємо поточну позицію скролу
+    const scrollY = window.scrollY;
+
+    // Блокуємо скрол на body і html
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
     document.body.style.overflow = 'hidden';
 
+    document.addEventListener('keydown', handleKeyDown);
+
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      // Відновлюємо скрол
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.overflow = '';
+
+      // Повертаємо позицію скролу
+      window.scrollTo(0, scrollY);
+
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onCancel]);
+  }, [onClose]);
   // ? Обробка натиску на бекдроп
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
-      onCancel();
+      onClose();
     }
   };
 
@@ -59,35 +85,77 @@ export default function ConfirmationModal({
       aria-modal="true"
       onClick={(e) => handleBackdropClick(e)}
     >
-      <div className={css.modal}>
-        {/* <button className={css.closeButton}type='button' onClick={()=> {onCancel()}}> <IoIosClose  className={css.closeButtonIcon} size={48} /></button> */}
+      <div
+        className={`${css.modal} ${
+          confirmButtonVariant === 'Logout' &&
+          confirmSecondButtonVariant === 'Cancel'
+            ? css.modalLogoutCancel
+            : ''
+        }
+          ${confirmSecondButtonVariant === 'GoToMyProfile' ? css.modalGoToMyProfile : ''}`}
+      >
+        <button
+          className={css.closeSvgButton}
+          type="button"
+          onClick={() => {
+            onClose();
+          }}
+        >
+          <svg stroke="currentColor">
+            <use href={'/sprite-new.svg#icon-close-medium'} />
+          </svg>
+        </button>
         <h2 className={css.title}>{title}</h2>
-        <ul className={css.ulElement}>
+        <p className={css.paragraph}>{paragraph}</p>
+        <ul
+          className={`${css.ulElement} ${
+            reverseOrder ? css.ulElementReverse : ''
+          }`}
+        >
           <li className={css.listElement}>
             <button
-              className={css.buttonCancel}
+              className={` ${css.buttonCancel}
+                           ${css[`btn${confirmSecondButtonVariant}`]}
+                           ${confirmSecondButtonVariant === 'Cancel' && confirmButtonVariant === 'Login' ? css.loginRequiredModalBtnCancel : ''}`}
               type="button"
               onClick={() => {
-                onCancel();
+                onConfirmSecond?.();
               }}
             >
-              {cancelButtonText}
+              {confirmSecondButtonText}
             </button>
           </li>
-          <li className={css.listElement}>
-            <button
-              className={css.buttonAccept}
-              type="button"
-              onClick={() => {
-                onConfirm();
-              }}
-            >
-              {confirmButtonText}
-            </button>
-          </li>
+          {confirmSecondButtonVariant === 'GoToMyProfile' ? null : (
+            <li className={css.listElement}>
+              <button
+                className={`${css.buttonAccept} ${css[`btn${confirmButtonVariant}`]}`}
+                type="button"
+                onClick={() => {
+                  onConfirm?.();
+                }}
+              >
+                {confirmButtonText}
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </div>,
     document.body,
   );
 }
+//How to use - Header example:
+// <ConfirmationModal
+//          onConfirm={() => {
+//            setIsModalOpen(false);
+//            handleLogout();
+//          }}
+//          title="Are you sure?"
+//          paragraph="We will miss you!"
+//          confirmSecondButtonText="Cancel"
+//          confirmSecondButtonVariant="Cancel"
+//          confirmButtonText="Logout"
+//          confirmButtonVariant="Logout"
+//          onConfirmSecond={() => setIsModalOpen(false)}
+//          onClose={() => setIsModalOpen(false)}
+//        />

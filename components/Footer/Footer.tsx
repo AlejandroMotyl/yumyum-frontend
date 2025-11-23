@@ -63,14 +63,24 @@ export default function Footer() {
         </nav>
         {showModal && (
           <ConfirmationModal
-            title="Login Required"
-            confirmButtonText="Login"
-            cancelButtonText="Cancel"
+            title="Authorization"
+            paragraph="To access this page, you need to authorize first"
+            confirmButtonText="Log in"
+            confirmSecondButtonText="Register"
             onConfirm={() => {
               setShowModal(false);
               router.push('/auth/login');
             }}
-            onCancel={() => setShowModal(false)}
+            onConfirmSecond={() => {
+              router.push('/auth/register');
+              setShowModal(false);
+            }}
+            onClose={() => {
+              setShowModal(false);
+            }}
+            confirmButtonVariant="Login"
+            confirmSecondButtonVariant="Register"
+            reverseOrder
           />
         )}
       </Container>
