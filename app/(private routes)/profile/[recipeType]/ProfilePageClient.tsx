@@ -30,7 +30,6 @@ export default function ProfilePageClient({
   const { data, isLoading } = useQuery({
     queryKey: ['recipes', recipeType, page, category, ingredient],
     queryFn: async () => {
-      console.log('Fetching with filters:', { page, category, ingredient });
       return recipeType === 'own'
         ? await getOwnRecipes({
             page: String(page),
