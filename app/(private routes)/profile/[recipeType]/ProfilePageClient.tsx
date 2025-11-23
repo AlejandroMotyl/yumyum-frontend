@@ -2,7 +2,7 @@
 
 // import { useParams, notFound } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ProfileNavigation from '@/components/ProfileNavigation/ProfileNavigation';
 import { RecipesList } from '@/components/RecipesList/RecipesList';
 import { getOwnRecipes, getFavoriteRecipes } from '@/lib/api/clientApi';
@@ -10,6 +10,7 @@ import { getOwnRecipes, getFavoriteRecipes } from '@/lib/api/clientApi';
 import Container from '@/components/Container/Container';
 import css from './ProfilePageClient.module.css';
 
+import { useFiltersStore } from '@/lib/store/useFiltersStore';
 type RecipeType = 'own' | 'favorites';
 
 export default function ProfilePageClient({
@@ -19,12 +20,27 @@ export default function ProfilePageClient({
 }) {
   const [page, setPage] = useState(1);
 
+  const category = useFiltersStore((state) => state.category) || null;
+  const ingredient = useFiltersStore((state) => state.ingredient) || null;
+
+  useEffect(() => {
+    setPage(1);
+  }, [category, ingredient]);
+
   const { data, isLoading } = useQuery({
-    queryKey: ['recipes', recipeType, page],
+    queryKey: ['recipes', recipeType, page, category, ingredient],
     queryFn: async () => {
       return recipeType === 'own'
-        ? await getOwnRecipes({ page: String(page) })
-        : await getFavoriteRecipes({ page: String(page) });
+        ? await getOwnRecipes({
+            page: String(page),
+            category,
+            ingredient,
+          })
+        : await getFavoriteRecipes({
+            page: String(page),
+            category,
+            ingredient,
+          });
     },
   });
 

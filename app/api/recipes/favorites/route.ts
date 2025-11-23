@@ -8,6 +8,8 @@ export async function GET(request: NextRequest) {
   try {
     const page = request.nextUrl.searchParams.get('page') ?? '1';
     const perPage = request.nextUrl.searchParams.get('perPage') ?? '12';
+    const category = request.nextUrl.searchParams.get('category');
+    const ingredient = request.nextUrl.searchParams.get('ingredient');
 
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('accessToken')?.value;
@@ -27,11 +29,16 @@ export async function GET(request: NextRequest) {
       .filter(Boolean)
       .join('; ');
 
+    const params: Record<string, string> = {
+      page,
+      perPage,
+    };
+
+    if (category) params.category = category;
+    if (ingredient) params.ingredient = ingredient;
+
     const res = await api.get('recipes/favorites', {
-      params: {
-        page,
-        perPage,
-      },
+      params,
       headers: {
         Cookie: cookieHeader,
       },

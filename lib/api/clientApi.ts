@@ -63,6 +63,8 @@ export const getRecipeById = async (recipeId: string): Promise<Recipe> => {
 export const getFavoriteRecipes = async (params: {
   page?: string | null;
   perPage?: string;
+  category?: string | null;
+  ingredient?: string | null;
 }): Promise<{
   page: number;
   perPage: number;
@@ -85,6 +87,8 @@ export const getFavoriteRecipes = async (params: {
 export const getOwnRecipes = async (params: {
   page?: string | null;
   perPage?: string;
+  category?: string | null;
+  ingredient?: string | null;
 }): Promise<{
   page: number;
   perPage: number;
@@ -92,12 +96,13 @@ export const getOwnRecipes = async (params: {
   totalPages: number;
   recipes: Recipe[];
 }> => {
-  const { perPage = 12, page = 1 } = params;
+  const { perPage = 12, page = 1, ...rest } = params;
 
   const { data } = await api.get(`/recipes/own`, {
     params: {
       perPage,
       page,
+      ...rest,
     },
   });
   return data;
