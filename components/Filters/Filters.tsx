@@ -72,9 +72,9 @@ export default function Filters({ totalRecipes }: { totalRecipes: number }) {
             <span>Filters</span>
             <svg width="24" height="24">
               {isOpen ? (
-                <use href="/Sprite-new.svg#icon-close-circle-medium" />
+                <use href="/sprite-new.svg#icon-close-circle-medium" />
               ) : (
-                <use href="/Sprite-new.svg#icon-filter-medium" />
+                <use href="/sprite-new.svg#icon-filter-medium" />
               )}
             </svg>
           </button>

@@ -72,9 +72,6 @@ export function RecipesList({
   const totalPages = externalTotalPages ?? data?.totalPages ?? 1;
   const currentPage = externalCurrentPage ?? page;
 
-  if (loading) return <Loader />;
-  if (!externalRecipes && !data) return <Loader />;
-
   const isEmpty = recipes.length < 1;
 
   return (
@@ -86,7 +83,10 @@ export function RecipesList({
       )}
 
       {!externalRecipes && <Filters totalRecipes={data?.totalRecipes ?? 0} />}
-      {isEmpty ? (
+
+      {loading && !data ? (
+        <Loader />
+      ) : isEmpty ? (
         <NoResults />
       ) : (
         <>
