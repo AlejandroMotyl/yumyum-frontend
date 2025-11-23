@@ -83,11 +83,9 @@
 
 .button {
   border: 1px solid var(--black);
-  /* background-color: var(--light-brown); */
   border-radius: 8px;
   padding: 8px;
   width: 100%;
-  /* width: 289px; */
   height: 40px;
   font: var(--body-md-semibold);
   color: var(--black);
@@ -110,18 +108,6 @@
   color: var(--white);
 }
 
-@media screen and (min-width: 768px) {
-  .button {
-    /* width: 267px; */
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .button {
-    /* width: 216px; */
-  }
-}
-
 .favoriteButton {
   border: 1px solid var(--black);
   border-radius: 8px;
@@ -140,6 +126,10 @@
 .favoriteButton:focus {
   background: var(--light-brown);
   border-color: var(--light-brown);
+}
+
+.favoriteButton:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .favoriteButton:active {
