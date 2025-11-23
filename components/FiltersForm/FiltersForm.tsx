@@ -10,20 +10,13 @@ import { useResetAll } from '@/lib/store/useResetAll';
 type FiltersFormProps = {
   categories: Option[];
   ingredients: Option[];
-  onAfterReset?: () => void;
 };
 
-export function FiltersForm({
-  categories,
-  ingredients,
-  onAfterReset,
-}: FiltersFormProps) {
+export function FiltersForm({ categories, ingredients }: FiltersFormProps) {
   const category = useFiltersStore((s) => s.category);
   const ingredient = useFiltersStore((s) => s.ingredient);
   const setCategory = useFiltersStore((s) => s.setCategory);
   const setIngredient = useFiltersStore((s) => s.setIngredient);
-  const resetFilters = useFiltersStore((s) => s.resetFilters);
-  const clearSearchQuery = useSearchStore((s) => s.clearSearchQuery);
 
   const resetAll = useResetAll();
 

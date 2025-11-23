@@ -20,6 +20,7 @@ interface RecipesListProps {
   disableFetch?: boolean;
   externalTotalPages?: number;
   externalCurrentPage?: number;
+  externalTotalRecipes?: number;
   externalOnChangePage?: (page: number) => void;
 }
 
@@ -29,6 +30,7 @@ export function RecipesList({
   disableFetch = false,
   externalTotalPages,
   externalCurrentPage,
+  externalTotalRecipes,
   externalOnChangePage,
 }: RecipesListProps) {
   const search = useSearchStore((state) => state.searchQuery) || null;
@@ -72,9 +74,6 @@ export function RecipesList({
   const totalPages = externalTotalPages ?? data?.totalPages ?? 1;
   const currentPage = externalCurrentPage ?? page;
 
-  if (loading) return <Loader />;
-  if (!externalRecipes && !data) return <Loader />;
-
   const isEmpty = recipes.length < 1;
 
   return (
@@ -85,8 +84,11 @@ export function RecipesList({
         </h1>
       )}
 
-      {!externalRecipes && <Filters totalRecipes={data?.totalRecipes ?? 0} />}
-      {isEmpty ? (
+      <Filters totalRecipes={data?.totalRecipes ?? externalTotalRecipes ?? 0} />
+
+      {loading && !data ? (
+        <Loader />
+      ) : isEmpty ? (
         <NoResults />
       ) : (
         <>

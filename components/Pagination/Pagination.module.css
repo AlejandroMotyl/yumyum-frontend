@@ -5,10 +5,12 @@
   margin-bottom: 48px;
   margin-top: 24px;
   list-style: none;
-  min-width: 348px;
+  min-width: auto;
+  flex-wrap: wrap;
   cursor: pointer;
   height: 40px;
 }
+
 
 @media screen and (min-width: 1440px) {
   .pagination {
@@ -35,6 +37,7 @@
   fill: var(--white);
   color: var(--white);
 }
+
 .nextArrow {
   stroke-width: var(--white);
   fill: var(--white);

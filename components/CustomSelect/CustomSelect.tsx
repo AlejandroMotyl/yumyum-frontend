@@ -1,6 +1,8 @@
+'use client';
 import * as Popover from '@radix-ui/react-popover';
 import type { CustomSelectProps } from '@/types/filter';
 import css from './CustomSelect.module.css';
+import { useState } from 'react';
 
 export function CustomSelect({
   placeholder,
@@ -10,9 +12,10 @@ export function CustomSelect({
   name,
 }: CustomSelectProps) {
   const selectHasValue = Boolean(value);
+  const [open, setOpen] = useState(false);
 
   return (
-    <Popover.Root modal={false}>
+    <Popover.Root modal={false} open={open} onOpenChange={setOpen}>
       <Popover.Trigger
         className={`${css.trigger} ${selectHasValue ? css.triggerSelected : ''}`}
         aria-label={name}
@@ -25,7 +28,7 @@ export function CustomSelect({
 
         <div className={css.icon}>
           <svg width="16" height="16">
-            <use href="/Sprite-new.svg#icon-big-chevron-down-small" />
+            <use href="/sprite-new.svg#icon-big-chevron-down-small" />
           </svg>
         </div>
       </Popover.Trigger>
@@ -39,6 +42,7 @@ export function CustomSelect({
               data-checked={option.value === value}
               onClick={() => {
                 onChange(option.value);
+                setOpen(false);
               }}
             >
               {option.label}
