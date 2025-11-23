@@ -188,7 +188,15 @@ export const RecipeForm = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ values, setFieldValue, isSubmitting, errors, touched }) => {
+        {({
+          values,
+          setFieldValue,
+          isSubmitting,
+          errors,
+          touched,
+          validateForm,
+          setTouched,
+        }) => {
           const isFieldInvalid = (
             fieldName: keyof RecipeFormValues | string,
           ) => {
@@ -492,6 +500,29 @@ export const RecipeForm = () => {
                       type="submit"
                       disabled={isSubmitting}
                       className={css.addRecipeFormButtonSubmit}
+                      onClick={async () => {
+                        const iziToast = await getIziToast();
+                        const formErrors = await validateForm();
+
+                        if (Object.keys(formErrors).length > 0) {
+                          const allTouched = Object.keys(values).reduce(
+                            (acc, key) => {
+                              acc[key] = true;
+                              return acc;
+                            },
+                            {} as Record<string, boolean>,
+                          );
+                          setTouched(allTouched);
+
+                          if (iziToast) {
+                            iziToast.error({
+                              title: 'Error',
+                              message: 'Please, fill all required fields.',
+                              position: 'topRight',
+                            });
+                          }
+                        }
+                      }}
                     >
                       Publish Recipe
                     </button>
