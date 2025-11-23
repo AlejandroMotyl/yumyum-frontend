@@ -692,3 +692,82 @@
     width: 497px;
   }
 }
+
+/* EXTRA SMALL DEVICES < 393px */
+@media screen and (max-width: 392px) {
+  /* Wrapper forms */
+  .addRecipeForm,
+  .addRecipeInfoBlock,
+  .addRecipeGeneralGroup,
+  .addRecipeIngredientsGroup,
+  .addRecipeInstructionsGroup {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .addRecipeFormBlockTitle,
+  .addRecipeFormBlockSubtitle {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Image block */
+  .customFileInputWrapper {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 361 / 383;
+  }
+
+  .imagePlaceholder,
+  .addRecipeFormPreviewImage {
+    max-width: 100%;
+    max-height: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Inputs */
+  .addRecipeFormInput,
+  .addRecipeFormTextarea,
+  .addRecipeFormInstructionsTextarea,
+  .addRecipeFormIngredientsInput,
+  .addRecipeFormCategoryInput,
+  .addRecipeFormCalsInput {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Category wrapper */
+  .addRecipeFormSelectCategoryWrapper {
+    width: 100%;
+  }
+
+  /* Cals + Category row (stack vertically on small screens) */
+  .addRecipeCalsAndCategoryWrapper {
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    gap: 16px;
+  }
+
+  /* Buttons */
+  .addIngredientButton,
+  .addRecipeFormButtonSubmit {
+    width: 100%;
+  }
+
+  /* Ingredients table */
+  .ingredientsTable {
+    width: 100%;
+  }
+
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 1fr 1fr 32px;
+  }
+
+  /* Formik fields */
+  .addRecipeFormSelectIngredientWrapper {
+    width: 100%;
+  }
+}
