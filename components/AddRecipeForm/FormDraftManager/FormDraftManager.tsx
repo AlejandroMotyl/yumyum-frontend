@@ -45,7 +45,6 @@ const FormDraftManager = ({
       setValues(
         {
           ...draft,
-          thumb: null,
         } as RecipeFormValues,
         false,
       );
