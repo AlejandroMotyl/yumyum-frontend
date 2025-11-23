@@ -485,7 +485,7 @@ export const RecipeForm = () => {
                           name="instructions"
                           as="textarea"
                           rows={5}
-                          className={`${css.addRecipeFormInstructionsTextarea} ${isFieldInvalid('description')}`}
+                          className={`${css.addRecipeFormInstructionsTextarea} ${isFieldInvalid('instructions')}`}
                           placeholder="Enter a text"
                         />
                         <ErrorMessage
