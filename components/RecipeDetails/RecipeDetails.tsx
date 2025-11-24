@@ -13,6 +13,7 @@ import {
 import { deleteMyRecipe } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import Image from 'next/image';
 
 interface RecipeDetailsProps {
   recipe: Recipe;
@@ -129,7 +130,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
       <Container>
         <div className={css.titleWrapper}>
           <div className={css.imgWrapper}>
-            <picture>
+            {/* <picture>
               <source
                 media="(min-width: 1440px)"
                 srcSet={
@@ -149,7 +150,20 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
                 src={recipe.thumb || '/img-default/default-img-mobile.jpg'}
                 alt={recipe.title}
               />
-            </picture>
+            </picture> */}
+
+            <Image
+              src={
+                recipe.thumb?.replace('preview', 'preview/large') ||
+                '/img-default/default-img-desktop.jpg'
+              }
+              alt={recipe.title}
+              width={800}
+              height={600}
+              className={css.titleImg}
+              priority
+              quality={85}
+            />
           </div>
           <h2 className={css.title}>{recipe.title}</h2>
         </div>
