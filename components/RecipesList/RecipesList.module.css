@@ -34,7 +34,7 @@
   .oneRecipe:hover,
   .oneRecipe:focus {
     transform: translateY(-5px);
-    box-shadow: 5px 5px 10px var(--darck-gray);
+    box-shadow: 0px 5px 15px var(--gray);
   }
 }
 
