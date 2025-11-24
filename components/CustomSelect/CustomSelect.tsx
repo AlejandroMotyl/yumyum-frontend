@@ -16,23 +16,26 @@ export function CustomSelect({
 
   return (
     <Popover.Root modal={false} open={open} onOpenChange={setOpen}>
-      <Popover.Trigger
-        className={`${css.trigger} ${selectHasValue ? css.triggerSelected : ''}`}
-        aria-label={name}
-      >
-        <span className={selectHasValue ? css.valueText : css.placeholder}>
-          {selectHasValue
-            ? options.find((o) => o.value === value)?.label
-            : placeholder}
-        </span>
+      <Popover.Trigger asChild>
+        <div
+          className={`${css.trigger} ${selectHasValue ? css.triggerSelected : ''}`}
+          aria-label={name}
+          role="button"
+          tabIndex={0}
+        >
+          <span className={selectHasValue ? css.valueText : css.placeholder}>
+            {selectHasValue
+              ? options.find((o) => o.value === value)?.label
+              : placeholder}
+          </span>
 
-        <div className={css.icon}>
-          <svg width="16" height="16">
-            <use href="/sprite-new.svg#icon-big-chevron-down-small" />
-          </svg>
+          <div className={css.icon}>
+            <svg width="16" height="16">
+              <use href="/sprite-new.svg#icon-big-chevron-down-small" />
+            </svg>
+          </div>
         </div>
       </Popover.Trigger>
-
       <Popover.Content className={css.content}>
         <ul className={css.viewport}>
           {options.map((option) => (
