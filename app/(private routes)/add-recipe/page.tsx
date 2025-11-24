@@ -6,13 +6,15 @@ import { Metadata } from 'next';
 import { generateMetadataGlobal } from '@/utils/generateMetadataGlobal';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = `YumYum Add Recipe`;
-  const description = `Create your own recipe at YumYum`;
+  const title = `Add your recipes on YumYum`;
+  const description = `Add your recipes with photo to YumYum and share them with others.`;
   return generateMetadataGlobal({
     title,
     description,
     image: {
-      url: 'hero/hero-tablet.jpg',
+      url: '/hero/hero-tablet.jpg',
+      width: 1200,
+      height: 630,
       alt: title,
     },
   });

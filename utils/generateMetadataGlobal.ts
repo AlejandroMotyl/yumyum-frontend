@@ -8,7 +8,10 @@ export function generateMetadataGlobal({
   path = '',
   image = OG_IMAGE,
 }: GenerateMetadataParams): Metadata {
-  const url = path ? `${SITE_DOMAIN}/${path}` : SITE_DOMAIN;
+  // Формируем URL страницы из path
+  const pageUrl = path
+    ? `${SITE_DOMAIN}/${path.replace(/^\/+/, '')}`
+    : SITE_DOMAIN;
 
   // If no image.url — use default img
   const imageUrl = image.url || OG_IMAGE.url;
@@ -25,7 +28,7 @@ export function generateMetadataGlobal({
       type: 'website',
       title,
       description,
-      url,
+      url: pageUrl,
       siteName: SITE_NAME,
       images: [
         {
@@ -47,12 +50,13 @@ export function generateMetadataGlobal({
 //    title,
 //    description,
 //    image: {
-//      url: 'hero/hero-tablet.jpg',
+//      url: '/hero/hero-tablet.jpg',
+//      width: 1200,
+//      height: 630,
 //      alt: title,
 //    },
 //  });
 //}
-
 //TODO how to use in the component app/[recipeId]/page.tsx
 //export async function generateMetadata({ params }): Promise<Metadata> {
 //    const recipe = await getRecipe(params.recipeId);
