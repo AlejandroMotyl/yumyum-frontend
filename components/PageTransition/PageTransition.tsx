@@ -2,7 +2,6 @@
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
-import css from './PageTransition.module.css';
 
 interface PageTransitionProps {
   children: ReactNode;
