@@ -17,10 +17,9 @@ export function CustomSelect({
   return (
     <Popover.Root modal={false} open={open} onOpenChange={setOpen}>
       <Popover.Trigger asChild>
-        <div
+        <button
           className={`${css.trigger} ${selectHasValue ? css.triggerSelected : ''}`}
           aria-label={name}
-          role="button"
           tabIndex={0}
         >
           <span className={selectHasValue ? css.valueText : css.placeholder}>
@@ -34,7 +33,7 @@ export function CustomSelect({
               <use href="/sprite-new.svg#icon-big-chevron-down-small" />
             </svg>
           </div>
-        </div>
+        </button>
       </Popover.Trigger>
       <Popover.Content className={css.content}>
         <ul className={css.viewport}>

@@ -59,6 +59,7 @@ export default function Filters({ totalRecipes }: { totalRecipes: number }) {
 
   return (
     <section className={css.filtersSection}>
+      <h2 className="visually-hidden">Filters</h2>
       <div className={css.filtersWrapper}>
         <div className={css.filtersHeader}>
           <p className={css.totalRecipes}>{totalRecipes} recipes</p>
