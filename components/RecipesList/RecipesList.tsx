@@ -1,12 +1,12 @@
 'use client';
 
 import RecipeCard from '../RecipeCard/RecipeCard';
-import { AnyRecipe, Recipe } from '@/types/recipe';
+import { AnyRecipe } from '@/types/recipe';
 import { useSearchStore } from '@/lib/store/useSearchStore';
 import { useQuery } from '@tanstack/react-query';
 import { getAllRecipes } from '@/lib/api/clientApi';
 import Loader from '../Loader/Loader';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Filters from '../Filters/Filters';
 import css from './RecipesList.module.css';
 
@@ -38,6 +38,7 @@ export function RecipesList({
   const ingredient = useFiltersStore((state) => state.ingredient) || null;
 
   const [page, setPage] = useState(1);
+  const listRef = useRef<HTMLHeadingElement | null>(null);
 
   useEffect(() => {
     if (!disableFetch) {
@@ -62,10 +63,11 @@ export function RecipesList({
   const handlePageChange = (newPage: number) => {
     if (disableFetch && externalOnChangePage) {
       externalOnChangePage(newPage);
+      listRef.current?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
     setPage(newPage);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    listRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // Выбираем данные: внешние (own/favorites) или внутренние (search)
@@ -79,7 +81,7 @@ export function RecipesList({
   return (
     <>
       {!externalRecipes && (
-        <h1 className={css.titleRecipes}>
+        <h1 className={css.titleRecipes} ref={listRef}>
           {search ? `Search Results for "${search}"` : 'Recipes'}
         </h1>
       )}
