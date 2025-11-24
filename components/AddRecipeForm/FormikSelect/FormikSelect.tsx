@@ -28,7 +28,7 @@ const DropdownIndicator = (
         fill="none"
         stroke="currentColor"
       >
-        <use href={'/sprite.svg#icon-Controlschevron-down'}></use>
+        <use href={'/sprite-new.svg#icon-big-chevron-down-medium'} />
       </svg>
     </components.DropdownIndicator>
   ) : null;
