@@ -1,7 +1,7 @@
 # 🍽️ YumYum Frontend
 
 YumYum Frontend is a modern Next.js application for browsing, searching, and filtering recipes.  
-It integrates with the YumYum Backend API, uses React Query for data fetching, Zustand for state management, and Radix for custom dropdowns and popovers.
+It integrates with the YumYum Backend API (_!!! link to Swagger !!!_), uses React Query for data fetching, Zustand for state management, and Radix for custom dropdowns and popovers.
 
 ---
 
@@ -25,6 +25,12 @@ It integrates with the YumYum Backend API, uses React Query for data fetching, Z
 - SEO-friendly metadata via `generateMetadata` (Next.js App Router)
 
 ---
+
+## Screeshots
+
+## Installation
+
+... add some steps ...
 
 ## 🧱 Tech Stack
 
@@ -81,38 +87,30 @@ These are the main packages that will be installed via `npm install`:
 
 ---
 
-## 📂 Project Structure
+## 📄 License
 
-Example high-level structure:
+This project is licensed under the MIT License.  
+You are free to use, modify, and distribute this code for learning or personal projects.
 
-```bash
-yumyum-frontend/
-  app/
-    page.tsx
-    # other routes
-  components/
-    Hero/
-    RecipesList/
-    Filters/
-    FiltersForm/
-    CustomSelect/
-    NoResults/
-    Pagination/
-    RecipeCard/
-    Container/
-    # ...
-  lib/
-    api/
-      clientApi.ts      # axios-based API client
-    store/
-      useFiltersStore.ts
-      useSearchStore.ts
-    # ...
-  public/
-    Sprite-new.svg
-    hero/
-  styles/
-    globals.css
-  README.md
-  package.json
-```
+See the `LICENSE` file for details.
+
+## 👥 Contributors [![Contributors](https://img.shields.io/github/contributors/AlejandroMotyl/yumyum-backend.svg)](https://github.com/AlejandroMotyl/yumyum-backend/graphs/contributors)
+
+Thanks to all amazing members of the YumYum team!
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/mad-jules"><img src="https://avatars.githubusercontent.com/mad-jules" width="70px;" alt=""/><br /><sub><b>mad-jules</b></sub></a></td>
+    <td align="center"><a href="https://github.com/JustSanya1"><img src="https://avatars.githubusercontent.com/JustSanya1" width="70px;" alt=""/><br /><sub><b>JustSanya1</b></sub></a></td>
+    <td align="center"><a href="https://github.com/Sasha-Velikorod"><img src="https://avatars.githubusercontent.com/Sasha-Velikorod" width="70px;" alt=""/><br /><sub><b>Sasha-Velikorod</b></sub></a></td>
+    <td align="center"><a href="https://github.com/yehor-lytovchenko"><img src="https://avatars.githubusercontent.com/yehor-lytovchenko" width="70px;" alt=""/><br /><sub><b>yehor-lytovchenko</b></sub></a></td>
+    <td align="center"><a href="https://github.com/RocketReact"><img src="https://avatars.githubusercontent.com/RocketReact" width="70px;" alt=""/><br /><sub><b>RocketReact</b></sub></a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/artem-v20"><img src="https://avatars.githubusercontent.com/artem-v20" width="70px;" alt=""/><br /><sub><b>artem-v20</b></sub></a></td>
+    <td align="center"><a href="https://github.com/Djakyz"><img src="https://avatars.githubusercontent.com/Djakyz" width="70px;" alt=""/><br /><sub><b>Djakyz</b></sub></a></td>
+    <td align="center"><a href="https://github.com/usernameRuslant"><img src="https://avatars.githubusercontent.com/usernameRuslant" width="70px;" alt=""/><br /><sub><b>usernameRuslant</b></sub></a></td>
+    <td align="center"><a href="https://github.com/vitalii-cherukha"><img src="https://avatars.githubusercontent.com/vitalii-cherukha" width="70px;" alt=""/><br /><sub><b>vitalii-cherukha</b></sub></a></td>
+    <td align="center"><a href="https://github.com/alex-dmytriev"><img src="https://avatars.githubusercontent.com/alex-dmytriev" width="70px;" alt=""/><br /><sub><b>alex-dmytriev</b></sub></a></td>
+  </tr>
+</table>
