@@ -1,6 +1,8 @@
+'use client';
 import * as Popover from '@radix-ui/react-popover';
 import type { CustomSelectProps } from '@/types/filter';
 import css from './CustomSelect.module.css';
+import { useState } from 'react';
 
 export function CustomSelect({
   placeholder,
@@ -10,27 +12,30 @@ export function CustomSelect({
   name,
 }: CustomSelectProps) {
   const selectHasValue = Boolean(value);
+  const [open, setOpen] = useState(false);
 
   return (
-    <Popover.Root modal={false}>
-      <Popover.Trigger
-        className={`${css.trigger} ${selectHasValue ? css.triggerSelected : ''}`}
-        aria-label={name}
-      >
-        <span className={selectHasValue ? css.valueText : css.placeholder}>
-          {selectHasValue
-            ? options.find((o) => o.value === value)?.label
-            : placeholder}
-        </span>
+    <Popover.Root modal={false} open={open} onOpenChange={setOpen}>
+      <Popover.Trigger asChild>
+        <button
+          className={`${css.trigger} ${selectHasValue ? css.triggerSelected : ''}`}
+          aria-label={name}
+          tabIndex={0}
+        >
+          <span className={selectHasValue ? css.valueText : css.placeholder}>
+            {selectHasValue
+              ? options.find((o) => o.value === value)?.label
+              : placeholder}
+          </span>
 
-        <div className={css.icon}>
-          <svg width="16" height="16">
-            <use href="/Sprite-new.svg#icon-big-chevron-down-small" />
-          </svg>
-        </div>
+          <span className={css.icon}>
+            <svg width="16" height="16">
+              <use href="/sprite-new.svg#icon-big-chevron-down-small" />
+            </svg>
+          </span>
+        </button>
       </Popover.Trigger>
-
-      <Popover.Content className={css.content}>
+      <Popover.Content forceMount className={css.content}>
         <ul className={css.viewport}>
           {options.map((option) => (
             <li
@@ -39,6 +44,7 @@ export function CustomSelect({
               data-checked={option.value === value}
               onClick={() => {
                 onChange(option.value);
+                setOpen(false);
               }}
             >
               {option.label}

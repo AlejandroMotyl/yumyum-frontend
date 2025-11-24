@@ -59,6 +59,7 @@ export default function Filters({ totalRecipes }: { totalRecipes: number }) {
 
   return (
     <section className={css.filtersSection}>
+      <h2 className="visually-hidden">Filters</h2>
       <div className={css.filtersWrapper}>
         <div className={css.filtersHeader}>
           <p className={css.totalRecipes}>{totalRecipes} recipes</p>
@@ -72,9 +73,9 @@ export default function Filters({ totalRecipes }: { totalRecipes: number }) {
             <span>Filters</span>
             <svg width="24" height="24">
               {isOpen ? (
-                <use href="/Sprite-new.svg#icon-close-circle-medium" />
+                <use href="/sprite-new.svg#icon-close-circle-medium" />
               ) : (
-                <use href="/Sprite-new.svg#icon-filter-medium" />
+                <use href="/sprite-new.svg#icon-filter-medium" />
               )}
             </svg>
           </button>

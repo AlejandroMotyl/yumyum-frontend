@@ -39,3 +39,30 @@ export interface RecipeFavorite {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface Category {
+  _id: string;
+  name: string;
+}
+
+export interface Ingredient {
+  _id: string;
+  name: string;
+}
+
+export interface IngredientValue {
+  id: string;
+  name: string;
+  amount: string;
+}
+
+export interface RecipeFormValues {
+  title: string;
+  description: string;
+  time: string;
+  cals?: string;
+  category: string;
+  ingredients: IngredientValue[];
+  instructions: string;
+  thumb?: File | null;
+}

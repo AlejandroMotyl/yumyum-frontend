@@ -72,6 +72,9 @@
   width: 264px;
 
 }
+.content[data-state="closed"] {
+  display: none;
+}
 
 @media (min-width: 1440px) {
   .content {
@@ -105,4 +108,14 @@
   background-color: var(--light-gray-2);
 
   ;
+}
+
+
+.valueText {
+  width: 84%;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
 }

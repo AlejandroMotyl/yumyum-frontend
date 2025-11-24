@@ -114,6 +114,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
       <div className={css.buttonWrapper}>
         <Link href={`/recipes/${recipe._id}`} className={css.button}>
           Learn more
+          <span className="visually-hidden"> about {recipe.title}</span>
         </Link>
 
         {showDeleteButton ? (
@@ -122,9 +123,10 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
             className={css.deleteBtn}
             onClick={handleDelete}
             disabled={isLoading}
+            aria-label="Delete this recipe from favorites"
           >
             <svg className={css.deleteBtnIcon} width="24" height="24">
-              <use href="/sprite-new.svg#icon-Genericdelete" />
+              <use href="/sprite-new.svg#icon-bin-medium" />
             </svg>
           </button>
         ) : (
@@ -133,6 +135,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
             onClick={handleFavorite}
             type="button"
             disabled={isLoading}
+            aria-label="Delete this recipe from favorites"
           >
             <svg className={css.favoriteIcon} width="14" height="17">
               <use href="/sprite.svg#favorite"></use>

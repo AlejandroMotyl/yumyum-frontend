@@ -13,6 +13,7 @@ import {
 import { deleteMyRecipe } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import Image from 'next/image';
 
 interface RecipeDetailsProps {
   recipe: Recipe;
@@ -129,27 +130,18 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
       <Container>
         <div className={css.titleWrapper}>
           <div className={css.imgWrapper}>
-            <picture>
-              <source
-                media="(min-width: 1440px)"
-                srcSet={
-                  recipe.thumb?.replace('preview', 'preview/large') ||
-                  '/img-default/default-img-desktop.jpg'
-                }
-              />
-              <source
-                media="(min-width: 768px)"
-                srcSet={
-                  recipe.thumb?.replace('preview', 'preview/large') ||
-                  '/img-default/default-img-tablet.jpg'
-                }
-              />
-              <img
-                className={css.titleImg}
-                src={recipe.thumb || '/img-default/default-img-mobile.jpg'}
-                alt={recipe.title}
-              />
-            </picture>
+            <Image
+              src={
+                recipe.thumb?.replace('preview', 'preview/large') ||
+                '/img-default/default-img-desktop.jpg'
+              }
+              alt={recipe.title}
+              width={800}
+              height={600}
+              className={css.titleImg}
+              priority
+              quality={85}
+            />
           </div>
           <h2 className={css.title}>{recipe.title}</h2>
         </div>
@@ -185,11 +177,10 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
               >
                 <span>Delete</span>
                 <svg className={css.deleteBtnIcon} width="24" height="24">
-                  <use href="/sprite-new.svg#icon-Genericdelete" />
+                  <use href="/sprite-new.svg#icon-bin-small" />
                 </svg>
               </button>
             ) : (
-              /* Кнопка Save/Unsave для чужих рецептів */
               <button
                 type="button"
                 className={css.favBtn}

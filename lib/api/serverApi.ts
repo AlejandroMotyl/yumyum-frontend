@@ -17,6 +17,8 @@ export const checkServerSession = async () => {
 export const getFavoriteRecipes = async (params: {
   page?: string | null;
   perPage?: string;
+  category?: string | null;
+  ingredient?: string | null;
 }): Promise<{
   page: number;
   perPage: number;
@@ -24,6 +26,7 @@ export const getFavoriteRecipes = async (params: {
   totalPages: number;
   recipes: RecipeFavorite[];
 }> => {
+  const cookieStore = await cookies();
   const { perPage = 12, page = 1, ...rest } = params;
   const { data } = await api.get(`/recipes/favorites`, {
     params: {
@@ -41,6 +44,9 @@ export const getFavoriteRecipes = async (params: {
 export const getOwnRecipes = async (params: {
   page?: string | null;
   perPage?: string;
+  category?: string | null;
+
+  ingredient?: string | null;
 }): Promise<{
   page: number;
   perPage: number;
@@ -48,12 +54,14 @@ export const getOwnRecipes = async (params: {
   totalPages: number;
   recipes: Recipe[];
 }> => {
-  const { perPage = 12, page = 1 } = params;
+  const cookieStore = await cookies();
+  const { perPage = 12, page = 1, ...rest } = params;
 
   const { data } = await api.get(`/recipes/own`, {
     params: {
       perPage,
       page,
+      ...rest,
     },
     headers: {
       Cookie: cookieStore.toString(),

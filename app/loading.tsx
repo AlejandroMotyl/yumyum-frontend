@@ -5,7 +5,7 @@ export default function Loading() {
     <div className={css.loadingBackground}>
       <div className={css.loadingBackdrop}>
         <img
-          src="/a cartoon-style chef.webp"
+          src="/acartoon-stylechef.webp"
           alt="Chef Hat"
           className={css.hat}
         />

@@ -1,18 +1,20 @@
 'use client';
 
 import RecipeCard from '../RecipeCard/RecipeCard';
-import { AnyRecipe, Recipe } from '@/types/recipe';
+import { AnyRecipe } from '@/types/recipe';
 import { useSearchStore } from '@/lib/store/useSearchStore';
 import { useQuery } from '@tanstack/react-query';
 import { getAllRecipes } from '@/lib/api/clientApi';
 import Loader from '../Loader/Loader';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Filters from '../Filters/Filters';
 import css from './RecipesList.module.css';
 
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
 import Pagination from '../Pagination/Pagination';
 import NoResults from '../NoResults/NoResults';
+import PageTransition from '../PageTransition/PageTransition';
+import { div } from 'motion/react-client';
 
 interface RecipesListProps {
   recipes?: AnyRecipe[];
@@ -20,6 +22,7 @@ interface RecipesListProps {
   disableFetch?: boolean;
   externalTotalPages?: number;
   externalCurrentPage?: number;
+  externalTotalRecipes?: number;
   externalOnChangePage?: (page: number) => void;
 }
 
@@ -29,6 +32,7 @@ export function RecipesList({
   disableFetch = false,
   externalTotalPages,
   externalCurrentPage,
+  externalTotalRecipes,
   externalOnChangePage,
 }: RecipesListProps) {
   const search = useSearchStore((state) => state.searchQuery) || null;
@@ -36,6 +40,7 @@ export function RecipesList({
   const ingredient = useFiltersStore((state) => state.ingredient) || null;
 
   const [page, setPage] = useState(1);
+  const listRef = useRef<HTMLHeadingElement | null>(null);
 
   useEffect(() => {
     if (!disableFetch) {
@@ -60,10 +65,11 @@ export function RecipesList({
   const handlePageChange = (newPage: number) => {
     if (disableFetch && externalOnChangePage) {
       externalOnChangePage(newPage);
+      listRef.current?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
     setPage(newPage);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    listRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // Выбираем данные: внешние (own/favorites) или внутренние (search)
@@ -72,31 +78,39 @@ export function RecipesList({
   const totalPages = externalTotalPages ?? data?.totalPages ?? 1;
   const currentPage = externalCurrentPage ?? page;
 
-  if (loading) return <Loader />;
-  if (!externalRecipes && !data) return <Loader />;
-
   const isEmpty = recipes.length < 1;
 
   return (
-    <>
+    <PageTransition>
       {!externalRecipes && (
-        <h1 className={css.titleRecipes}>
+        <h2 className={css.titleRecipes} ref={listRef}>
           {search ? `Search Results for "${search}"` : 'Recipes'}
-        </h1>
+        </h2>
       )}
 
-      {!externalRecipes && <Filters totalRecipes={data?.totalRecipes ?? 0} />}
-      {isEmpty ? (
-        <NoResults />
+      <div className={css.filterWrapper}>
+        <Filters
+          totalRecipes={data?.totalRecipes ?? externalTotalRecipes ?? 0}
+        />
+      </div>
+
+      {loading && !data ? (
+        <Loader />
+      ) : isEmpty ? (
+        <PageTransition>
+          <NoResults />
+        </PageTransition>
       ) : (
-        <>
-          <ul className={css.listRecipes}>
-            {recipes.map((recipe: AnyRecipe) => (
-              <li key={recipe._id} className={css.oneRecipe}>
-                <RecipeCard recipe={recipe} />
-              </li>
-            ))}
-          </ul>
+        <div className={css.listWrapper}>
+          <PageTransition>
+            <ul className={css.listRecipes}>
+              {recipes.map((recipe: AnyRecipe) => (
+                <li key={recipe._id} className={css.oneRecipe}>
+                  <RecipeCard recipe={recipe} />
+                </li>
+              ))}
+            </ul>
+          </PageTransition>
 
           <Pagination
             onChange={handlePageChange}
@@ -104,8 +118,8 @@ export function RecipesList({
             totalPages={totalPages}
             recipes={recipes.length > 0}
           />
-        </>
+        </div>
       )}
-    </>
+    </PageTransition>
   );
 }

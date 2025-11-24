@@ -1,5 +1,6 @@
 'use client';
 import Loader from '@/components/Loader/Loader';
+import PageTransition from '@/components/PageTransition/PageTransition';
 import RecipeDetails from '@/components/RecipeDetails/RecipeDetails';
 import { getIngredients, getRecipeById } from '@/lib/api/clientApi';
 import { useQuery } from '@tanstack/react-query';
@@ -26,7 +27,11 @@ const RecipeDetailsClient = ({ recipeId }: { recipeId: string }) => {
     return notFound();
   }
 
-  return <RecipeDetails recipe={recipe} ingredients={ingredients} />;
+  return (
+    <PageTransition>
+      <RecipeDetails recipe={recipe} ingredients={ingredients} />
+    </PageTransition>
+  );
 };
 
 export default RecipeDetailsClient;

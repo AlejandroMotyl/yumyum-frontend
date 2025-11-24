@@ -10,6 +10,7 @@ import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
 import { createPortal } from 'react-dom';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import { showError } from '@/utils/toast';
 
 export default function Header() {
   const { isAuthenticated, clearIsAuthenticated, user } = useAuthStore();
@@ -32,7 +33,7 @@ export default function Header() {
       closeMenu();
       router.push('/');
     } catch (error) {
-      console.log('Logout failed: ', error);
+      await showError('Log out failed, try again');
     }
   };
 
