@@ -1,11 +1,12 @@
 'use client';
 
 import css from './FiltersForm.module.css';
-import type { Option } from '@/types/filter';
+import { sortOptions, type Option } from '@/types/filter';
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
 import { useSearchStore } from '@/lib/store/useSearchStore';
 import { CustomSelect } from '../CustomSelect/CustomSelect';
 import { useResetAll } from '@/lib/store/useResetAll';
+import { useEffect } from 'react';
 
 type FiltersFormProps = {
   categories: Option[];
@@ -15,8 +16,16 @@ type FiltersFormProps = {
 export function FiltersForm({ categories, ingredients }: FiltersFormProps) {
   const category = useFiltersStore((s) => s.category);
   const ingredient = useFiltersStore((s) => s.ingredient);
+  const sort = useFiltersStore((s) => s.sort);
   const setCategory = useFiltersStore((s) => s.setCategory);
   const setIngredient = useFiltersStore((s) => s.setIngredient);
+  const setSort = useFiltersStore((s) => s.setSort);
+
+  useEffect(() => {
+    if (!sort) {
+      setSort('popularity');
+    }
+  }, [sort, setSort]);
 
   const resetAll = useResetAll();
 
@@ -42,6 +51,17 @@ export function FiltersForm({ categories, ingredients }: FiltersFormProps) {
             value={ingredient}
             options={ingredients}
             onChange={setIngredient}
+          />
+        </div>
+
+        {/* Sorting */}
+        <div className={css.filtersField}>
+          <CustomSelect
+            name="Sort"
+            placeholder="Popular"
+            value={sort}
+            options={sortOptions}
+            onChange={setSort}
           />
         </div>
       </div>

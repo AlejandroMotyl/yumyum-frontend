@@ -38,6 +38,7 @@ export function RecipesList({
   const search = useSearchStore((state) => state.searchQuery) || null;
   const category = useFiltersStore((state) => state.category) || null;
   const ingredient = useFiltersStore((state) => state.ingredient) || null;
+  const sort = useFiltersStore((state) => state.sort);
 
   const [page, setPage] = useState(1);
   const listRef = useRef<HTMLHeadingElement | null>(null);
@@ -46,18 +47,20 @@ export function RecipesList({
     if (!disableFetch) {
       setPage(1);
     }
-  }, [search, category, ingredient, disableFetch]);
+  }, [search, category, ingredient, sort, disableFetch]);
 
   const { data, isLoading } = useQuery({
     queryKey: disableFetch
       ? []
-      : ['recipes', page, category, search, ingredient],
+      : ['recipes', page, category, search, ingredient, sort],
     queryFn: () =>
       getAllRecipes({
         page: String(page),
         category,
         search,
         ingredient,
+        sortBy: sort,
+        sortOrder: sort === 'popularity' ? 'desc' : 'asc',
       }),
     enabled: !disableFetch,
   });

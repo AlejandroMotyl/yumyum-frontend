@@ -37,6 +37,8 @@ export const getAllRecipes = async (params: {
   category?: string | null;
   search?: string | null;
   ingredient?: string | null;
+  sortBy?: string | null;
+  sortOrder?: 'asc' | 'desc';
 }): Promise<{
   recipes: Recipe[];
   totalPages: number;
@@ -51,6 +53,7 @@ export const getAllRecipes = async (params: {
       ...rest,
     },
   });
+
   return data;
 };
 
@@ -65,6 +68,8 @@ export const getFavoriteRecipes = async (params: {
   perPage?: string;
   category?: string | null;
   ingredient?: string | null;
+  sortBy?: string | null;
+  sortOrder?: 'asc' | 'desc';
 }): Promise<{
   page: number;
   perPage: number;
@@ -89,6 +94,8 @@ export const getOwnRecipes = async (params: {
   perPage?: string;
   category?: string | null;
   ingredient?: string | null;
+  sortBy?: string | null;
+  sortOrder?: 'asc' | 'desc';
 }): Promise<{
   page: number;
   perPage: number;
