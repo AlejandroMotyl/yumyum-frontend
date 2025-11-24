@@ -1,4 +1,8 @@
 @media screen {
+  .listWrapper {
+    margin-bottom: 48px;
+  }
+
   .titleRecipes {
     font: var(--display-md-semibold);
     margin-top: 48px;

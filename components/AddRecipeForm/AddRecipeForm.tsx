@@ -61,7 +61,7 @@ export const RecipeForm = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const router = useRouter();
   const categoryOptions: SelectOption[] = categories.map((cat) => ({
-    value: cat._id,
+    value: cat.name,
     label: cat.name,
     data: cat,
   }));
@@ -463,7 +463,7 @@ export const RecipeForm = () => {
                                           className={css.removeButton}
                                         >
                                           <svg className={css.removeIcon}>
-                                            <use href="/sprite.svg#icon-Genericdelete"></use>
+                                            <use href="/sprite-new.svg#icon-Genericdelete" />
                                           </svg>
                                         </button>
                                       </div>

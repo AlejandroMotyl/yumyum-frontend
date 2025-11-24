@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   gap: 4px;
-  margin-bottom: 48px;
   margin-top: 24px;
   list-style: none;
   min-width: auto;
@@ -10,7 +9,6 @@
   cursor: pointer;
   height: 40px;
 }
-
 
 @media screen and (min-width: 1440px) {
   .pagination {
