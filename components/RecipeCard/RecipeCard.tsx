@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import css from './RecipeCard.module.css';
 import Link from 'next/link';
@@ -37,9 +37,12 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
   const showDeleteButton = isMyRecipe && isOwnRecipesPage;
 
   const [optimisticFavorite, setOptimisticFavorite] = useState(isFavorite);
+  const isUpdating = useRef(false);
 
   useEffect(() => {
-    setOptimisticFavorite(isFavorite);
+    if (!isUpdating.current) {
+      setOptimisticFavorite(isFavorite);
+    }
   }, [isFavorite]);
 
   const handleFavorite = async () => {
@@ -49,21 +52,32 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
     }
 
     const previousState = optimisticFavorite;
-    setOptimisticFavorite(!previousState);
+    isUpdating.current = true;
     setIsLoading(true);
 
     try {
       if (previousState) {
+        setOptimisticFavorite(false);
         await removeFavoriteRecipe(recipe._id);
         await showSuccess('Removed from favorites');
+        await queryClient.invalidateQueries({
+          queryKey: ['recipes', 'favorites'],
+        });
+        await queryClient.invalidateQueries({ queryKey: ['recipes'] });
+        isUpdating.current = false;
       } else {
         await addFavoriteRecipe(recipe._id);
+        setTimeout(() => {
+          setOptimisticFavorite(true);
+          queryClient.invalidateQueries({ queryKey: ['recipes', 'favorites'] });
+          queryClient.invalidateQueries({ queryKey: ['recipes'] });
+          isUpdating.current = false;
+        }, 500);
         await showSuccess('Recipe saved to favorites');
       }
-      queryClient.invalidateQueries({ queryKey: ['recipes', 'favorites'] });
-      queryClient.invalidateQueries({ queryKey: ['recipes'] });
     } catch {
       setOptimisticFavorite(previousState);
+      isUpdating.current = false;
       await showError('Error toggling favorite!');
     } finally {
       setIsLoading(false);
