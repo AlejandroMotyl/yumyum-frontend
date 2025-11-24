@@ -37,6 +37,7 @@ import {
 } from './YupValidation/YupValidation';
 import { initialValues } from '@/constants/initialValues';
 import Loader from '../Loader/Loader';
+import PageTransition from '../PageTransition/PageTransition';
 
 const getIziToast = async () => {
   if (typeof window !== 'undefined') {
@@ -214,7 +215,7 @@ export const RecipeForm = () => {
               {!isInitialValuesLoaded ? (
                 <Loader />
               ) : (
-                <>
+                <PageTransition>
                   {/* --- Upload Photo Block --- */}
                   <div className={css.addRecipeImgBlock}>
                     <label className={css.addRecipeFormBlockTitle}>
@@ -527,7 +528,7 @@ export const RecipeForm = () => {
                       Publish Recipe
                     </button>
                   </div>
-                </>
+                </PageTransition>
               )}
             </Form>
           );

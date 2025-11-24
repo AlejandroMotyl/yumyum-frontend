@@ -1,3 +1,13 @@
+.filterWrapper {
+  position: relative;
+  z-index: 10;
+}
+
+.listWrapper {
+  position: relative;
+  z-index: 1;
+}
+
 @media screen {
   .listWrapper {
     margin-bottom: 48px;

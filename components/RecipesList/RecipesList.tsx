@@ -13,6 +13,8 @@ import css from './RecipesList.module.css';
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
 import Pagination from '../Pagination/Pagination';
 import NoResults from '../NoResults/NoResults';
+import PageTransition from '../PageTransition/PageTransition';
+import { div } from 'motion/react-client';
 
 interface RecipesListProps {
   recipes?: AnyRecipe[];
@@ -79,28 +81,36 @@ export function RecipesList({
   const isEmpty = recipes.length < 1;
 
   return (
-    <>
+    <PageTransition>
       {!externalRecipes && (
         <h2 className={css.titleRecipes} ref={listRef}>
           {search ? `Search Results for "${search}"` : 'Recipes'}
         </h2>
       )}
 
-      <Filters totalRecipes={data?.totalRecipes ?? externalTotalRecipes ?? 0} />
+      <div className={css.filterWrapper}>
+        <Filters
+          totalRecipes={data?.totalRecipes ?? externalTotalRecipes ?? 0}
+        />
+      </div>
 
       {loading && !data ? (
         <Loader />
       ) : isEmpty ? (
-        <NoResults />
+        <PageTransition>
+          <NoResults />
+        </PageTransition>
       ) : (
         <div className={css.listWrapper}>
-          <ul className={css.listRecipes}>
-            {recipes.map((recipe: AnyRecipe) => (
-              <li key={recipe._id} className={css.oneRecipe}>
-                <RecipeCard recipe={recipe} />
-              </li>
-            ))}
-          </ul>
+          <PageTransition>
+            <ul className={css.listRecipes}>
+              {recipes.map((recipe: AnyRecipe) => (
+                <li key={recipe._id} className={css.oneRecipe}>
+                  <RecipeCard recipe={recipe} />
+                </li>
+              ))}
+            </ul>
+          </PageTransition>
 
           <Pagination
             onChange={handlePageChange}
@@ -110,6 +120,6 @@ export function RecipesList({
           />
         </div>
       )}
-    </>
+    </PageTransition>
   );
 }

@@ -11,6 +11,7 @@ import Container from '@/components/Container/Container';
 import css from './ProfilePageClient.module.css';
 
 import { useFiltersStore } from '@/lib/store/useFiltersStore';
+import PageTransition from '@/components/PageTransition/PageTransition';
 type RecipeType = 'own' | 'favorites';
 
 export default function ProfilePageClient({
@@ -53,10 +54,12 @@ export default function ProfilePageClient({
   return (
     <Container>
       <div className={css.wrapper}>
-        <h1 className={css.title} ref={listRef}>
-          My profile
-        </h1>
-        <ProfileNavigation />
+        <PageTransition>
+          <h1 className={css.title} ref={listRef}>
+            My profile
+          </h1>
+          <ProfileNavigation />
+        </PageTransition>
         <RecipesList
           recipes={data?.recipes ?? []}
           isLoadingExternal={isLoading}

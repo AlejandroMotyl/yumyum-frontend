@@ -7,6 +7,7 @@ import {
 import { getAllRecipes } from '@/lib/api/clientApi';
 import { RecipesList } from '@/components/RecipesList/RecipesList';
 import Container from '@/components/Container/Container';
+import PageTransition from '@/components/PageTransition/PageTransition';
 
 export async function generateMetadata() {
   const title = `YumYum Recipes`;
@@ -44,7 +45,9 @@ export default async function Home() {
 
   return (
     <>
-      <Hero />
+      <PageTransition>
+        <Hero />
+      </PageTransition>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Container>
           <RecipesList />
