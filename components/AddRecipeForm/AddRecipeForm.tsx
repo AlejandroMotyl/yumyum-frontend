@@ -61,7 +61,7 @@ export const RecipeForm = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const router = useRouter();
   const categoryOptions: SelectOption[] = categories.map((cat) => ({
-    value: cat._id,
+    value: cat.name,
     label: cat.name,
     data: cat,
   }));
