@@ -112,13 +112,9 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
       </div>
 
       <div className={css.buttonWrapper}>
-        <Link
-          href={`/recipes/${recipe._id}`}
-          className={css.button}
-          aria-label={`Learn more about ${recipe.title}`}
-          title={`Learn more about ${recipe.title}`}
-        >
+        <Link href={`/recipes/${recipe._id}`} className={css.button}>
           Learn more
+          <span className="visually-hidden"> about {recipe.title}</span>
         </Link>
 
         {showDeleteButton ? (
