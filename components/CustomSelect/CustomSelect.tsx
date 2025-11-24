@@ -28,11 +28,11 @@ export function CustomSelect({
               : placeholder}
           </span>
 
-          <div className={css.icon}>
+          <span className={css.icon}>
             <svg width="16" height="16">
               <use href="/sprite-new.svg#icon-big-chevron-down-small" />
             </svg>
-          </div>
+          </span>
         </button>
       </Popover.Trigger>
       <Popover.Content className={css.content}>
