@@ -2,7 +2,7 @@
 
 // import { useParams, notFound } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ProfileNavigation from '@/components/ProfileNavigation/ProfileNavigation';
 import { RecipesList } from '@/components/RecipesList/RecipesList';
 import { getOwnRecipes, getFavoriteRecipes } from '@/lib/api/clientApi';
@@ -19,6 +19,7 @@ export default function ProfilePageClient({
   recipeType: RecipeType;
 }) {
   const [page, setPage] = useState(1);
+  const listRef = useRef<HTMLHeadingElement | null>(null);
 
   const category = useFiltersStore((state) => state.category) || null;
   const ingredient = useFiltersStore((state) => state.ingredient) || null;
@@ -46,13 +47,15 @@ export default function ProfilePageClient({
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    listRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <Container>
       <div className={css.wrapper}>
-        <h1 className={css.title}>My profile</h1>
+        <h1 className={css.title} ref={listRef}>
+          My profile
+        </h1>
         <ProfileNavigation />
         <RecipesList
           recipes={data?.recipes ?? []}
