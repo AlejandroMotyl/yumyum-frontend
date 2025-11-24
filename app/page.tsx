@@ -7,28 +7,22 @@ import {
 import { getAllRecipes } from '@/lib/api/clientApi';
 import { RecipesList } from '@/components/RecipesList/RecipesList';
 import Container from '@/components/Container/Container';
+import { Metadata } from 'next';
+import { generateMetadataGlobal } from '@/utils/generateMetadataGlobal';
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   const title = `YumYum Recipes`;
-
   const description = `Browse thousands of delicious YumYum recipes — filter by category, ingredient, or keyword.`;
-  return {
+  return generateMetadataGlobal({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: 'yumyum-frontend.vercel.app/',
-      images: [
-        {
-          url: '/hero/hero-tablet.jpg',
-          width: 1200,
-          height: 630,
-          alt: 'YumYum Recipes',
-        },
-      ],
+    image: {
+      url: '/hero/hero-tablet.jpg',
+      width: 1200,
+      height: 630,
+      alt: title,
     },
-  };
+  });
 }
 
 export default async function Home() {
