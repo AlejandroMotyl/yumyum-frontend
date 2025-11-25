@@ -497,36 +497,42 @@ export const RecipeForm = () => {
                       </label>
                     </div>
 
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className={css.addRecipeFormButtonSubmit}
-                      onClick={async () => {
-                        const iziToast = await getIziToast();
-                        const formErrors = await validateForm();
+                    {isSubmitting ? (
+                      <div className={css.loaderWrapper}>
+                        <Loader />
+                      </div>
+                    ) : (
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className={css.addRecipeFormButtonSubmit}
+                        onClick={async () => {
+                          const iziToast = await getIziToast();
+                          const formErrors = await validateForm();
 
-                        if (Object.keys(formErrors).length > 0) {
-                          const allTouched = Object.keys(values).reduce(
-                            (acc, key) => {
-                              acc[key] = true;
-                              return acc;
-                            },
-                            {} as Record<string, boolean>,
-                          );
-                          setTouched(allTouched);
+                          if (Object.keys(formErrors).length > 0) {
+                            const allTouched = Object.keys(values).reduce(
+                              (acc, key) => {
+                                acc[key] = true;
+                                return acc;
+                              },
+                              {} as Record<string, boolean>,
+                            );
+                            setTouched(allTouched);
 
-                          if (iziToast) {
-                            iziToast.error({
-                              title: 'Error',
-                              message: 'Please, fill all required fields.',
-                              position: 'topRight',
-                            });
+                            if (iziToast) {
+                              iziToast.error({
+                                title: 'Error',
+                                message: 'Please, fill all required fields.',
+                                position: 'topRight',
+                              });
+                            }
                           }
-                        }
-                      }}
-                    >
-                      Publish Recipe
-                    </button>
+                        }}
+                      >
+                        Publish Recipe
+                      </button>
+                    )}
                   </div>
                 </PageTransition>
               )}
@@ -547,9 +553,12 @@ const AddIngredientButton = ({
   getIziToast,
 }: AddIngredientButtonProps) => {
   const { setTouched } = useFormikContext<RecipeFormValues>();
+  const [isAdding, setIsAdding] = useState(false);
   const lastIndex = values.ingredients.length - 1;
 
   const handleAdd = async () => {
+    setIsAdding(true);
+
     const iziToast = await getIziToast();
 
     setTouched({
@@ -564,37 +573,50 @@ const AddIngredientButton = ({
 
     const currentIng = values.ingredients[lastIndex];
 
-    if (currentIng.id && currentIng.amount) {
-      if (values.ingredients.length >= 17) {
+    try {
+      if (currentIng.id && currentIng.amount) {
+        if (values.ingredients.length >= 17) {
+          if (iziToast) {
+            iziToast.error({
+              title: 'Limit Reached',
+              message: 'Maximum 16 ingredients allowed.',
+              position: 'topRight',
+            });
+          }
+          return;
+        }
+
+        push({ id: '', name: '', amount: '' });
+      } else {
         if (iziToast) {
           iziToast.error({
-            title: 'Limit Reached',
-            message: 'Maximum 16 ingredients allowed.',
+            title: 'Error',
+            message: 'Please select an ingredient and specify the amount.',
             position: 'topRight',
           });
         }
-        return;
       }
-
-      push({ id: '', name: '', amount: '' });
-    } else {
-      if (iziToast) {
-        iziToast.error({
-          title: 'Error',
-          message: 'Please select an ingredient and specify the amount.',
-          position: 'topRight',
-        });
-      }
+    } finally {
+      setIsAdding(false);
     }
   };
 
   return (
-    <button
-      type="button"
-      onClick={handleAdd}
-      className={css.addIngredientButton}
-    >
-      Add new Ingredient
-    </button>
+    <>
+      {isAdding ? (
+        <div className={css.loaderWrapper}>
+          <Loader />
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={handleAdd}
+          disabled={isAdding}
+          className={css.addIngredientButton}
+        >
+          Add new Ingredient
+        </button>
+      )}
+    </>
   );
 };
