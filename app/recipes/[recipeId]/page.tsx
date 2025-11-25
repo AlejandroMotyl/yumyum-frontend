@@ -3,10 +3,11 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-import { getRecipeById } from '@/lib/api/clientApi';
+import { getIngredients, getRecipeById } from '@/lib/api/clientApi';
 import RecipeDetailsClient from './RecipeDetails.client';
 import { Metadata } from 'next';
 import { generateMetadataGlobal } from '@/utils/generateMetadataGlobal';
+import { notFound } from 'next/navigation';
 
 interface RecipeDetailsProps {
   params: Promise<{ recipeId: string }>;
@@ -22,6 +23,15 @@ export const generateMetadata = async ({
 }: RecipeDetailsProps): Promise<Metadata> => {
   const { recipeId } = await params;
   const recipe = await getRecipeById(recipeId);
+
+  if (!recipe) {
+    return generateMetadataGlobal({
+      title: 'Recipe Not Found',
+      description: 'The requested recipe could not be found.',
+      path: `recipes/${recipeId}`,
+    });
+  }
+
   return generateMetadataGlobal({
     title: recipe.title,
     description: getFirstSentence(recipe.description),
@@ -40,10 +50,24 @@ const RecipeDetailsPage = async ({ params }: RecipeDetailsProps) => {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ['recipe', recipeId],
-    queryFn: () => getRecipeById(recipeId),
-  });
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ['recipe', recipeId],
+      queryFn: () => getRecipeById(recipeId),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ['ingredients'],
+      queryFn: () => getIngredients(),
+    }),
+  ]);
+
+  const recipe = queryClient.getQueryData(['recipe', recipeId]);
+
+  const ingredients = queryClient.getQueryData(['ingredients']);
+
+  if (!recipe || !ingredients) {
+    notFound();
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

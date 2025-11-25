@@ -38,7 +38,7 @@ export default function NotFound() {
       <h1 className={css.notFoundTitle}>404</h1>
       <p className={css.notFoundDescription}>Recipe not found</p>
       <Link href="/" className={css.notFoundBackButton}>
-        <svg stroke="var(--white)" width="24" height="24">
+        <svg color="var(--white)" width="24" height="24">
           <use href="/sprite-new.svg#icon-short-arrow-left-medium"></use>
         </svg>
         <p className={css.notFoundButtonDescription}>Back to Home</p>

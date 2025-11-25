@@ -113,7 +113,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
       <div className={css.titleWrapper}>
         <h2 className={css.title}>{recipe.title}</h2>
         <div className={css.timeWrapper}>
-          <svg className={css.timeIcon} width="15" height="15">
+          <svg className={css.timeIcon} width="24" height="24">
             <use href="/sprite-new.svg#icon-clock-medium"></use>
           </svg>
           <span className={css.recipeTime}>{recipe.time}</span>

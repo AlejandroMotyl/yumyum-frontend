@@ -4,7 +4,6 @@ import PageTransition from '@/components/PageTransition/PageTransition';
 import RecipeDetails from '@/components/RecipeDetails/RecipeDetails';
 import { getIngredients, getRecipeById } from '@/lib/api/clientApi';
 import { useQuery } from '@tanstack/react-query';
-import { notFound } from 'next/navigation';
 
 const RecipeDetailsClient = ({ recipeId }: { recipeId: string }) => {
   const { data: recipe, isLoading: isRecipeLoading } = useQuery({
@@ -23,13 +22,9 @@ const RecipeDetailsClient = ({ recipeId }: { recipeId: string }) => {
     return <Loader />;
   }
 
-  if (!recipe || !ingredients) {
-    return notFound();
-  }
-
   return (
     <PageTransition>
-      <RecipeDetails recipe={recipe} ingredients={ingredients} />
+      <RecipeDetails recipe={recipe!} ingredients={ingredients!} />
     </PageTransition>
   );
 };

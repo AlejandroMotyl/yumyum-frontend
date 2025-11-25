@@ -102,11 +102,6 @@
 }
 
 .favBtn:disabled {
-  box-shadow:
-    0 0 0 6px rgba(78, 70, 180, 0.12),
-    0 0 0 2px var(--white);
-  background: var(--light-brown);
-  opacity: 0.3;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -142,11 +137,6 @@
 }
 
 .deleteBtn:disabled {
-  box-shadow:
-    0 0 0 6px rgba(78, 70, 180, 0.12),
-    0 0 0 2px var(--white);
-  background: #ef9a9a;
-  opacity: 0.3;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -242,6 +232,10 @@
     width: 249px;
   }
 
+  .deleteBtn {
+    width: 249px;
+  }
+
   .aboutTitle {
     font: var(--display-md-semibold);
   }
@@ -277,6 +271,10 @@
   }
 
   .favBtn {
+    width: 393px;
+  }
+
+  .deleteBtn {
     width: 393px;
   }
 }

@@ -14,6 +14,7 @@ import { deleteMyRecipe } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
 import Image from 'next/image';
+import { ClipLoader } from 'react-spinners';
 
 interface RecipeDetailsProps {
   recipe: Recipe;
@@ -23,7 +24,8 @@ interface RecipeDetailsProps {
 const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
   const [favorite, setFavorite] = useState(false);
   const [isMyRecipe, setIsMyRecipe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false);
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -55,7 +57,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
       setShowAuthModal(true);
       return;
     }
-    setIsLoading(true);
+    setIsLoadingFavorite(true);
     const previousState = favorite;
 
     try {
@@ -87,7 +89,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
       });
     } finally {
       setTimeout(() => {
-        setIsLoading(false);
+        setIsLoadingFavorite(false);
       }, 1000);
     }
   };
@@ -97,7 +99,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
       return;
     }
 
-    setIsLoading(true);
+    setIsLoadingDelete(true);
 
     try {
       await deleteMyRecipe({ recipeId: recipe._id });
@@ -121,7 +123,7 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
         });
       });
     } finally {
-      setIsLoading(false);
+      setIsLoadingDelete(false);
     }
   };
 
@@ -173,21 +175,36 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
                 type="button"
                 className={css.deleteBtn}
                 onClick={handleDelete}
-                disabled={isLoading}
+                disabled={isLoadingDelete}
               >
-                <span>Delete</span>
-                <svg className={css.deleteBtnIcon} width="24" height="24">
-                  <use href="/sprite-new.svg#icon-bin-small" />
-                </svg>
+                {isLoadingDelete ? (
+                  <>
+                    <span>Loading</span>
+                    <ClipLoader color="#fff" size={24} />
+                  </>
+                ) : (
+                  <>
+                    <span>Delete</span>
+                    <svg className={css.deleteBtnIcon} width="24" height="24">
+                      <use href="/sprite-new.svg#icon-bin-small" />
+                    </svg>
+                  </>
+                )}
               </button>
             ) : (
               <button
                 type="button"
                 className={css.favBtn}
                 onClick={handleFavorite}
-                disabled={isLoading}
+                disabled={isLoadingFavorite}
               >
-                {favorite ? (
+                {isLoadingFavorite ? (
+                  <>
+                    <span className={css.favBtnTitle}>Loading</span>
+
+                    <ClipLoader color="#fff" size={24} />
+                  </>
+                ) : favorite ? (
                   <>
                     <span className={css.favBtnTitle}>Unsave</span>
                     <svg
