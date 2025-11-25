@@ -167,7 +167,8 @@
 .text:hover,
 .text:focus,
 .logoutLink:hover,
-.logoutLink:focus {
+.logoutLink:focus,
+.myProfileLink:hover, .myProfileLink:focus{
   opacity: 50%;
   transition: opacity 0.3s ease-in-out;
 }

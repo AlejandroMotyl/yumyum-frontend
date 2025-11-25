@@ -39,12 +39,20 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 
   const [optimisticFavorite, setOptimisticFavorite] = useState(isFavorite);
   const isUpdating = useRef(false);
-
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
     if (!isUpdating.current) {
       setOptimisticFavorite(isFavorite);
     }
   }, [isFavorite]);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleFavorite = async () => {
     if (!isAuthenticated) {
@@ -59,18 +67,19 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
     try {
       if (previousState) {
         setShowLoadingAddFavorite(true);
-        setOptimisticFavorite(false);
         await removeFavoriteRecipe(recipe._id);
-        setTimeout(() => {
+        timeoutRef.current = setTimeout(() => {
+          setOptimisticFavorite(false);
           setShowLoadingAddFavorite(false);
           queryClient.invalidateQueries({ queryKey: ['recipes', 'favorites'] });
           queryClient.invalidateQueries({ queryKey: ['recipes'] });
+          isUpdating.current = false;
         }, 600);
         await showSuccess('Removed from favorites');
       } else {
         setShowLoadingAddFavorite(true);
         await addFavoriteRecipe(recipe._id);
-        setTimeout(() => {
+        timeoutRef.current = setTimeout(() => {
           setOptimisticFavorite(true);
           setShowLoadingAddFavorite(false);
           queryClient.invalidateQueries({ queryKey: ['recipes', 'favorites'] });
@@ -118,7 +127,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         <h2 className={css.title}>{recipe.title}</h2>
         <div className={css.timeWrapper}>
           <svg className={css.timeIcon} width="15" height="15">
-            <use href="/sprite.svg#clock"></use>
+            <use href="/sprite-new.svg#icon-clock-medium"></use>
           </svg>
           <span className={css.recipeTime}>{recipe.time}</span>
         </div>
@@ -153,10 +162,12 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
             onClick={handleFavorite}
             type="button"
             disabled={isLoading}
-            aria-label="Delete this recipe from favorites"
+            aria-label={
+              optimisticFavorite ? 'Remove from favorites' : 'Add to favorites'
+            }
           >
             <svg className={css.favoriteIcon} width="14" height="17">
-              <use href="/sprite.svg#favorite"></use>
+              <use href="/sprite-new.svg#favorite"></use>
             </svg>
           </button>
         )}
