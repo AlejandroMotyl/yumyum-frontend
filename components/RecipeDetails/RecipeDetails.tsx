@@ -14,6 +14,7 @@ import { deleteMyRecipe } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
 import Image from 'next/image';
+import { ClipLoader } from 'react-spinners';
 
 interface RecipeDetailsProps {
   recipe: Recipe;
@@ -177,7 +178,10 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
                 disabled={isLoadingDelete}
               >
                 {isLoadingDelete ? (
-                  <span>Loading</span>
+                  <>
+                    <span>Loading</span>
+                    <ClipLoader color="#fff" size={24} />
+                  </>
                 ) : (
                   <>
                     <span>Delete</span>
@@ -195,7 +199,11 @@ const RecipeDetails = ({ recipe, ingredients }: RecipeDetailsProps) => {
                 disabled={isLoadingFavorite}
               >
                 {isLoadingFavorite ? (
-                  <span className={css.favBtnTitle}>Loading</span>
+                  <>
+                    <span className={css.favBtnTitle}>Loading</span>
+
+                    <ClipLoader color="#fff" size={24} />
+                  </>
                 ) : favorite ? (
                   <>
                     <span className={css.favBtnTitle}>Unsave</span>
