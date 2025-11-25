@@ -232,6 +232,10 @@
     width: 249px;
   }
 
+  .deleteBtn {
+    width: 249px;
+  }
+
   .aboutTitle {
     font: var(--display-md-semibold);
   }
@@ -267,6 +271,10 @@
   }
 
   .favBtn {
+    width: 393px;
+  }
+
+  .deleteBtn {
     width: 393px;
   }
 }
