@@ -223,7 +223,7 @@
 
 .deleteBtnIcon {
   stroke-width: 1px;
-  stroke: var(--white);
+  color: var(--white);
   fill: none;
 }
 .loadingOverlay {
