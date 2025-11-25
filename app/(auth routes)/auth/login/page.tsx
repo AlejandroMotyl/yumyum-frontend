@@ -128,10 +128,10 @@ const LoginPage = () => {
                       >
                         <svg className={styles.eyeIcon}>
                           <use
-                            href={`/sprite.svg#${
+                            href={`/sprite-new.svg#${
                               showPassword
-                                ? 'icon-Controlseye-crossed'
-                                : 'icon-Controlseye'
+                                ? 'icon-eye-crossed-medium'
+                                : 'icon-eye-medium'
                             }`}
                           />
                         </svg>

@@ -114,7 +114,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         <h2 className={css.title}>{recipe.title}</h2>
         <div className={css.timeWrapper}>
           <svg className={css.timeIcon} width="15" height="15">
-            <use href="/sprite.svg#clock"></use>
+            <use href="/sprite-new.svg#icon-clock-medium"></use>
           </svg>
           <span className={css.recipeTime}>{recipe.time}</span>
         </div>
@@ -152,7 +152,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
             aria-label="Delete this recipe from favorites"
           >
             <svg className={css.favoriteIcon} width="14" height="17">
-              <use href="/sprite.svg#favorite"></use>
+              <use href="/sprite-new.svg#favorite"></use>
             </svg>
           </button>
         )}
