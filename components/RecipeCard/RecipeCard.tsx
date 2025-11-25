@@ -15,6 +15,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
 import { showError, showSuccess } from '@/utils/toast';
 import { deleteMyRecipe } from '@/lib/api/clientApi';
+import Loader from '@/components/Loader/Loader';
 
 interface RecipeCardProps {
   recipe: AnyRecipe;
@@ -24,8 +25,8 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
   const { isAuthenticated, user } = useAuthStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showLoadingAddFavorite, setShowLoadingAddFavorite] = useState(false);
   const router = useRouter();
-
   const queryClient = useQueryClient();
   const pathname = usePathname();
 
@@ -38,12 +39,20 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 
   const [optimisticFavorite, setOptimisticFavorite] = useState(isFavorite);
   const isUpdating = useRef(false);
-
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
     if (!isUpdating.current) {
       setOptimisticFavorite(isFavorite);
     }
   }, [isFavorite]);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleFavorite = async () => {
     if (!isAuthenticated) {
@@ -57,22 +66,26 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 
     try {
       if (previousState) {
-        setOptimisticFavorite(false);
+        setShowLoadingAddFavorite(true);
         await removeFavoriteRecipe(recipe._id);
-        await showSuccess('Removed from favorites');
-        await queryClient.invalidateQueries({
-          queryKey: ['recipes', 'favorites'],
-        });
-        await queryClient.invalidateQueries({ queryKey: ['recipes'] });
-        isUpdating.current = false;
-      } else {
-        await addFavoriteRecipe(recipe._id);
-        setTimeout(() => {
-          setOptimisticFavorite(true);
+        timeoutRef.current = setTimeout(() => {
+          setOptimisticFavorite(false);
+          setShowLoadingAddFavorite(false);
           queryClient.invalidateQueries({ queryKey: ['recipes', 'favorites'] });
           queryClient.invalidateQueries({ queryKey: ['recipes'] });
           isUpdating.current = false;
-        }, 500);
+        }, 600);
+        await showSuccess('Removed from favorites');
+      } else {
+        setShowLoadingAddFavorite(true);
+        await addFavoriteRecipe(recipe._id);
+        timeoutRef.current = setTimeout(() => {
+          setOptimisticFavorite(true);
+          setShowLoadingAddFavorite(false);
+          queryClient.invalidateQueries({ queryKey: ['recipes', 'favorites'] });
+          queryClient.invalidateQueries({ queryKey: ['recipes'] });
+          isUpdating.current = false;
+        }, 600);
         await showSuccess('Recipe saved to favorites');
       }
     } catch {
@@ -86,16 +99,24 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 
   const handleDelete = async () => {
     if (!isAuthenticated || !isMyRecipe) return;
-
     setIsLoading(true);
+
     try {
+      setShowLoadingAddFavorite(true);
+      setOptimisticFavorite(false); // оптимистично сразу
       await deleteMyRecipe({ recipeId: recipe._id });
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      await queryClient.invalidateQueries({
+        queryKey: ['recipes', 'favorites'],
+      });
+      await queryClient.invalidateQueries({ queryKey: ['recipes'] });
       await showSuccess('Recipe deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['recipes', 'own'] });
-      queryClient.invalidateQueries({ queryKey: ['recipes'] });
-    } catch {
+    } catch (error) {
+      setOptimisticFavorite(true);
       await showError('Error deleting recipe!');
     } finally {
+      setShowLoadingAddFavorite(false);
+      isUpdating.current = false;
       setIsLoading(false);
     }
   };
@@ -149,7 +170,9 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
             onClick={handleFavorite}
             type="button"
             disabled={isLoading}
-            aria-label="Delete this recipe from favorites"
+            aria-label={
+              optimisticFavorite ? 'Remove from favorites' : 'Add to favorites'
+            }
           >
             <svg className={css.favoriteIcon} width="14" height="17">
               <use href="/sprite-new.svg#favorite"></use>
@@ -179,6 +202,11 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           confirmSecondButtonVariant="Register"
           reverseOrder
         />
+      )}
+      {showLoadingAddFavorite && (
+        <div className={css.loadingOverlay}>
+          <Loader />
+        </div>
       )}
     </>
   );
