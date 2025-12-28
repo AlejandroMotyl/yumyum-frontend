@@ -41,8 +41,20 @@ const RegisterPage = () => {
     email: Yup.string()
       .trim()
       .matches(/^\S+$/, 'Email must not contain spaces')
+      .matches(
+        /^[^@\s]+@[\x00-\x7F]+$/,
+        'Domain must contain only English characters',
+      )
       .email('Invalid email')
-
+      .matches(
+        /^[a-z0-9._%+-]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.(com|net|org|xyz|top|shop|online|info|store|site|cn|de|ru|uk|nl|br|au|co|io|ai)$/i,
+        'Invalid or unsupported domain zone',
+      )
+      .test(
+        'is-lowercase',
+        'Email must be lowercase',
+        (value) => value === value?.toLowerCase(),
+      )
       .max(128, 'Max 128 characters')
       .required('Email is required'),
 
